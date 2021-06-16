@@ -1,0 +1,32 @@
+{% set version = "1.1" %}
+
+package:
+  name: adsorber
+  version: {{ version }}
+
+source:
+  git_rev: {{ version }}
+  git_url: https://github.com/GardenGroupUO/Adsorber.git
+
+build:
+  number: 1
+  skip: true  # [win and py27 or win32]
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - pip
+  run:
+    - python
+    - numpy
+    - scipy
+    - ase
+
+about:
+  home: https://github.com/GardenGroupUO/Adsorber
+  license: AGPL-3.0
+  summary: "The Adsorber Program is designed to provide models of molecules adsorbed to all possible sites on a cluster."
+
+# Build using: conda build .

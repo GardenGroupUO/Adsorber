@@ -1,0 +1,42 @@
+# Regular
+ SYSTEM = Au
+ ISYM = 0
+ NSW = 0
+ EDIFF = 0.1E-4
+ EDIFFG = -0.01
+ ENCUT = 300
+ GGA = PE
+ LWAVE = .FALSE.
+ LCHARG = .FALSE.
+ PREC = medium
+ ISMEAR = -1 ; SIGMA = 0.1
+ ISIF = 0
+# ISPIN = 2
+
+
+# Speedup
+# NPAR = 12
+# NSIM = 4
+ IALGO = 48
+# LPLANE = .TRUE.
+ LREAL = Auto
+
+
+
+# Optiizer2
+ IBRION = 2 
+ POTIM = 0.2
+# IOPT = 2
+ MAXMOVE = 0.1
+# TIMESTEP = 0.1
+# FTIMEMAX = 1.0
+# FTIMEDEC = 0.5
+# FTIMEINC = 1.1
+# FALPHA = 0.1
+# FALPHADEC = 0.99
+# FNMIN = 5 
+# ILBFGSMEM = 20
+# LGLOBAL = .TRUE.
+# INVCURV = 0.01
+# LLINEOPT = .FALSE.
+ FDSTEP = 5E-3
