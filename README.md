@@ -30,7 +30,7 @@ Note that you can install Adsorber through ``pip3`` and ``conda``.
 
 Adsorber will adsorb atoms and molecules on various binding sites across your cluster or surface model. An example is shown below
 
-![COOH_site_1_rotation_0](https://github.com/GardenGroupUO/Adsorber/tree/main/Documentation/source/Images/COOH_site_1_rotation_0.png)
+![COOH_site_1_rotation_0](https://github.com/GardenGroupUO/Adsorber/tree/main/Documentation/source/Images/COOH_site_1_rotation_0.png?raw=true)
 
 ## Where can I find the documentation for Adsorber
 
