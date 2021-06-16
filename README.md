@@ -31,7 +31,7 @@ Note that you can install Adsorber through ``pip3`` and ``conda``.
 Adsorber will adsorb atoms and molecules on various binding sites across your cluster or surface model. An example of an COOH molecules adsorbed to a vertex site on a Cu<sub>78</sub> cluster is shown below
 
 <p align="center">
-	<img src="https://github.com/GardenGroupUO/Adsorber/tree/main/Documentation/source/Images/COOH_site_1_rotation_0.png">
+	<img src="https://github.com/GardenGroupUO/Adsorber/blob/main/Documentation/source/Images/COOH_site_1_rotation_0.png">
 </p>
 
 ## Where can I find the documentation for Adsorber
