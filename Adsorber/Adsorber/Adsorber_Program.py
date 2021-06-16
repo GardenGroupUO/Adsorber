@@ -25,8 +25,8 @@ def version_no():
 
 class Adsorber_Program:
 
-	def __init__(self,name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information={}):
-		import_settings(self,name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)
+	def __init__(self,system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information={}):
+		import_settings(self,system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)
 		self.introductory_remarks()
 		#self.check_for_cluster_folder(self.system_folder_name)
 		self.run()

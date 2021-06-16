@@ -1,11 +1,11 @@
 from ase.io import read
 
-def import_settings(self,name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information):
+def import_settings(self,system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information):
 	# General data about the cluster
-	self.name = name
-	self.cluster = read(name)
+	self.system_name = system_name
+	self.cluster = read(self.system_name)
 	import_cluster_or_surface_model_setting(self,cluster_or_surface_model)
-	self.name_without_suffix = self.name.split('.')[0]
+	self.name_without_suffix = self.system_name.split('.')[0]
 	# information about the surface of the cluster/surface model
 	self.surface_atoms = sorted(surface_atoms)
 	import_cutoff_setting(self,cutoff)

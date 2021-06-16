@@ -41,7 +41,7 @@ First you will want to import the ``Adsorber`` program, as well as any other met
 
 To begin, there are three inputs you will need to give to Adsorber. These are:
 
-* **name** (*str.*): The name of the file of the cluster or the surface model that you will like to import into Adsorber. This file should be a ``.xyz`` or ``.traj`` file. 
+* **system_name** (*str.*): The name of the file of the cluster or the surface model that you will like to import into Adsorber. This file should be a ``.xyz`` or ``.traj`` file. 
 * **cluster_or_surface_model** (*str.*): This tells ``Adsorber`` if you are wanting to adsorb atoms and clusters to the surface of a cluster or a surface model. If you are dealing with a cluster, set ``cluster_or_surface_model = 'cluster'``, else if you are dealing with a surface model, set ``cluster_or_surface_model = 'surface model'`` and make sure that the normal to the surface points in the z direction. 
 * **cutoff** (*float* or *dict.*): This is the maximum distance between atoms to be considered ``bonded`` or ``neighbouring``. This is used to determine bridging, three-fold, and four-fold sites. This is given as a float for monoatomic cluster and surface systems, or for a multiatomic system if you are happy for the max bonding distance between any two elements to be the same. If you would like different element pairs to have different maximum bonding distances, this is given as a dictionary. For example, for a CuPd system: ``cutoff = {'Cu': 3.2, 'Pd': 3.6, ('Cu','Pd'): 3.4}``
 * **surface_atoms** (*list of ints*): This is a list of the indices of all the surface atoms in your cluster or surface model. See :ref:`How_To_Use_Adsorber` for how to determine which of your atoms are surface atoms and to get those clusters indices to add to the ``surface_atoms`` list. Note that if there are surface atoms that you do not want molecules to adsorb to, dont include them in this list. 
@@ -135,7 +135,7 @@ An example of a ``slurm_information`` dictionary in the ``Run_Adsorber.py`` scri
 	:tab-width: 4
 	:linenos:
 	:lineno-start: 102
-	:lines: 102-113
+	:lines: 102-114
 
 Run the Adsorber Program!
 =========================
@@ -146,5 +146,5 @@ You have got to the end of all the parameter setting stuff! Now on to the fun st
 	:language: python
 	:tab-width: 4
 	:linenos:
-	:lineno-start: 116
-	:lines: 116-117
+	:lineno-start: 117
+	:lines: 117-118

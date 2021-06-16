@@ -3,7 +3,7 @@ from Adsorber import Adsorber_Program
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Initial inputs for the Adsorber program
-name = '15-3-3629.xyz'
+system_name = '15-3-3629.xyz'
 cluster_or_surface_model = 'cluster'
 cutoff = 3.2
 surface_atoms = [11,25,28,13,3,8,6,23,22,59,34,62,66,1,0,4,30,15,14,16,5,12,29,2,7,10,24,26,70,35,47,50,60,63,48,39,41,44,54,68,76,71,32,31,74,42,56,52,43,40,46,61,53,45,57,72,73,77]
@@ -103,15 +103,16 @@ adsorbed_species = [COOH_adsorbed_species, CO_adsorbed_species, COH_adsorbed_spe
 
 slurm_information = {}
 slurm_information['project'] = 'uoo02568'
-slurm_information['partition'] = 'large'
 slurm_information['time'] = '48:00:00'
 slurm_information['nodes'] = 1
 slurm_information['ntasks_per_node'] = 8
 slurm_information['mem-per-cpu'] = '3G'
+slurm_information['partition'] = 'large'
 slurm_information['email'] = 'geoffreywealslurmnotifications@gmail.com'
+slurm_information['python_version'] = 'Python/3.6.3-gimkl-2017a'
 slurm_information['vasp_version'] = 'VASP/5.4.4-intel-2017a'
 slurm_information['vasp_execution'] = 'vasp_std'
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Run the Adsorber program
-Adsorber_Program(name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)
+Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)

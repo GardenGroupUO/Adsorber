@@ -108,11 +108,12 @@ def make_individual_submitSL_files(root,file_name,slurm_information):
 	mem_per_cpu = slurm_information['mem-per-cpu']
 	partition = slurm_information['partition']
 	email = slurm_information['email']
+	python_version = slurm_information['python_version']
 	vasp_version = slurm_information['vasp_version']
 	vasp_execution = slurm_information['vasp_execution']
-	make_submitSL(file_name,root,project,time,nodes,ntasks_per_node,mem_per_cpu,partition=partition,email=email,vasp_version=vasp_version,vasp_execution=vasp_execution)
+	make_submitSL(file_name,root,project,time,nodes,ntasks_per_node,mem_per_cpu,partition=partition,email=email,python_version=python_version,vasp_version=vasp_version,vasp_execution=vasp_execution)
 
-def make_submitSL(file_name,local_path,project,time,nodes,ntasks_per_node,mem_per_cpu,partition='large',email='',vasp_version='VASP/5.4.4-intel-2017a',vasp_execution='vasp_std'):
+def make_submitSL(file_name,local_path,project,time,nodes,ntasks_per_node,mem_per_cpu,partition='large',email='',python_version='Python/3.6.3-gimkl-2017a',vasp_version='VASP/5.4.4-intel-2017a',vasp_execution='vasp_std'):
     # create name for job
     #print("creating submit.sl for "+str(file_name))
     name = 'Adsorber_Run_'+str(file_name)
@@ -141,3 +142,7 @@ def make_submitSL(file_name,local_path,project,time,nodes,ntasks_per_node,mem_pe
         submitSL.write('\n')
         submitSL.write('module load '+str(vasp_version)+'\n')
         submitSL.write('srun -K '+str(vasp_execution)+'\n')
+        submitSL.write('\n')
+        submitSL.write('# removing files except for OUTCAR as we assume it finished successfully\n')
+        submitSL.write('module load '+str(python_version)+'\n')
+        submitSL.write('Adsorber_Tidy_Finished_Jobs.py')
