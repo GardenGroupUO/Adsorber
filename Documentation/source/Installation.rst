@@ -228,6 +228,11 @@ Adsorber contains subsidiary programs that may be useful to use when using the A
 
 	export PATH="$PATH_TO_Adsorber"/Adsorber/Subsidiary_Programs:$PATH
 
+Visualisation Programs for looking at systems with adsorbed molecules
+=====================================================================
+
+As well as installing Adsorber, the Atomic Simulation Environment (ASE) GUI and Jmol programs are also used to visualise your system with adsorbed atoms and molecules upon it. Installation and how to use the ASE GUI and Jmol can be found in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
+
 Other Useful things to know before you start
 --------------------------------------------
 

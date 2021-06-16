@@ -26,6 +26,8 @@ It is recommended to read the installation page before using the Adsorber progra
 
 Note that you can install Adsorber through ``pip3`` and ``conda``. 
 
+Jmol is also used for looking at your cluster/surface model with adsorbed atoms and molecules upon it. You can see how to install and use it at [Installing and Using ASE GUI and Jmol](https://adsorber.readthedocs.io/en/latest/External_programs_that_will_be_useful_to_install_for_using_Adsorber.html). 
+
 ## Output files that are created by Adsorber
 
 Adsorber will adsorb atoms and molecules on various binding sites across your cluster or surface model. An example of an COOH molecules adsorbed to a vertex site on a Cu<sub>78</sub> cluster is shown below

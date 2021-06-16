@@ -52,6 +52,8 @@ Installation
 
 It is recommended to read the installation page before using the Adsorber program. See :ref:`Installation: Setting Up Adsorber and Pre-Requisites Packages <Installation>` for more information. Note that you can install Adsorber through ``pip3`` and ``conda``. 
 
+As well as installing Adsorber, the Atomic Simulation Environment (ASE) GUI and Jmol programs are also used to visualise your system with adsorbed atoms and molecules upon it. Installation and how to use the ASE GUI and Jmol can be found in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
+
 
 Table of Contents
 =================
