@@ -32,7 +32,7 @@ def get_origin_position(cluster_or_surface_model,cluster_center_of_mass,surface_
 	if cluster_or_surface_model == 'cluster':
 		origin_position = cluster_center_of_mass
 	elif cluster_or_surface_model == 'surface model':
-		origin_position = cluster_positions[surface_atom]
+		origin_position = np.copy(surface_atom_position)
 		origin_position[2] = -9999999999999999.9 #-float('inf')
 	return origin_position
 
@@ -71,7 +71,7 @@ def get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_po
 	# get the centre of the bridge
 	centre_of_pair = get_the_centre(surface_atoms_to_bind_to,cluster_positions)
 	# get line from centre of mass of cluster to the surface atom of interest
-	AB = centre_of_pair - cluster_center_of_mass
+	AB = centre_of_pair - origin_position
 	AB_unit_vector = get_unit_vector(AB)
 	# make a plane with the normal vector as the atom_to_atom_vector
 	atom_to_atom_vector = [cluster_positions[index] for index in surface_atoms_to_bind_to]
