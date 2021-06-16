@@ -151,7 +151,7 @@ def get_three_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_
 	binding_point_data = []
 	cluster_positions = cluster.get_positions()
 	cluster_center_of_mass = cluster.get_center_of_mass()
-	bottom_of_z_axis = np.Array((0.0,0.0,-9999999999999999.9))
+	bottom_of_z_axis = np.array((0.0,0.0,-9999999999999999.9))
 	for triangle_indices in triangles:
 		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,bottom_of_z_axis)
 		binding_point_datum = get_three_or_four_adsorption_site(triangle_indices,cluster_positions,distance_of_adatom_from_surface_atom,origin_position)
@@ -189,7 +189,7 @@ def get_four_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_a
 	binding_point_data = []
 	cluster_positions = cluster.get_positions()
 	cluster_center_of_mass = cluster.get_center_of_mass()
-	bottom_of_z_axis = np.Array((0.0,0.0,9999999999999999.9))
+	bottom_of_z_axis = np.array((0.0,0.0,9999999999999999.9))
 	for square_indices in squares:
 		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,bottom_of_z_axis)
 		binding_point_datum = get_three_or_four_adsorption_site(square_indices,cluster_positions,distance_of_adatom_from_surface_atom,origin_position)
