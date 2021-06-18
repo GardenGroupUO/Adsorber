@@ -116,7 +116,11 @@ Note that you can also specify the following string for the **axis** vector:
 Specifying the **rotations** variable
 =====================================
 
-Often you will want to sample a specific orientation for the molecule to adsorb to the surface of the cluster/surface model. ``Adsorber`` allows you to rotate the ad-molecule about the **axis** vector on the surface of your cluster/surface model to try to get the orientation(s) that you like. It is recommended to try a wide range of rotations and delete those rotations that do not work for you. To do this, set rotation to a range of angles, such as ``range(0,360,10)``, where the angles are given in degrees. This will create 36 ``.xyz`` files of the same molecule adsorbed to the same site on the cluster/surface feature, where each image is a different rotated orientation of the molecule on the surface of your cluster/surface feature. See the following youtube clip for an example of all the orientations that are created by the ``Adsorber`` program. 
+Often you will want to sample a specific orientation for the molecule to adsorb to the surface of the cluster/surface model. ``Adsorber`` allows you to rotate the ad-molecule about the **axis** vector on the surface of your cluster/surface model to try to get the orientation(s) that you like. 
+
+It is recommended to try a wide range of rotations and delete those rotations that do not work for you. To do this, set rotation to a range of angles, such as ``range(0,360,10)``, where the angles are given in degrees. This will create 36 ``.xyz`` files of the same molecule adsorbed to the same site on the cluster/surface feature, where each image is a different rotated orientation of the molecule on the surface of your cluster/surface feature. 
+
+See the following youtube clip for an example of all the orientations that are created by the ``Adsorber`` program. 
 
 .. raw:: html
 
