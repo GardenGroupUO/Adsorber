@@ -103,7 +103,7 @@ adsorbed_species = [COOH_adsorbed_species, CO_adsorbed_species, COH_adsorbed_spe
 
 slurm_information = {}
 slurm_information['project'] = 'uoo02568'
-slurm_information['time'] = '48:00:00'
+slurm_information['time'] = '72:00:00'
 slurm_information['nodes'] = 1
 slurm_information['ntasks_per_node'] = 8
 slurm_information['mem-per-cpu'] = '3G'

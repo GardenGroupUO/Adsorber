@@ -48,7 +48,7 @@ setup(name='Adsorber',
       description="This program is designed to adsorb molecules to the surface of a cluster in all various ways..",
       long_description=get_long_description(),
       long_description_content_type='text/markdown',
-      author='Geoffrey R. Weal and Dr. Anna L. Garden',
+      author='Dr. Geoffrey R. Weal and Dr. Anna L. Garden',
       author_email='anna.garden@otago.ac.nz',
       url = 'https://blogs.otago.ac.nz/annagarden/',
       download_url = 'https://github.com/GardenGroupUO/Adsorber/archive/v'+str(get_version_number())+'.tar.gz',
@@ -56,7 +56,7 @@ setup(name='Adsorber',
       zip_safe=False,
       keywords = ['Adsorber', 'ase', 'university-of-otago', 'atomic-simulation-environment', 'otago-university'],
       install_requires=[
-          'numpy','scipy','matplotlib','ase>=3.19.0'
+          'numpy','scipy','matplotlib','ase>=3.19.0','packaging'
           ],
       classifiers=[
         'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package

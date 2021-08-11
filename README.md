@@ -10,7 +10,7 @@
 
 CURRENTLY UNDER RECONSTRUCTION: SOME FEATURES MAY NOT CURRENTLY BE WORKING
 
-Authors: Geoffrey R. Weal and Dr. Anna L. Garden (University of Otago, Dunedin, New Zealand)
+Authors: Dr. Geoffrey R. Weal and Dr. Anna L. Garden (University of Otago, Dunedin, New Zealand)
 
 Group page: https://blogs.otago.ac.nz/annagarden/
 

@@ -156,7 +156,17 @@ This is the location of these useful ASE tools. You want to put this as a path i
 	export PATH=/Users/geoffreyweal/Library/Python/3.6/bin:$PATH
 	############################################################
 
-.. _Installation_of_the_Genetic_Algorithm:
+Packaging
+---------
+
+The packaging program is also used in this program to check the versions of ASE that you are using for compatibility issues. Easiest way to install packaging is though pip. Type the following into the terminal:
+
+.. code-block:: bash
+
+	pip3 install --upgrade --user packaging
+
+
+.. _Installation_of_Adsorber:
 
 Setting up Adsorber
 ===================

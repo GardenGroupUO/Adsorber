@@ -2,7 +2,7 @@
 
 __name__    = 'The Adsorber Program'
 __version__ = '1.2'
-__author__  = 'Geoffrey Weal and Dr. Anna Garden'
+__author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
 
 import sys
 if sys.version_info[0] == 2:
@@ -53,6 +53,26 @@ if not found:
 	toString += 'Install ASE through pip by following the instruction in https://adsorber.readthedocs.io/en/latest/Installation.html'+'\n'
 	toString += 'These instructions will ask you to install ase by typing the following into your terminal\n'
 	toString += 'pip3 install --user --upgrade ase\n'
+	toString += '\n'
+	toString += 'This program will exit before beginning'+'\n'
+	toString += '================================================'+'\n'
+	raise ImportError(toString)	
+
+packaging_spec = importlib.util.find_spec("packaging")
+found = packaging_spec is not None
+
+if not found:
+	toString = ''
+	toString += '\n'
+	toString += '================================================'+'\n'
+	toString += 'This is the Adsorber Program'+'\n'
+	toString += 'Version: '+str(__version__)+'\n'
+	toString += '\n'
+	toString += 'The Adsorber program requires the "packaging" program.'+'\n'
+	toString += '\n'
+	toString += 'Install packaging through pip by following the instruction in https://adsorber.readthedocs.io/en/latest/Installation.html'+'\n'
+	toString += 'These instructions will ask you to install packaging by typing the following into your terminal\n'
+	toString += 'pip3 install --user --upgrade packaging\n'
 	toString += '\n'
 	toString += 'This program will exit before beginning'+'\n'
 	toString += '================================================'+'\n'
