@@ -80,7 +80,7 @@ class Adsorber_Program:
 			make_systems()
 		elif os.path.exists(self.systems_to_convert_for_VASP_name):
 			make_VASP_systems()
-		elif not os.path.exists(self.system_folder_name)
+		elif not os.path.exists(self.system_folder_name):
 			make_systems()
 		else:
 			print('=================================')
