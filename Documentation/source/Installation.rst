@@ -263,9 +263,8 @@ You want to have the following in your ``~/.bashrc``:
 	#########################################################
 	# Paths and Pythonpaths for Adsorber
 
-	export PATH_TO_Adsorber"<Path_to_Adsorber>" 
+	export PATH_TO_Adsorber="<Path_to_Adsorber>" 
 	export PYTHONPATH="$PATH_TO_Adsorber":$PYTHONPATH
-
 	export PATH="$PATH_TO_Adsorber"/Adsorber/Subsidiary_Programs:$PATH
 
 	squeue -o "%.20i %.9P %.5Q %.50j %.8u %.8T %.10M %.11l %.6D %.4C %.6b %.20S %.20R %.8q" -u $USER --sort=+i

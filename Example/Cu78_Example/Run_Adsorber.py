@@ -111,9 +111,9 @@ slurm_information['mem-per-cpu'] = '3G'
 slurm_information['partition'] = 'large'
 slurm_information['email'] = 'geoffreywealslurmnotifications@gmail.com'
 slurm_information['python_version'] = 'Python/3.6.3-gimkl-2017a'
-slurm_information['vasp_version'] = 'VASP/5.4.4-intel-2017a'
-slurm_information['vasp_execution'] = 'vasp_std'
+slurm_information['vasp_version'] = 'VASP/5.3.5-intel-2017a-VTST-BEEF'
+slurm_information['vasp_execution'] = 'vasp_cd'
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Run the Adsorber program
-Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information,force_create_systems)
+Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)
