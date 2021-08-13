@@ -7,6 +7,7 @@ system_name = '15-3-3629.xyz'
 cluster_or_surface_model = 'cluster'
 cutoff = 3.2
 surface_atoms = [11,25,28,13,3,8,6,23,22,59,34,62,66,1,0,4,30,15,14,16,5,12,29,2,7,10,24,26,70,35,47,50,60,63,48,39,41,44,54,68,76,71,32,31,74,42,56,52,43,40,46,61,53,45,57,72,73,77]
+force_create_systems = False
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Give the Atoms objects for the atoms and molecules you want to adsorb to your cluster or surface model
 
@@ -115,4 +116,4 @@ slurm_information['vasp_execution'] = 'vasp_std'
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Run the Adsorber program
-Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)
+Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information,force_create_systems)

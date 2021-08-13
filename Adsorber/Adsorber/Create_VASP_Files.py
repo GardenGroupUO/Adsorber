@@ -1,13 +1,13 @@
-#!/usr/bin/env python3
-
 import os
 from shutil import copyfile
 from ase.io import read, write
 
-def make_VASP_folders(system,adsorbed_species,look_through_folder='System_with_Adsorbed_Species',vasp_files_folder='VASP_Files',folder_name='VASP_for_System_with_Adsorbed_Species',slurm_information={}):
+def make_VASP_folders(system,adsorbed_species,look_through_folder='Selected_Systems_to_Convert_for_VASP_Calcs',vasp_files_folder='VASP_Files',folder_name='Selected_Systems_with_Adsorbed_Species_for_VASP',slurm_information={}):
 	"""
 
 	"""
+	if not os.path.exists(look_through_folder):
+		exit('Error: '+str(look_through_folder)+' folder does not exist. You need to manually create this and place desired systems with adsorbed molecules on it to continue. This program will exit without running.')
 	elements = get_elements(system,adsorbed_species)
 	check_VASP_files(vasp_files_folder,elements)
 	if not os.path.exists(folder_name):
@@ -23,16 +23,43 @@ def make_VASP_folders(system,adsorbed_species,look_through_folder='System_with_A
 		for file in files:
 			if file.endswith('.xyz'):
 				system = read(root+'/'+file)
+				system, original_positions_of_atoms = system_with_atoms_rearranged_alphabetically(system)
 				file_name = file.replace('.xyz','')
 				folder_to_save_to = folder_name+root.replace(look_through_folder,'')+'/'+file_name
 				if not os.path.exists(folder_to_save_to):
 					os.makedirs(folder_to_save_to)
 				write(folder_to_save_to+'/POSCAR',system)
+				# This for loop copies all the VASP files in VASP_Files into each folder with a POSCAR
 				for vasp_file in os.listdir(vasp_files_folder):
 					if not vasp_file == 'POTCARs':
 						copyfile(vasp_files_folder+'/'+vasp_file,folder_to_save_to+'/'+vasp_file)
+				# Make POTCAR for each system
 				make_overall_potcar(folder_to_save_to,vasp_files_folder)
+				# Make submit.sl file
 				make_individual_submitSL_files(folder_to_save_to,file_name,slurm_information)
+				# This will write a file that records the original position of atoms in the system. 
+				# This is because the POSCAR needs to be sorted by atom for the POTCAR. 
+				write_original_positions_of_atoms_to_disk(original_positions_of_atoms,folder_to_save_to)
+
+def system_with_atoms_rearranged_alphabetically(system):
+	all_atoms_as_list = []
+	for index in range(len(system)):
+		atom = system[index]
+		all_atoms_as_list.append((atom,index))
+	all_atoms_as_list.sort(key=lambda entry:entry[0].symbol)
+	system_copy = system.copy()
+	while len(system_copy) > 0:
+		del system_copy[0]
+	original_positions_of_atoms = []
+	for atom, index in all_atoms_as_list:
+		system_copy.append(atom)
+		original_positions_of_atoms.append(index)
+	return system_copy, original_positions_of_atoms
+
+def write_original_positions_of_atoms_to_disk(original_positions_of_atoms,folder_to_save_to):
+	with open(folder_to_save_to+'/original_positions.txt','w') as original_positionsTXT:
+		string_to_enter = ' '.join([str(position) for position in original_positions_of_atoms])
+		original_positionsTXT.write(string_to_enter)
 
 def get_elements(system,adsorbed_species):
 	elements = []
@@ -143,7 +170,7 @@ def make_submitSL(file_name,local_path,project,time,nodes,ntasks_per_node,mem_pe
         submitSL.write('module load '+str(vasp_version)+'\n')
         #submitSL.write('module load '+str(python_version)+'\n')
         submitSL.write('\n')
-        submitSL.write('Run VASP job.\n')
+        submitSL.write('#Run VASP job.\n')
         submitSL.write('srun -K '+str(vasp_execution)+'\n')
         #submitSL.write('\n')
         #submitSL.write('# removing files except for OUTCAR as we assume it finished successfully.\n')

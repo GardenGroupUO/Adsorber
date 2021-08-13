@@ -36,7 +36,7 @@ def rotate_molecule_into_new_vector(molecule, molecule_vector, rotate_molecule_t
 	new_rotated_positions = np.transpose(np.matmul(Rotation_matrix,np.transpose(molecule.get_positions())))
 	molecule.set_positions(new_rotated_positions)
 
-def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_species, main_path_name, sub_name):
+def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_species, binding_sites_name, sub_name, main_path_name):
 
 	cluster_with_adsorbed_molecule = cluster.copy()
 
@@ -47,9 +47,10 @@ def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_sp
 	adsorbed_molecule_name = an_adsorbed_species['name']
 	adsorbed_molecule = an_adsorbed_species['molecule'].copy()
 
-	path_name = main_path_name+'/'+adsorbed_molecule_name
-	cluster_with_adsorbed_molecule_name = adsorbed_molecule_name+'_site_'+str(sub_name)
+	path_name = main_path_name+'/'+adsorbed_molecule_name+'/'+binding_sites_name
 	make_folder(path_name)
+	cluster_with_adsorbed_molecule_name = adsorbed_molecule_name+'_'+str(binding_sites_name).lower()+'_'+str(sub_name)+'_'+str(len(cluster)-1+sub_name)
+	path_to_file = path_name+'/'+cluster_with_adsorbed_molecule_name
 
 	if len(adsorbed_molecule) == 1:
 		if isinstance(adsorbed_molecule,Atom):
@@ -64,7 +65,7 @@ def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_sp
 			adsorbed_molecule[0].y = adsorption_site[1]
 			adsorbed_molecule[0].z = adsorption_site[2]
 			cluster_with_adsorbed_molecule += adsorbed_molecule
-		write(path_name+'/'+cluster_with_adsorbed_molecule_name+'.xyz',cluster_with_adsorbed_molecule)
+		write(path_to_file+'.xyz',cluster_with_adsorbed_molecule)
 	elif len(adsorbed_molecule) > 1:
 		if 'rotations' in an_adsorbed_species:
 			rotations = an_adsorbed_species['rotations']
@@ -96,6 +97,6 @@ def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_sp
 			#-----------------------------------------------------------------------------
 			cluster_with_adsorbed_molecule += adsorbed_molecule
 			if len(rotations) == 1:
-				write(path_name+'/'+cluster_with_adsorbed_molecule_name+'.xyz',cluster_with_adsorbed_molecule)
+				write(path_to_file+'.xyz',cluster_with_adsorbed_molecule)
 			else:
-				write(path_name+'/'+cluster_with_adsorbed_molecule_name+'_rotation_'+str(rotation)+'.xyz',cluster_with_adsorbed_molecule)
+				write(path_to_file+'_rotation_'+str(rotation)+'.xyz',cluster_with_adsorbed_molecule)

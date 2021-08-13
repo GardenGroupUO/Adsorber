@@ -1,7 +1,7 @@
 # The information about the Adsorber program
 
 __name__    = 'The Adsorber Program'
-__version__ = '1.2'
+__version__ = '1.4'
 __author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
 
 import sys

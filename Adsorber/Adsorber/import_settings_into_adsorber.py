@@ -1,6 +1,6 @@
 from ase.io import read
 
-def import_settings(self,system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information):
+def import_settings(self,system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information,force_create_systems=False):
 	# General data about the cluster
 	self.system_name = system_name
 	self.cluster = read(self.system_name)
@@ -13,12 +13,15 @@ def import_settings(self,system_name,cluster_or_surface_model,cutoff,surface_ato
 	self.distance_of_adatom_from_surface = 1.25 # Angstroms #vdw_radii[atomic_numbers[self.cluster[0].symbol]] + vdw_radii[atomic_numbers['H']]
 	self.adsorbed_species = adsorbed_species
 	self.bind_site_data_types = ['above atom sites','above bridge sites','above three-fold sites','above four-fold sites']
+	# Determine if the user wants to force run the program to create systems with adsorbed species, even if this has already been done.
+	self.force_create_systems = force_create_systems
 	# information about where data from this program is stored
 	self.data_storage_file = 'adsorber_data.txt'
-	self.system_folder_name = 'System_with_Adsorbed_Species'
+	self.system_folder_name = 'All_Systems_with_Adsorbed_Species'
 	# Information about making VASP file of system with adsorbed species
+	self.systems_to_convert_for_VASP_name = 'Selected_Systems_to_Convert_for_VASP_Calcs'
 	self.vasp_files_folder = 'VASP_Files' 
-	self.VASP_folder_name = 'System_with_Adsorbed_Species_for_VASP' 
+	self.VASP_folder_name = 'Selected_Systems_with_Adsorbed_Species_for_VASP' 
 	self.slurm_information = slurm_information
 
 def import_cluster_or_surface_model_setting(self,cluster_or_surface_model):
