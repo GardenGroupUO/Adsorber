@@ -7,7 +7,7 @@ from ase.io import write
 from Adsorber.Adsorber.import_settings_into_adsorber import import_settings
 from Adsorber.Adsorber.neighbour_list import get_neighbour_list_for_surface_atoms
 from Adsorber.Adsorber.get_places_to_bind_to import get_above_atom_sites, get_bridge_sites, get_three_fold_sites, get_four_fold_sites
-from Adsorber.Adsorber.adsorb_single_species_to_cluster import adsorb_single_species_to_cluster
+from Adsorber.Adsorber.adsorb_single_species_to_cluster import adsorb_single_species_to_cluster, no_adsorbed_species_to_cluster
 from Adsorber.Adsorber.storage_file import write_data_file, load_data_file
 from Adsorber.Adsorber.Create_VASP_Files import make_VASP_folders
 from Adsorber import __version__
@@ -66,9 +66,6 @@ class Adsorber_Program:
 			print('Adsorber will create systems with adsorbed atoms and molecules.')
 			print('=================================')
 			self.run_first_Adsorber_run()
-			def ig_f(dir, files):
-				return [f for f in files if os.path.isfile(os.path.join(dir, f))]
-			shutil.copytree(self.system_folder_name, self.systems_to_convert_for_VASP_name, ignore=ig_f)
 		def make_VASP_systems():
 			print('=================================')
 			print('Adsorber has already created systems with adsorbed atoms and molecules and you have selected systems that you want to run (These are in the "'+str(self.systems_to_convert_for_VASP_name)+'" folder).')
@@ -99,6 +96,9 @@ class Adsorber_Program:
 		make_VASP_folders(self.cluster,self.adsorbed_species,look_through_folder=self.systems_to_convert_for_VASP_name,vasp_files_folder=self.vasp_files_folder,folder_name=self.VASP_folder_name,slurm_information=self.slurm_information)
 
 	def run_first_Adsorber_run(self):
+		# Just the original system
+		no_adsorbed_species_to_cluster(self.cluster, self.system_folder_name)
+		# original system + adsorbate
 		above_atom_binding_sites, above_bridge_binding_sites, above_three_fold_sites, above_four_fold_sites = self.get_initial_adatom_placements(self.cluster,self.cutoff,self.distance_of_adatom_from_surface,self.surface_atoms)
 		what_to_adsorb = []
 		what_to_adsorb.append((above_atom_binding_sites,'Above_Atom_Site','Make Clusters/Surfaces with adatoms/admolecules attached above atom sites'))
@@ -110,6 +110,14 @@ class Adsorber_Program:
 			print(to_print)
 			self.adsorb_species_to_cluster(self.cluster,binding_sites,self.adsorbed_species,binding_sites_name,self.system_folder_name)
 		print('============================================================================================')
+		# create the folder for xyz files to make VASP files of
+		def ig_f(dir, files):
+			return [f for f in files if os.path.isfile(os.path.join(dir, f))]
+		shutil.copytree(self.system_folder_name, self.systems_to_convert_for_VASP_name, ignore=ig_f)
+		# copy original system to xyz folder to make VASP files of.
+		path_name = self.system_folder_name+'/Original_System'
+		dest_name = self.systems_to_convert_for_VASP_name+'/Original_System'
+		shutil.copytree(path_name, dest_name)
 
 	def set_up_cluster(self,cluster,surface_atoms,name_without_suffix):
 		cluster.set_tags(0)

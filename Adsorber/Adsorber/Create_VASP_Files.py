@@ -73,9 +73,14 @@ def make_overall_potcar(folder_to_save_to,vasp_files_folder):
 	with open(folder_to_save_to+'/POSCAR') as POSCAR_file:
 		elements = POSCAR_file.readline().split()
 	with open(folder_to_save_to+'/POTCAR', "w") as out_POTCAR:
-		for element in elements:
+		no_of_elements = len(elements)
+		for index in range(no_of_elements):
+			element = elements[index]
 			with open(vasp_files_folder+'/POTCARs/POTCAR_'+str(element), "r") as in_POTCAR:
 				out_POTCAR.write(in_POTCAR.read())
+			if index < no_of_elements-1:
+				out_POTCAR.write('\n')
+
 
 def check_VASP_files(vasp_files_folder,elements):
 	"""

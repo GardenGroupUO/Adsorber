@@ -36,6 +36,12 @@ def rotate_molecule_into_new_vector(molecule, molecule_vector, rotate_molecule_t
 	new_rotated_positions = np.transpose(np.matmul(Rotation_matrix,np.transpose(molecule.get_positions())))
 	molecule.set_positions(new_rotated_positions)
 
+def no_adsorbed_species_to_cluster(cluster, system_folder_name):
+	path_name = system_folder_name+'/Original_System'
+	make_folder(path_name)
+	path_to_file = path_name+'/original_system'
+	write(path_to_file+'.xyz',cluster)
+
 def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_species, binding_sites_name, sub_name, main_path_name):
 
 	cluster_with_adsorbed_molecule = cluster.copy()
