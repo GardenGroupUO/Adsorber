@@ -1,7 +1,7 @@
 # The information about the Adsorber program
 
 __name__    = 'The Adsorber Program'
-__version__ = '1.4'
+__version__ = '1.5'
 __author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
 
 import sys
@@ -109,7 +109,8 @@ __url__ = 'https://github.com/GardenGroupUO/Adsorber'
 __doc__ = 'See https://adsorber.readthedocs.io/en/latest/ for the documentation on this program'
 
 from Adsorber.Adsorber.Adsorber_Program import Adsorber_Program
-__all__ = ['Adsorber_Program'] 
+from Adsorber.Subsidiary_Programs.Copy_Files_from_Folder_B_to_Folder_C import Copy_Files_from_Folder_B_to_Folder_C
+__all__ = ['Adsorber_Program','Copy_Files_from_Folder_B_to_Folder_C'] 
 
 # ------------------------------------------------------------------------------------------------------------------------
 

@@ -45,7 +45,7 @@ What is Adsorber
 
 Adsorber is a program designed to adsorb molecules in various way to the surface of a cluster or a surface. This program adsorbed molecules ontop of atoms, ontop of bridge sites, ontop of three-fold sites, and ontop of four fold sites. 
 
-The guide on how to use the ``Adsorber`` program is given in :ref:`How_To_Use_Adsorber`. 
+A guide on how to use the ``Adsorber`` program is given in :ref:`Guide_To_Using_Adsorber`. 
 
 Installation
 ============
@@ -54,6 +54,10 @@ It is recommended to read the installation page before using the Adsorber progra
 
 As well as installing Adsorber, the Atomic Simulation Environment (ASE) GUI and Jmol programs are also used to visualise your system with adsorbed atoms and molecules upon it. Installation and how to use the ASE GUI and Jmol can be found in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
 
+Guide To Using Adsorber
+=======================
+
+After you have installed Adsorber and all other helpful programs, see :ref:`Guide_To_Using_Adsorber` to learn about the process of using Adsorber to obtain models of your system with various adsorbates for further optimisation with VASP. 
 
 Table of Contents
 =================
@@ -61,15 +65,14 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
    
-   How_To_Use_Adsorber
    Installation
    External_programs_that_will_be_useful_to_install_for_using_Adsorber
+   Guide_To_Using_Adsorber
    How_To_Run_Adsorber
    How_To_Obtain_Settings_for_Run_Adsorber
-   Outputs_from_Adsorber
-   What_to_do_with_the_Outputs_from_Adsorber
-   How_to_use_output_data_to_obtain_VASP_data_of_systems_with_adsorbed_species
-   How_to_submit_files_to_slurm
+   Part_A_Optimising_System_Initially
+   Part_B_Adsorb_Adsorbates_to_System
+   Part_C_Preparing_Adsorbed_Systems_For_VASP
    How_can_I_get_overall_summaries_of_VASP_data
    genindex
    py-modindex

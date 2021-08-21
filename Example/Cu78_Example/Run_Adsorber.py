@@ -116,4 +116,4 @@ slurm_information['vasp_execution'] = 'vasp_cd'
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Run the Adsorber program
-Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information)
+Adsorber_Program(system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information,force_create_systems)

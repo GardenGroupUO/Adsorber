@@ -5,8 +5,8 @@ from ase.io import write
 
 from Adsorber.Adsorber.other_methods import make_folder, get_unit_vector, Rodrigues_Rotation_formula
 
-def get_extended_adsorption_site(distance_of_adatom_from_surface, adsorption_site, centre_of_binding_origin):
-	vector = get_unit_vector(adsorption_site - centre_of_binding_origin)
+def get_extended_adsorption_site(distance_of_adatom_from_surface, dummy_adsorption_site, centre_of_binding_origin):
+	vector = get_unit_vector(dummy_adsorption_site - centre_of_binding_origin)
 	new_adsorption_site = centre_of_binding_origin + distance_of_adatom_from_surface*vector
 	return new_adsorption_site
 
@@ -36,19 +36,13 @@ def rotate_molecule_into_new_vector(molecule, molecule_vector, rotate_molecule_t
 	new_rotated_positions = np.transpose(np.matmul(Rotation_matrix,np.transpose(molecule.get_positions())))
 	molecule.set_positions(new_rotated_positions)
 
-def no_adsorbed_species_to_cluster(cluster, system_folder_name):
-	path_name = system_folder_name+'/Original_System'
-	make_folder(path_name)
-	path_to_file = path_name+'/original_system'
-	write(path_to_file+'.xyz',cluster)
-
 def adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_species, binding_sites_name, sub_name, main_path_name):
 
 	cluster_with_adsorbed_molecule = cluster.copy()
 
-	adsorption_site, centre_of_binding_origin = binding_site_datum
+	dummy_adsorption_site, centre_of_binding_origin = binding_site_datum
 	distance_of_adatom_from_surface = an_adsorbed_species['distance_of_adatom_from_surface']
-	adsorption_site = get_extended_adsorption_site(distance_of_adatom_from_surface,adsorption_site, centre_of_binding_origin)
+	adsorption_site = get_extended_adsorption_site(distance_of_adatom_from_surface, dummy_adsorption_site, centre_of_binding_origin)
 
 	adsorbed_molecule_name = an_adsorbed_species['name']
 	adsorbed_molecule = an_adsorbed_species['molecule'].copy()

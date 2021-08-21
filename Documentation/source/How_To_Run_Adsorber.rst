@@ -1,8 +1,8 @@
 
 .. _How_To_Run_Adsorber:
 
-*Run_Adsorber.py* - Running Adsorber
-####################################
+Prelude: *Run_Adsorber.py* - Running Adsorber
+#############################################
 
 In this article, we will look at how to run the genetic algorithm. This program is run though the **Run_Adsorber.py** script, which includes all the information on what cluster to globally optimise and the genetic algorithm settings to use. You can find other examples of ``Run_Adsorber.py`` files at `github.com/GardenGroupUO/Organisms <https://github.com/GardenGroupUO/Organisms>`_ under ``Examples\Playground`` and ``Examples\Example_Run_Files``. Also, you can try out this program by running an example script through a Jupyter notebook. See Examples_of_Running_GA to get access to examples of running Organisms through this Jupyter notebook!
 
@@ -44,7 +44,7 @@ To begin, there are three inputs you will need to give to Adsorber. These are:
 * **system_name** (*str.*): The name of the file of the cluster or the surface model that you will like to import into Adsorber. This file should be a ``.xyz`` or ``.traj`` file. 
 * **cluster_or_surface_model** (*str.*): This tells ``Adsorber`` if you are wanting to adsorb atoms and clusters to the surface of a cluster or a surface model. If you are dealing with a cluster, set ``cluster_or_surface_model = 'cluster'``, else if you are dealing with a surface model, set ``cluster_or_surface_model = 'surface model'`` and make sure that the normal to the surface points in the z direction. 
 * **cutoff** (*float* or *dict.*): This is the maximum distance between atoms to be considered ``bonded`` or ``neighbouring``. This is used to determine bridging, three-fold, and four-fold sites. This is given as a float for monoatomic cluster and surface systems, or for a multiatomic system if you are happy for the max bonding distance between any two elements to be the same. If you would like different element pairs to have different maximum bonding distances, this is given as a dictionary. For example, for a CuPd system: ``cutoff = {'Cu': 3.2, 'Pd': 3.6, ('Cu','Pd'): 3.4}``
-* **surface_atoms** (*list of ints*): This is a list of the indices of all the surface atoms in your cluster or surface model. See :ref:`How_To_Use_Adsorber` for how to determine which of your atoms are surface atoms and to get those clusters indices to add to the ``surface_atoms`` list. Note that if there are surface atoms that you do not want molecules to adsorb to, dont include them in this list. 
+* **surface_atoms** (*list of ints*): This is a list of the indices of all the surface atoms in your cluster or surface model. See :ref:`marking_surface_atoms` for how to determine which of your atoms are surface atoms and to get those clusters indices to add to the ``surface_atoms`` list. Note that if there are surface atoms that you do not want molecules to adsorb to, dont include them in this list. 
 
 This is given in this example as below:
 
@@ -80,9 +80,9 @@ For each atom and molecule that you make you want to add it to a dictionary that
 
 For single atoms, this is all that is needed. If you want to adsorb molecules that have two or more atoms in it, you want to give two or three additional inputs into this dictionary.
 
-* **index** (*int.*): This is the index of the atom in the molecule to adsorb to the surface for the cluster/surface model. See :ref:`How_To_Use_Adsorber` for more information on how to select the index of the atom in the molecule you would like to be adsorbed to the surface. 
-* **axis** (*str./list/tuple*): This is the axis in your molecule that you would like to point away from the surface of the cluster/surface model, as well as to rotate your moleule around (if you would like to rotate your molecule around the axis). See :ref:`How_To_Use_Adsorber` for more information for how to specify this axis. 
-* **rotations** (*list/tuple*, optional): These are the angles of rotation that you would like to rotate the molecules around the **axis** on the surface of your cluster/surface model. If you have a linear molecule that is alligned to the **axis** or you do not want to rotate your molecule around the **axis**, you do not need to add this as this is an optional input. See :ref:`How_To_Use_Adsorber` for more information about how to specify how to best rotate your molecule about the **axis** on the surface of your cluster/surface model. 
+* **index** (*int.*): This is the index of the atom in the molecule to adsorb to the surface for the cluster/surface model. See :ref:`bind_molecule_to_surface_of_system` for more information on how to select the index of the atom in the molecule you would like to be adsorbed to the surface. 
+* **axis** (*str./list/tuple*): This is the axis in your molecule that you would like to point away from the surface of the cluster/surface model, as well as to rotate your moleule around (if you would like to rotate your molecule around the axis). See :ref:`bind_molecule_to_surface_of_system` for more information for how to specify this axis. 
+* **rotations** (*list/tuple*, optional): These are the angles of rotation that you would like to rotate the molecules around the **axis** on the surface of your cluster/surface model. If you have a linear molecule that is alligned to the **axis** or you do not want to rotate your molecule around the **axis**, you do not need to add this as this is an optional input. See :ref:`bind_molecule_to_surface_of_system` for more information about how to specify how to best rotate your molecule about the **axis** on the surface of your cluster/surface model. 
 
 An example of this is shown below:
 

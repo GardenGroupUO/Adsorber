@@ -1,28 +1,66 @@
+from ase import Atom, Atoms
 from ase.io import read
 
-def import_settings(self,system_name,cluster_or_surface_model,cutoff,surface_atoms,adsorbed_species,slurm_information,force_create_systems=False):
+def get_system(system_filename):
+	cluster = read(system_filename)
+	cluster.set_velocities(cluster.get_velocities())
+	cluster.set_pbc(False)
+	return cluster
+
+def import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,part_c_force_create_original_POSCAR):
+	# ===========================================================================================
+	# Determine which Part of Adsorber you want to perform
+	self.part_to_perform = part_to_perform
 	# General data about the cluster
-	self.system_name = system_name
-	self.cluster = read(self.system_name)
-	import_cluster_or_surface_model_setting(self,cluster_or_surface_model)
-	self.name_without_suffix = self.system_name.split('.')[0]
-	# information about the surface of the cluster/surface model
+	self.vasp_files_folder = 'VASP_Files'
 	self.surface_atoms = sorted(surface_atoms)
-	import_cutoff_setting(self,cutoff)
+	self.system_filename = system_filename
+	self.name_without_suffix = '.'.join(self.system_filename.split('.')[:-1:])
+	self.systems_to_convert_for_VASP_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files'
+	# ===========================================================================================
+	# Data for Parts A, B and C.
+	if self.part_to_perform == 'Part A':
+		# Settings for Part A
+		# Other settings
+		self.cluster = get_system(self.system_filename)
+		self.part_A_folder_name = 'Part_A_Non_Adsorbed_Files_For_VASP'
+	elif self.part_to_perform == 'Part B':
+		# Settings for Part B
+		self.path_to_VASP_optimised_non_adsorbate_system = path_to_VASP_optimised_non_adsorbate_system
+		# Other settings
+		self.cluster = get_system(self.path_to_VASP_optimised_non_adsorbate_system)
+		import_cutoff_setting(self,cutoff)
+		self.data_storage_file = 'adsorber_data.txt'
+		self.system_folder_name = 'Part_B_All_Systems_with_Adsorbed_Species'
+	elif self.part_to_perform == 'Part C':
+		# Settings for Part C
+		self.VASP_folder_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP' 
+		self.part_c_force_create_original_POSCAR = part_c_force_create_original_POSCAR
+		# Other settings
+		self.path_to_VASP_optimised_non_adsorbate_system = path_to_VASP_optimised_non_adsorbate_system
+		self.cluster = get_system(self.path_to_VASP_optimised_non_adsorbate_system)
+	else:
+		print('=================================')
+		print('Error in Adsorber: You have not specified which part of Adsorber you want to perform')
+		print('')
+		print('You need to set the part_to_perform variable in your Run_Adsorber.py script to either:')
+		print('* Part A: ')
+		print('* Part B: ')
+		print('* Part C: ')
+		print('You have set part_to_perform = '+str(self.part_to_perform))
+		parts_to_choose = ['Part A', 'Part B', 'Part C']
+		print('Set part_to_perform to either: '+str(parts_to_choose))
+		print('This program will stop here without running.')
+		print('=================================')
+		exit()
+	import_cluster_or_surface_model_setting(self,cluster_or_surface_model)
+	# ===========================================================================================
 	# information about the atoms and molecules that will be adsorbed, as well sa their binding sites
-	self.distance_of_adatom_from_surface = 1.25 # Angstroms #vdw_radii[atomic_numbers[self.cluster[0].symbol]] + vdw_radii[atomic_numbers['H']]
+	self.distance_of_dummy_adatom_from_surface = 1.1 # Angstroms #vdw_radii[atomic_numbers[self.cluster[0].symbol]] + vdw_radii[atomic_numbers['H']]
 	self.adsorbed_species = adsorbed_species
-	self.bind_site_data_types = ['above atom sites','above bridge sites','above three-fold sites','above four-fold sites']
-	# Determine if the user wants to force run the program to create systems with adsorbed species, even if this has already been done.
-	self.force_create_systems = force_create_systems
-	# information about where data from this program is stored
-	self.data_storage_file = 'adsorber_data.txt'
-	self.system_folder_name = 'All_Systems_with_Adsorbed_Species'
-	# Information about making VASP file of system with adsorbed species
-	self.systems_to_convert_for_VASP_name = 'Selected_Systems_to_Convert_for_VASP_Calcs'
-	self.vasp_files_folder = 'VASP_Files' 
-	self.VASP_folder_name = 'Selected_Systems_with_Adsorbed_Species_for_VASP' 
+	self.bind_site_data_types = ['top sites','bridge sites','three-fold sites','four-fold sites']
 	self.slurm_information = slurm_information
+	# ===========================================================================================
 
 def import_cluster_or_surface_model_setting(self,cluster_or_surface_model):
 	if not isinstance(cluster_or_surface_model,str):

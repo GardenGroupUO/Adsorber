@@ -39,35 +39,35 @@ def get_origin_position(cluster_or_surface_model,cluster_center_of_mass,surface_
 # ------------------------------------------------------------------------------------------------------------------------------------ #
 # Adatom above atom
 
-def get_above_atom_adsorption_site(surface_atom,cluster,cluster_positions,distance_of_adatom_from_surface,origin_position):
+def get_above_atom_adsorption_site(surface_atom,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position):
 	# get cluster positions
 	surface_atom_position = cluster_positions[surface_atom]
 	# get line from centre of mass of cluster to the surface atom of interest
 	AB = surface_atom_position - origin_position
 	AB_unit_vector = get_unit_vector(AB)
 	#get new binding postion for the adsorbed atom
-	binding_point = surface_atom_position + distance_of_adatom_from_surface*AB_unit_vector
+	binding_point = surface_atom_position + distance_of_dummy_adatom_from_surface*AB_unit_vector
 	# to make sure it is as far away from every other atom as possible, perform a coulomb repulsion potential optimisation
 	surface_atoms_to_bind_to = [surface_atom]
 	binding_point = coulomb_repulsion_potential_optimisation(cluster,binding_point,surface_atoms_to_bind_to)
 	return (binding_point,surface_atom_position)
 
 
-def get_above_atom_sites(cluster,surface_atoms,distance_of_adatom_from_surface,cluster_or_surface_model):
+def get_above_atom_sites(cluster,surface_atoms,distance_of_dummy_adatom_from_surface,cluster_or_surface_model):
 	binding_point_data = []
 	cluster_center_of_mass = cluster.get_center_of_mass()
 	cluster_positions = cluster.get_positions()
 	original_no_of_atoms = len(cluster)
 	for surface_atom in surface_atoms:
 		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,cluster_positions[surface_atom])
-		binding_point_datum = get_above_atom_adsorption_site(surface_atom,cluster,cluster_positions,distance_of_adatom_from_surface,origin_position)
+		binding_point_datum = get_above_atom_adsorption_site(surface_atom,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position)
 		binding_point_data.append(binding_point_datum)
 	return binding_point_data
 
 # ------------------------------------------------------------------------------------------------------------------------------------ #
 # Adatom on bridging site
 
-def get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_positions,distance_of_adatom_from_surface,origin_position):
+def get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position):
 	# get the centre of the bridge
 	centre_of_pair = get_the_centre(surface_atoms_to_bind_to,cluster_positions)
 	# get line from centre of mass of cluster to the surface atom of interest
@@ -87,12 +87,12 @@ def get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_po
 	projected_point = point - distance*normal
 	perp_vector_to_bond_unit_vector = get_unit_vector(projected_point)
 	# get new binding postion for the adsorbed atom
-	binding_point = centre_of_pair + distance_of_adatom_from_surface*perp_vector_to_bond_unit_vector
+	binding_point = centre_of_pair + distance_of_dummy_adatom_from_surface*perp_vector_to_bond_unit_vector
 	# to make sure it is as far away from every other atom as possible, perform a coulomb repulsion potential optimisation
 	binding_point = coulomb_repulsion_potential_optimisation(cluster,binding_point,surface_atoms_to_bind_to)
 	return (binding_point,centre_of_pair)
 
-def get_bridge_sites(cluster,neighbour_list_original,distance_of_adatom_from_surface,cluster_or_surface_model):
+def get_bridge_sites(cluster,neighbour_list_original,distance_of_dummy_adatom_from_surface,cluster_or_surface_model):
 	neighbour_list = dict(neighbour_list_original)
 	binding_point_data = []
 	cluster_center_of_mass = cluster.get_center_of_mass()
@@ -102,7 +102,7 @@ def get_bridge_sites(cluster,neighbour_list_original,distance_of_adatom_from_sur
 			surface_atoms_to_bind_to = (surface_index1,surface_index2)
 			centre_of_pair = get_the_centre(surface_atoms_to_bind_to,cluster_positions)
 			origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,centre_of_pair)
-			binding_point_datum = get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_positions,distance_of_adatom_from_surface,origin_position)
+			binding_point_datum = get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position)
 			binding_point_data.append(binding_point_datum)
 			neighbour_list[surface_index2].remove(surface_index1)
 	return binding_point_data
@@ -110,15 +110,15 @@ def get_bridge_sites(cluster,neighbour_list_original,distance_of_adatom_from_sur
 # ------------------------------------------------------------------------------------------------------------------------------------ #
 # Adatom on triangle site
 
-def get_three_or_four_adsorption_site(shape_indices,cluster_positions,distance_of_adatom_from_surface,origin_position):
+def get_three_or_four_adsorption_site(shape_indices,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position):
 
 	# Find the centre of the triangle
 	centre_of_shape = get_the_centre(shape_indices,cluster_positions)
 	'''
 	###### NOT USED ANYMORE ######
-	# find distance to add the adatom to above the triangle to give a distance of distance_of_adatom_from_surface_atom from each atom. Assuming equillatoral triangle.
+	# find distance to add the adatom to above the triangle to give a distance of distance_of_dummy_adatom_from_surface_atom from each atom. Assuming equillatoral triangle.
 	distance_in_triangle = get_distance(centre_of_triangle,cluster_positions[triangle_indices[0]])
-	distance_from_triangle = (distance_of_adatom_from_surface_atom**2.0 - distance_in_triangle**2.0)*0.5
+	distance_from_triangle = (distance_of_dummy_adatom_from_surface_atom**2.0 - distance_in_triangle**2.0)*0.5
 	'''
 	# Get the normal vector to the plane that the triangle is in
 	AB = cluster_positions[shape_indices[1]] - cluster_positions[shape_indices[0]]
@@ -126,7 +126,7 @@ def get_three_or_four_adsorption_site(shape_indices,cluster_positions,distance_o
 	normal_vector = np.cross(AB,AC)
 	normal_unit_vector = get_unit_vector(normal_vector)
 	# Determine the position of the adatom bonding site. Could be two positions, use centre of mass to use the point that is furest away.
-	vector_to_add_to_centre_of_triangle = normal_unit_vector*distance_of_adatom_from_surface
+	vector_to_add_to_centre_of_triangle = normal_unit_vector*distance_of_dummy_adatom_from_surface
 	adsorption_site_1 = centre_of_shape + vector_to_add_to_centre_of_triangle
 	adsorption_site_2 = centre_of_shape - vector_to_add_to_centre_of_triangle
 	distance_from_COM_to_site_1 = get_distance(origin_position,adsorption_site_1)
@@ -136,7 +136,7 @@ def get_three_or_four_adsorption_site(shape_indices,cluster_positions,distance_o
 	else:
 		return (adsorption_site_2,centre_of_shape)
 
-def get_three_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_atom,cluster_or_surface_model):
+def get_three_fold_sites(cluster,neighbour_list,distance_of_dummy_adatom_from_surface_atom,cluster_or_surface_model):
 	# find neighbouring sets of triangles
 	triangles = []
 	for index1, indices2 in neighbour_list.items():
@@ -154,14 +154,14 @@ def get_three_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_
 	bottom_of_z_axis = np.array((0.0,0.0,-9999999999999999.9))
 	for triangle_indices in triangles:
 		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,bottom_of_z_axis)
-		binding_point_datum = get_three_or_four_adsorption_site(triangle_indices,cluster_positions,distance_of_adatom_from_surface_atom,origin_position)
+		binding_point_datum = get_three_or_four_adsorption_site(triangle_indices,cluster_positions,distance_of_dummy_adatom_from_surface_atom,origin_position)
 		binding_point_data.append(binding_point_datum)
 	return binding_point_data
 
 # ------------------------------------------------------------------------------------------------------------------------------------ #
 # Adatom on square site
 
-def get_four_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_atom,cluster_or_surface_model):
+def get_four_fold_sites(cluster,neighbour_list,distance_of_dummy_adatom_from_surface_atom,cluster_or_surface_model):
 	# find neighbouring sets of squares
 	squares = []
 	for index1, indices2 in sorted(neighbour_list.items(),key=lambda x:x[0]):
@@ -182,7 +182,7 @@ def get_four_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_a
 					position_2 = neighbour_list[first_neighbour_to_index1]
 					position_3 = neighbour_list[second_neighbour_to_index1]
 					distance23 = get_distance(position_2,position_3)
-					if (distance14 <= distance_of_adatom_from_surface_atom*(2.0)) and (distance23 <= distance_of_adatom_from_surface_atom*(2.0)):
+					if (distance14 <= distance_of_dummy_adatom_from_surface_atom*(2.0)) and (distance23 <= distance_of_dummy_adatom_from_surface_atom*(2.0)):
 						squares.append()
 	squares = sorted(list(set(squares)))
 	# get binding points
@@ -192,7 +192,7 @@ def get_four_fold_sites(cluster,neighbour_list,distance_of_adatom_from_surface_a
 	bottom_of_z_axis = np.array((0.0,0.0,9999999999999999.9))
 	for square_indices in squares:
 		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,bottom_of_z_axis)
-		binding_point_datum = get_three_or_four_adsorption_site(square_indices,cluster_positions,distance_of_adatom_from_surface_atom,origin_position)
+		binding_point_datum = get_three_or_four_adsorption_site(square_indices,cluster_positions,distance_of_dummy_adatom_from_surface_atom,origin_position)
 		binding_point_data.append(binding_point_datum)
 	return binding_point_data
 

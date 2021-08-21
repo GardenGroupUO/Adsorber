@@ -2,7 +2,7 @@ import os
 from shutil import copyfile
 from ase.io import read, write
 
-def make_VASP_folders(system,adsorbed_species,look_through_folder='Selected_Systems_to_Convert_for_VASP_Calcs',vasp_files_folder='VASP_Files',folder_name='Selected_Systems_with_Adsorbed_Species_for_VASP',slurm_information={}):
+def make_VASP_folders(system,adsorbed_species,look_through_folder='Selected_Systems_to_Convert_for_VASP_Calcs',vasp_files_folder='VASP_Files',folder_name='Selected_Systems_with_Adsorbed_Species_for_VASP',slurm_information={},part_c_force_create_original_POSCAR=False):
 	"""
 
 	"""
@@ -23,12 +23,13 @@ def make_VASP_folders(system,adsorbed_species,look_through_folder='Selected_Syst
 		for file in files:
 			if file.endswith('.xyz'):
 				system = read(root+'/'+file)
-				system, original_positions_of_atoms = system_with_atoms_rearranged_alphabetically(system)
+				#system, original_positions_of_atoms = system_with_atoms_rearranged_alphabetically(system)
 				file_name = file.replace('.xyz','')
 				folder_to_save_to = folder_name+root.replace(look_through_folder,'')+'/'+file_name
 				if not os.path.exists(folder_to_save_to):
 					os.makedirs(folder_to_save_to)
-				write(folder_to_save_to+'/POSCAR',system)
+				if not os.path.exists(folder_to_save_to+'/POSCAR') or part_c_force_create_original_POSCAR:
+					write(folder_to_save_to+'/POSCAR',system)
 				# This for loop copies all the VASP files in VASP_Files into each folder with a POSCAR
 				for vasp_file in os.listdir(vasp_files_folder):
 					if not vasp_file == 'POTCARs':
@@ -39,7 +40,7 @@ def make_VASP_folders(system,adsorbed_species,look_through_folder='Selected_Syst
 				make_individual_submitSL_files(folder_to_save_to,file_name,slurm_information)
 				# This will write a file that records the original position of atoms in the system. 
 				# This is because the POSCAR needs to be sorted by atom for the POTCAR. 
-				write_original_positions_of_atoms_to_disk(original_positions_of_atoms,folder_to_save_to)
+				#write_original_positions_of_atoms_to_disk(original_positions_of_atoms,folder_to_save_to)
 
 def system_with_atoms_rearranged_alphabetically(system):
 	all_atoms_as_list = []

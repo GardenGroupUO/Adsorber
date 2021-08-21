@@ -1,8 +1,8 @@
 
 .. _How_To_Obtain_Settings_for_Run_Adsorber:
 
-How to obtain some of the settings for the ``Run_Adsorber.py`` script
-#####################################################################
+Prelude: How to obtain some of the settings for the ``Run_Adsorber.py`` script
+##############################################################################
 
 Following the :ref:`How_To_Run_Adsorber` page that indicated what settings and inputs are needed to run the ``Run_Adsorber.py`` script, on this webpage we will describe how to obtain some of the settings that are not obvious as to how to obtain them from the :ref:`How_To_Run_Adsorber` page. This includes how to obtain the information required to tell Adsorber how to bind atoms and molecules to the surface of your system. 
 
@@ -57,6 +57,7 @@ All the surface atoms should be coloured pink, while the non-surface atoms colou
 
 Note that if there are surface atoms that you do not want molecules to adsorb to, dont include them in this list. 
 
+.. _bind_molecule_to_surface_of_system:
 
 How to Bind Molecule to the Surface of your Cluster/Surface Model in Adsorber
 *****************************************************************************
