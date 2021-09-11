@@ -17,7 +17,7 @@ from Adsorber.Subsidiary_Programs.Part_D_Methods import get_cluster_name_from_Ru
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 #from openpyxl.styles import colors
-#from openpyxl.styles import Font, Color, Alignment
+from openpyxl.styles import Font, Alignment # , Color
 center_alignment = Alignment(horizontal='center')
 from openpyxl.styles.fills import PatternFill
 
@@ -66,7 +66,21 @@ def add_to_data(data, root, folder_name):
 	if os.path.exists(root+'/OUTCAR'):
 		path_to_OUTCAR = root
 	elif len(submission_folders) > 0:
-		highest_submission_folder = max(submission_folders,key=lambda x:int(x.replace(Submission_Folder+'_','')))
+		# --------
+		# get the name of the highest submission folder
+		submission_folders_values = []
+		for submission_folder_name in submission_folders:
+			if 'Issue' in submission_folder_name:
+				numbers = tuple(int(value) for value in submission_folder_name.replace((Submission_Folder+'_','')).split('_Issue_'))
+			else:
+				numbers = (int(submission_folder_name.replace(Submission_Folder+'_','')),0)
+			submission_folders_values.append(numbers)
+		highest_submission_folder_value = max(submission_folders_values)
+		if highest_submission_folder_value[1] == 0:
+			highest_submission_folder = Submission_Folder+'_'+str(highest_submission_folder_value[0])
+		else:
+			highest_submission_folder = Submission_Folder+'_'+str(highest_submission_folder_value[0])+'_Issue_'+str(highest_submission_folder_value[1])
+		# --------
 		if os.path.exists(root+'/'+highest_submission_folder+'/OUTCAR'):
 			files_in_submission_folder = highest_submission_folder
 			path_to_OUTCAR = root+'/'+highest_submission_folder
