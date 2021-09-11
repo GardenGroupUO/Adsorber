@@ -10,8 +10,8 @@ There are four parts (Part A, Part B, Part C + Part D) + a prelude step to using
 Prelude Step
 ------------
 
-In this step, we will step up the ``Run_Adsorber.py`` script, which includes selecting which atoms in your system are surface atoms. The information about how to set up the ``Run_Adsorber.py`` script is given in :ref:`Prelude_How_To_Run_Adsorber`. 
-Instructions of some of the more involved settings that are required in the ``Run_Adsorber.py`` script are given in :ref:`Prelude_How_To_Obtain_Settings_for_Run_Adsorber`. These include: 
+In this step, we will step up the ``Run_Adsorber.py`` script, which includes selecting which atoms in your system are surface atoms. The information about how to set up the ``Run_Adsorber.py`` script is given in :ref:`Prelude_1_How_To_Run_Adsorber`. 
+Instructions of some of the more involved settings that are required in the ``Run_Adsorber.py`` script are given in :ref:`Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber`. These include: 
 
 * indicating which atoms are surface atoms, as Adsorber does not identify surface atoms. This is required for Adsorber to know which atoms to consider when placing adsorbates onto top sites, bridging sites, three-fold sites, and four-fold sites. You can find out how to specify this in :ref:`marking_surface_atoms`. 
 * indicating how adsorbates are adsorbed to your system. This is given in :ref:`bind_molecule_to_surface_of_system`. 

@@ -1,10 +1,10 @@
 
-.. _Prelude_How_To_Obtain_Settings_for_Run_Adsorber:
+.. _Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber:
 
-Prelude: How to obtain some of the settings for the ``Run_Adsorber.py`` script
-##############################################################################
+Prelude 2: How to obtain some of the settings for the ``Run_Adsorber.py`` script
+################################################################################
 
-Following the :ref:`Prelude_How_To_Run_Adsorber` page that indicated what settings and inputs are needed to run the ``Run_Adsorber.py`` script, on this webpage we will describe how to obtain some of the settings that are not obvious as to how to obtain them from the :ref:`Prelude_How_To_Run_Adsorber` page. This includes how to obtain the information required to tell Adsorber how to bind atoms and molecules to the surface of your system. 
+Following the :ref:`Prelude_1_How_To_Run_Adsorber` page that indicated what settings and inputs are needed to run the ``Run_Adsorber.py`` script, on this webpage we will describe how to obtain some of the settings that are not obvious as to how to obtain them from the :ref:`Prelude_1_How_To_Run_Adsorber` page. This includes how to obtain the information required to tell Adsorber how to bind atoms and molecules to the surface of your system. 
 
 This page requires the use of ASE GUI to view our chemical systems. The installation and use of this visualisation programs is given in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`. 
 
@@ -37,7 +37,7 @@ We will want to include the indices of the surface atoms in your cluster/surface
 
 	surface_atoms = [11,25,28,13,3,8,6,23,22,59,34,62,66,1,0,4,30,15,14,16,5,12,29,2,7,10,24,26,70,35,47,50,60,63,48,39,41,44,54,68,76,71,32,31,74,42,56,52,43,40,46,61,53,45,57,72,73,77]
 
-The ``Adsorber`` program will create a ``.xyz`` file called ``SYSTEM_NAME_tagged_surface_atoms.xyz`` that will have all surface atoms tagged 1 and all non-surface atoms tagged 0 (where ``SYSTEM_NAME`` is the name of the ``.xyz`` or ``.traj`` file that you gave for the ``name`` variable in ``Run_Adsorber.py``, see :ref:`Prelude_How_To_Run_Adsorber`). You can see this if you open ``SYSTEM_NAME_tagged_surface_atoms.xyz`` in ASE GUI, show atom index label by clicking ``View > Show Labels > Atom Index``, and colouring in atoms based on their tag by clicking ``View > Colors`` and selecting ``By tag``:
+The ``Adsorber`` program will create a ``.xyz`` file called ``SYSTEM_NAME_tagged_surface_atoms.xyz`` that will have all surface atoms tagged 1 and all non-surface atoms tagged 0 (where ``SYSTEM_NAME`` is the name of the ``.xyz`` or ``.traj`` file that you gave for the ``name`` variable in ``Run_Adsorber.py``, see :ref:`Prelude_1_How_To_Run_Adsorber`). You can see this if you open ``SYSTEM_NAME_tagged_surface_atoms.xyz`` in ASE GUI, show atom index label by clicking ``View > Show Labels > Atom Index``, and colouring in atoms based on their tag by clicking ``View > Colors`` and selecting ``By tag``:
 
 .. figure:: Images/Cu_Cluster_Example_ASE_Surface_3_1.png
    :align: center

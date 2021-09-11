@@ -68,8 +68,8 @@ Table of Contents
    Installation
    External_programs_that_will_be_useful_to_install_for_using_Adsorber
    Guide_To_Using_Adsorber
-   Prelude_How_To_Run_Adsorber
-   Prelude_How_To_Obtain_Settings_for_Run_Adsorber
+   Prelude_1_How_To_Run_Adsorber
+   Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber
    Part_A_Optimising_System_Initially
    Part_B_Adsorb_Adsorbates_to_System
    Part_C_Preparing_Adsorbed_Systems_For_VASP
