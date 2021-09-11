@@ -141,7 +141,7 @@ def make_individual_submitSL_files(root,file_name,slurm_information):
 	mem_per_cpu = slurm_information['mem-per-cpu']
 	partition = slurm_information['partition']
 	email = slurm_information['email']
-	python_version = slurm_information['python_version']
+	python_version ='Python/3.6.3-gimkl-2017a' # = slurm_information['python_version']
 	vasp_version = slurm_information['vasp_version']
 	vasp_execution = slurm_information['vasp_execution']
 	make_submitSL(file_name,root,project,time,nodes,ntasks_per_node,mem_per_cpu,partition=partition,email=email,python_version=python_version,vasp_version=vasp_version,vasp_execution=vasp_execution)
