@@ -70,11 +70,12 @@ def add_to_data(data, root, folder_name):
 		# get the name of the highest submission folder
 		submission_folders_values = []
 		for submission_folder_name in submission_folders:
-			if 'Issue' in submission_folder_name:
-				numbers = tuple(int(value) for value in submission_folder_name.replace((Submission_Folder+'_','')).split('_Issue_'))
-			else:
-				numbers = (int(submission_folder_name.replace(Submission_Folder+'_','')),0)
-			submission_folders_values.append(numbers)
+			if os.path.exists(root+'/'+submission_folder_name+'/OUTCAR'):
+				if 'Issue' in submission_folder_name:
+					numbers = tuple(int(value) for value in submission_folder_name.replace(Submission_Folder+'_','').split('_Issue_'))
+				else:
+					numbers = (int(submission_folder_name.replace(Submission_Folder+'_','')),0)
+				submission_folders_values.append(numbers)
 		highest_submission_folder_value = max(submission_folders_values)
 		if highest_submission_folder_value[1] == 0:
 			highest_submission_folder = Submission_Folder+'_'+str(highest_submission_folder_value[0])
