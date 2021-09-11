@@ -284,7 +284,6 @@ def convert_neighbours_to_string(neighbours):
 			details.append(detail)
 	details.sort(key=lambda x:(-len(x[0]),x[1],x[2]))
 	a_string = [str(len(neighs))+' ('+symbol+str(a_no)+' ['+str(index)+'->'+','.join([str(nn) for nn in neighs])+'])' for neighs,symbol,a_no,index in details if len(neighs) > 0]
-	print(a_string)
 	a_string = ','.join(a_string)
 	return a_string
 
