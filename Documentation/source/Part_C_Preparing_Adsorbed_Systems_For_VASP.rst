@@ -3,7 +3,7 @@
 Part C: Preparing Selected Adsorbed Systems For VASP Optimisation
 #################################################################
 
-After you have selected the binding sites to adsorb adsorbates onto and have placed their associated ``xyz`` files into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` (with the desired orientations/rotations), we can proceed to preparing the VASP files for these systems with adsorbates. To do this, **set the** ``Step_to_Perform`` **in the** ``Run_Adsorber.py`` **script to** ``'Part C'``:
+After you have selected the binding sites to adsorb adsorbates onto and have placed their associated ``xyz`` files into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` (with the desired orientations/rotations), we can proceed to preparing the VASP files for these systems with adsorbates. To do this, **set the** ``Step_to_Perform`` **variable in the** ``Run_Adsorber.py`` **script to** ``'Part C'``:
 
 .. code-block:: python
 

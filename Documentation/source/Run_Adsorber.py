@@ -143,6 +143,25 @@ C_adsorbed_species = {'name': 'C', 'molecule': C, 'distance_of_adatom_from_surfa
 #adsorbed_species.append(C_adsorbed_species)
 
 # ------------------------------------------------------------------------------------------------------------------------------------
+# Add here any other atoms and molecules that you need to locally optimise in VASP for energy calculations
+Other_molecules_to_obtain_VASP_energies_for = []
+
+graphene = molecule('C')
+graphene.center(vacuum=10.0)
+graphene_optimise_energy = {'name': 'graphene', 'molecule': graphene}
+Other_molecules_to_obtain_VASP_energies_for.append(graphene_optimise_energy)
+
+H2 = molecule('H2')
+H2.center(vacuum=10.0)
+H2_optimised_energy = {'name': 'H2', 'molecule': H2}
+Other_molecules_to_obtain_VASP_energies_for.append(H2_optimised_energy)
+
+H2O = molecule('H2O')
+H2O.center(vacuum=10.0)
+H2O_optimised_energy = {'name': 'H2O', 'molecule': H2O}
+Other_molecules_to_obtain_VASP_energies_for.append(H2O_optimised_energy)
+
+# ------------------------------------------------------------------------------------------------------------------------------------
 # slurm informaion for making the submit.sl files for submitting VASP jobs in slurm
 
 slurm_information = {}
@@ -158,4 +177,4 @@ slurm_information['vasp_execution'] = 'vasp_cd'
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 # Run the Adsorber program
-Adsorber_Program(part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information)
+Adsorber_Program(part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,Other_molecules_to_obtain_VASP_energies_for)

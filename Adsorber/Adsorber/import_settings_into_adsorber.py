@@ -7,7 +7,7 @@ def get_system(system_filename):
 	cluster.set_pbc(False)
 	return cluster
 
-def import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,part_c_force_create_original_POSCAR):
+def import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,Other_molecules_to_obtain_VASP_energies_for):
 	# ===========================================================================================
 	# Determine which Part of Adsorber you want to perform
 	self.part_to_perform = part_to_perform
@@ -21,6 +21,7 @@ def import_settings(self,part_to_perform,cluster_or_surface_model,system_filenam
 	# Data for Parts A, B and C.
 	if self.part_to_perform == 'Part A':
 		# Settings for Part A
+		self.Other_molecules_to_obtain_VASP_energies_for = Other_molecules_to_obtain_VASP_energies_for
 		# Other settings
 		self.cluster = get_system(self.system_filename)
 		self.part_A_folder_name = 'Part_A_Non_Adsorbed_Files_For_VASP'
@@ -36,7 +37,7 @@ def import_settings(self,part_to_perform,cluster_or_surface_model,system_filenam
 	elif self.part_to_perform == 'Part C':
 		# Settings for Part C
 		self.VASP_folder_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP' 
-		self.part_c_force_create_original_POSCAR = part_c_force_create_original_POSCAR
+		self.part_c_force_create_original_POSCAR = False # part_c_force_create_original_POSCAR
 		# Other settings
 		self.path_to_VASP_optimised_non_adsorbate_system = path_to_VASP_optimised_non_adsorbate_system
 		self.cluster = get_system(self.path_to_VASP_optimised_non_adsorbate_system)

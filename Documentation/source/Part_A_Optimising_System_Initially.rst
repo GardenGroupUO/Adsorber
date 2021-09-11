@@ -4,7 +4,7 @@
 Part A: How to optimise your system initially
 #############################################
 
-To begin, we need to obtain the locally optimise version of the system you want to adsorb adsorbates onto. To do this, you will want to **set the** ``Step_to_Perform`` **in the** ``Run_Adsorber.py`` **script to** ``'Part A'``:
+To begin, we need to obtain the locally optimise version of the system you want to adsorb adsorbates onto. To do this, you will want to **set the** ``Step_to_Perform`` **variable in the** ``Run_Adsorber.py`` **script to** ``'Part A'``:
 
 .. code-block:: python
 
@@ -32,6 +32,12 @@ This ``Part_A_Non_Adsorbed_Files_For_VASP`` folder also contains all the VASP fi
 
 .. math::
 
-	E_{abs} = E(system+adsorbate) - E(system) - E(adsorbate)
+	E_{abs} = E(system+adsorbate) - (E(system) + E(adsorbate))
+
+or if you are defining your adsorption energy with reference species, such as C from graphene, H from H :sub:`2` , and O from H :sub:`2` O: 
+
+.. math::
+
+	E_{abs} = E(system+adsorbate) - (E(system) + E(each\;element\;in\;the\;adsorbate\;in\;stiochiometic\;amounts))
 
 Once you have run VASP on your system and all your adsorbates, proceed to Part B (:ref:`Part_B_Adsorb_Adsorbates_to_System`). 

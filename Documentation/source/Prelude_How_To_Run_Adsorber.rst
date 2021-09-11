@@ -39,7 +39,7 @@ First you will want to import the ``Adsorber`` program, as well as any other met
 2) Initial inputs for ``Adsorber``
 ==================================
 
-To begin, there are three inputs you will need to give to Adsorber. These are:
+To begin, there are six inputs you will need to give to Adsorber. These are:
 
 * **part_to_perform** (*str.*): This variable indicates which Part of of Adsorber protocol you would like to perform. This is either ``'Part A'``, ``'Part B'``, or ``'Part C'``. 
 * **cluster_or_surface_model** (*str.*): This tells ``Adsorber`` if you are wanting to adsorb atoms and clusters to the surface of a cluster or a surface model. If you are dealing with a cluster, set ``cluster_or_surface_model = 'cluster'``, else if you are dealing with a surface model, set ``cluster_or_surface_model = 'surface model'`` and make sure that your surface and vacuum point in the positive z direction. Also if you want to constrain any atoms in your model, this should be done in this file. 
@@ -102,8 +102,8 @@ An example of this is shown below:
 	:language: python
 	:tab-width: 4
 	:linenos:
-	:lineno-start: 21
-	:lines: 21-30
+	:lineno-start: 20
+	:lines: 20-30
 
 You want to make sure that you append each of your adsorbates to the ``adsorbed_species`` list. If you dont want to include certain adsorbates as you go about your studies, comment their ``adsorbed_species.append(...)`` line. For example, see line 39 below:
 
@@ -120,12 +120,29 @@ The full example of the atoms and molecules that have been adsorbed to this clus
 	:language: python
 	:tab-width: 4
 	:linenos:
-	:lineno-start: 21
-	:lines: 21-143
+	:lineno-start: 20
+	:lines: 20-143
+
+4) Obtain VASP energies for molecules that you do not want to adsorb to your cluster/surface model
+==================================================================================================
+
+You made also want to obtain locally optimised VASP energies of atoms and molecules for energy calculations later on in your studies. To do this, you want to add your atoms and molecules in the same way as before, such as with ``xyz`` files or using the  ``molecule`` method in the ``ase.build`` module, as mentioned in :ref:`add_atoms_and_molecules_on_to_surface_of_model`. For each atom and molecule that you make you want to add it to a dictionary that has the following inputs:
+
+* **name** (*str.*): The name you want to give for this atom or molecule
+* **molecule** (*ase.Atoms*): The is the ``Atoms`` object for the atom or molecule, as obtained from the ``molecule`` or ``read`` method as mentioned above.
+
+Example of this are shown below for obtaining VASP minimised energies only of graphene, H :sub:`2` , and H :sub:`2` O:
+
+.. literalinclude:: Run_Adsorber.py
+	:language: python
+	:tab-width: 4
+	:linenos:
+	:lineno-start: 146
+	:lines: 146-162
 
 .. _information_required_to_make_submitsl_siles_for_submitting_files_to_slurm:
 
-4) Information required to make ``submit.sl`` siles for submitting files to Slurm
+5) Information required to make ``submit.sl`` siles for submitting files to Slurm
 =================================================================================
 
 ``Adsorber`` is able to create folders with the files required to run VASP jobs of your system for all of the adsorbed species and orientations that you would like to consider. Do you this, you will want to include a dictionary called ``slurm_information`` that contains all the information about the ``submit.sl`` file required to submit jobs to the Slurm workload Manager (https://slurm.schedmd.com/documentation.html). The following information is required in the ``slurm_information`` dictionary:
@@ -146,8 +163,8 @@ An example of a ``slurm_information`` dictionary in the ``Run_Adsorber.py`` scri
 	:language: python
 	:tab-width: 4
 	:linenos:
-	:lineno-start: 148
-	:lines: 148-157
+	:lineno-start: 165
+	:lines: 165-176
 
 Run the Adsorber Program!
 =========================
@@ -159,4 +176,4 @@ You have got to the end of all the parameter setting stuff! Now on to the fun st
 	:tab-width: 4
 	:linenos:
 	:lineno-start: 160
-	:lines: 160-161
+	:lines: 179-180

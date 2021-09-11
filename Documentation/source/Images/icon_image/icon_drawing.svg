@@ -72,7 +72,7 @@
        transform="translate(5.7608901)" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:25.4px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-style:normal;font-weight:normal;font-size:25.4px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="89.130463"
        y="244.56226"
        id="text1916"
@@ -81,7 +81,7 @@
        inkscape:export-ydpi="300"><tspan
          sodipodi:role="line"
          id="tspan1914"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:Verdana;-inkscape-font-specification:Verdana;fill:#000000;stroke-width:0.264583"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:Verdana;-inkscape-font-specification:Verdana;fill:#ffffff;stroke-width:0.264583"
          x="89.130463"
          y="244.56226">Adsorber</tspan></text>
   </g>

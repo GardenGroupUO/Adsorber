@@ -4,7 +4,7 @@
 Guide To Using Adsorber
 #######################
 
-There are three parts (Part A, Part B, and Part C) + a prelude step to using the Adsorber program. These parts are described in the sections below: 
+There are four parts (Part A, Part B, Part C + Part D) + a prelude step to using the Adsorber program. These parts are described in the sections below: 
 
 
 Prelude Step

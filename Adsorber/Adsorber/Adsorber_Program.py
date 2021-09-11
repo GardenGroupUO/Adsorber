@@ -29,9 +29,8 @@ def version_no():
 
 class Adsorber_Program:
 
-	def __init__(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information={}):
-		part_c_force_create_original_POSCAR=False
-		import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,part_c_force_create_original_POSCAR)
+	def __init__(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information={},Other_molecules_to_obtain_VASP_energies_for=[]):
+		import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,Other_molecules_to_obtain_VASP_energies_for)
 		self.introductory_remarks()
 		#self.check_for_cluster_folder(self.system_folder_name)
 		self.run()
@@ -119,6 +118,8 @@ class Adsorber_Program:
 		make_VASP_files_of_only_system(self.part_A_folder_name, self.cluster, self.vasp_files_folder, self.slurm_information)
 		# will create VASP files of all adsorbates
 		make_VASP_files_of_only_adsorbates(self.part_A_folder_name, self.adsorbed_species, self.vasp_files_folder, self.slurm_information)
+		# will create VASP files of all molecules that you want energies for but dont want to adsorb to your system (cluster/surface model)
+		make_VASP_files_of_only_adsorbates(self.part_A_folder_name, self.Other_molecules_to_obtain_VASP_energies_for, self.vasp_files_folder, self.slurm_information)
 
 	# ==================================================================================================
 
