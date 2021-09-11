@@ -39,18 +39,18 @@ def get_origin_position(cluster_or_surface_model,cluster_center_of_mass,surface_
 # ------------------------------------------------------------------------------------------------------------------------------------ #
 # Adatom above atom
 
-def get_above_atom_adsorption_site(surface_atom,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position):
+def get_above_atom_adsorption_site(surface_atom_index,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position):
 	# get cluster positions
-	surface_atom_position = cluster_positions[surface_atom]
+	surface_atom_position = cluster_positions[surface_atom_index]
 	# get line from centre of mass of cluster to the surface atom of interest
 	AB = surface_atom_position - origin_position
 	AB_unit_vector = get_unit_vector(AB)
 	#get new binding postion for the adsorbed atom
 	binding_point = surface_atom_position + distance_of_dummy_adatom_from_surface*AB_unit_vector
 	# to make sure it is as far away from every other atom as possible, perform a coulomb repulsion potential optimisation
-	surface_atoms_to_bind_to = [surface_atom]
+	surface_atoms_to_bind_to = [surface_atom_index]
 	binding_point = coulomb_repulsion_potential_optimisation(cluster,binding_point,surface_atoms_to_bind_to)
-	return (binding_point,surface_atom_position)
+	return (binding_point,surface_atom_position,surface_atoms_to_bind_to)
 
 
 def get_above_atom_sites(cluster,surface_atoms,distance_of_dummy_adatom_from_surface,cluster_or_surface_model):
@@ -58,9 +58,9 @@ def get_above_atom_sites(cluster,surface_atoms,distance_of_dummy_adatom_from_sur
 	cluster_center_of_mass = cluster.get_center_of_mass()
 	cluster_positions = cluster.get_positions()
 	original_no_of_atoms = len(cluster)
-	for surface_atom in surface_atoms:
-		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,cluster_positions[surface_atom])
-		binding_point_datum = get_above_atom_adsorption_site(surface_atom,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position)
+	for surface_atom_index in surface_atoms:
+		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,cluster_positions[surface_atom_index])
+		binding_point_datum = get_above_atom_adsorption_site(surface_atom_index,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position)
 		binding_point_data.append(binding_point_datum)
 	return binding_point_data
 
@@ -90,7 +90,7 @@ def get_above_bridge_adsorption_site(surface_atoms_to_bind_to,cluster,cluster_po
 	binding_point = centre_of_pair + distance_of_dummy_adatom_from_surface*perp_vector_to_bond_unit_vector
 	# to make sure it is as far away from every other atom as possible, perform a coulomb repulsion potential optimisation
 	binding_point = coulomb_repulsion_potential_optimisation(cluster,binding_point,surface_atoms_to_bind_to)
-	return (binding_point,centre_of_pair)
+	return (binding_point,centre_of_pair,sorted(surface_atoms_to_bind_to))
 
 def get_bridge_sites(cluster,neighbour_list_original,distance_of_dummy_adatom_from_surface,cluster_or_surface_model):
 	neighbour_list = dict(neighbour_list_original)
@@ -132,9 +132,9 @@ def get_three_or_four_adsorption_site(shape_indices,cluster_positions,distance_o
 	distance_from_COM_to_site_1 = get_distance(origin_position,adsorption_site_1)
 	distance_from_COM_to_site_2 = get_distance(origin_position,adsorption_site_2)
 	if distance_from_COM_to_site_1 > distance_from_COM_to_site_2:
-		return (adsorption_site_1,centre_of_shape)
+		return (adsorption_site_1,centre_of_shape,sorted(shape_indices))
 	else:
-		return (adsorption_site_2,centre_of_shape)
+		return (adsorption_site_2,centre_of_shape,sorted(shape_indices))
 
 def get_three_fold_sites(cluster,neighbour_list,distance_of_dummy_adatom_from_surface_atom,cluster_or_surface_model):
 	# find neighbouring sets of triangles

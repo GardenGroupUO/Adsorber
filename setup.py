@@ -56,7 +56,7 @@ setup(name='Adsorber',
       zip_safe=False,
       keywords = ['Adsorber', 'ase', 'university-of-otago', 'atomic-simulation-environment', 'otago-university'],
       install_requires=[
-          'numpy','scipy','matplotlib','ase>=3.19.0','packaging'
+          'numpy','scipy','matplotlib','ase>=3.19.0','packaging, networkx'
           ],
       classifiers=[
         'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package

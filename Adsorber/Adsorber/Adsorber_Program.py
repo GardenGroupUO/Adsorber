@@ -11,7 +11,7 @@ from Adsorber.Adsorber.Part_A_Create_non_adsorbed_VASP_files import make_VASP_fi
 # Imports for Part B
 from Adsorber.Adsorber.Part_B_neighbour_list import get_neighbour_list_for_surface_atoms
 from Adsorber.Adsorber.Part_B_get_places_to_bind_to import get_above_atom_sites, get_bridge_sites, get_three_fold_sites, get_four_fold_sites
-from Adsorber.Adsorber.Part_B_adsorb_single_species_to_cluster import adsorb_single_species_to_cluster
+from Adsorber.Adsorber.Part_B_adsorb_single_species_to_cluster import adsorb_single_species_to_cluster, return_vector
 from Adsorber.Adsorber.Part_B_storage_file import write_data_file, load_data_file
 # Imports for Part C
 from Adsorber.Adsorber.Part_C_Create_adsorbed_VASP_Files import make_VASP_folders
@@ -29,13 +29,12 @@ def version_no():
 
 class Adsorber_Program:
 
-	def __init__(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information={},part_c_force_create_original_POSCAR=False):
+	def __init__(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information={}):
+		part_c_force_create_original_POSCAR=False
 		import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,part_c_force_create_original_POSCAR)
 		self.introductory_remarks()
 		#self.check_for_cluster_folder(self.system_folder_name)
 		self.run()
-
-	# ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	def introductory_remarks(self):
 		print('=================================')
@@ -49,21 +48,9 @@ class Adsorber_Program:
 		print()
 		print()
 
-	'''
-	def check_for_cluster_folder(self,system_folder_name):
-		print('=========================================================================================================')
-		print('You already have a folder called '+str(system_folder_name))
-		print('As it is likely you may remove some of the models from this folder as you decide which models to sample, Adsorber will not run any further.')
-		print('If you want to run Adsorber, change the current '+str(system_folder_name)+' folder to a different name.')
-		print('Adsorber will finish without starting.')
-		print('=========================================================================================================')
-		exit()
-	'''
-
-	# ------------------------------------------------------------------------------------------------------------------------------------------------------
-
 	def run(self):
 		self.save_adsorbates(self.adsorbed_species)
+		self.save_adsorbates_with_rotation_axis(self.adsorbed_species)
 		# ============================
 		if self.part_to_perform == 'Part A':
 			print('=================================')
@@ -112,6 +99,19 @@ class Adsorber_Program:
 			adsorbates.append(adsorbate)
 		write('adsorbates.traj',adsorbates)
 
+	def save_adsorbates_with_rotation_axis(self,adsorbed_species):
+		adsorbates = []
+		for an_adsorbed_species in adsorbed_species:
+			adsorbate = an_adsorbed_species['molecule'].copy()
+			if len(adsorbate) > 1:
+				central_atom_index = an_adsorbed_species['index']
+				centre_of_atom_position = adsorbate[central_atom_index].position
+				rotation_axis_vector = np.array(return_vector(an_adsorbed_species['axis']))
+				for number in np.arange(0.2,3.1,0.2):
+					adsorbate.append(Atom('X',position=centre_of_atom_position + number*rotation_axis_vector))
+			adsorbates.append(adsorbate)
+		write('adsorbates_with_rotation_axis.traj',adsorbates)
+
 	# ==================================================================================================
 
 	def Part_A_make_VASP_files_of_system_and_molecules(self):
@@ -126,14 +126,15 @@ class Adsorber_Program:
 		# original system + adsorbate
 		above_atom_binding_sites, above_bridge_binding_sites, above_three_fold_sites, above_four_fold_sites = self.get_initial_adatom_placements(self.cluster,self.cutoff,self.distance_of_dummy_adatom_from_surface,self.surface_atoms)
 		what_to_adsorb = []
-		what_to_adsorb.append((above_atom_binding_sites,'Top_Sites','Make Clusters/Surfaces with adatoms/admolecules attached above atom sites'))
-		what_to_adsorb.append((above_bridge_binding_sites,'Bridge_Sites','Make Clusters/Surfaces with adatoms/admolecules attached above bridge sites'))
-		what_to_adsorb.append((above_three_fold_sites,'Three_Fold_Sites','Make Clusters/Surfaces with adatoms/admolecules attached above three-fold sites'))
-		what_to_adsorb.append((above_four_fold_sites,'Four_Fold_Sites','Make Clusters/Surfaces with adatoms/admolecules attached above four-fold sites'))
+		initial_sentence = 'Make System with adsorbates attached upon '
+		what_to_adsorb.append((above_atom_binding_sites,'Top_Sites',initial_sentence+'top sites'))
+		what_to_adsorb.append((above_bridge_binding_sites,'Bridge_Sites',initial_sentence+'bridge sites'))
+		what_to_adsorb.append((above_three_fold_sites,'Three_Fold_Sites',initial_sentence+'three-fold sites'))
+		what_to_adsorb.append((above_four_fold_sites,'Four_Fold_Sites',initial_sentence+'four-fold sites'))
 		print('============================================================================================')
 		for binding_sites, binding_sites_name, to_print in what_to_adsorb:
 			print(to_print)
-			self.adsorb_species_to_cluster(self.cluster,binding_sites,self.adsorbed_species,binding_sites_name,self.system_folder_name)
+			self.adsorb_species_to_cluster(self.cluster,self.surface_atoms,binding_sites,self.cutoff,self.adsorbed_species,binding_sites_name,self.system_folder_name)
 		print('============================================================================================')
 		# create the folder for xyz files to make VASP files of
 		def ig_f(dir, files):
@@ -172,22 +173,31 @@ class Adsorber_Program:
 		def make_full_binding_site_representative_cluster(cluster,above_atom_binding_sites,cluster_file_name):
 			representative_cluster = cluster.copy()
 			counter = 1
-			for binding_position, surface_position in above_atom_binding_sites:
-				binding_representative_atom = Atom('H',position=binding_position,charge=counter,tag=2)
+			for binding_position, surface_position, indices_of_atoms_involved in above_atom_binding_sites:
+				binding_representative_atom = Atom('H',position=binding_position,charge=counter,tag=2) # These could be symbolised as H or X
 				representative_cluster.append(binding_representative_atom)
 				counter += 1
 			write(cluster_file_name+'.xyz',representative_cluster)
-		make_full_binding_site_representative_cluster(cluster,above_atom_binding_sites,self.name_without_suffix  +'_top_sites')
-		make_full_binding_site_representative_cluster(cluster,above_bridge_binding_sites,self.name_without_suffix+'_bridging_sites')
-		make_full_binding_site_representative_cluster(cluster,above_three_fold_sites,self.name_without_suffix    +'_three_fold_sites')
-		make_full_binding_site_representative_cluster(cluster,above_four_fold_sites,self.name_without_suffix     +'_four_fold_sites')
+
+		representative_cluster_folder_name = 'Part_B_Binding_Site_Locations'
+		if not os.path.exists(representative_cluster_folder_name):
+			os.makedirs(representative_cluster_folder_name)
+		prefix_name = representative_cluster_folder_name+'/'+self.name_without_suffix
+		make_full_binding_site_representative_cluster(cluster,above_atom_binding_sites,prefix_name  +'_top_sites')
+		make_full_binding_site_representative_cluster(cluster,above_bridge_binding_sites,prefix_name+'_bridging_sites')
+		make_full_binding_site_representative_cluster(cluster,above_three_fold_sites,prefix_name    +'_three_fold_sites')
+		make_full_binding_site_representative_cluster(cluster,above_four_fold_sites,prefix_name     +'_four_fold_sites')
 		return above_atom_binding_sites, above_bridge_binding_sites, above_three_fold_sites, above_four_fold_sites
 
-	def adsorb_species_to_cluster(self,cluster,binding_site_data,adsorbed_species,binding_sites_name,system_folder_name):
+	def adsorb_species_to_cluster(self,cluster,surface_atoms,binding_site_data,cutoff,adsorbed_species,binding_sites_name,system_folder_name):
 		for an_adsorbed_species in adsorbed_species:
-			for index in range(len(binding_site_data)):
-				binding_site_datum = binding_site_data[index]
-				adsorb_single_species_to_cluster(cluster, binding_site_datum, an_adsorbed_species, binding_sites_name, index+1, system_folder_name)
+			if binding_sites_name in an_adsorbed_species['sites_to_bind_adsorbate_to']:
+				print('Adsorbate Name: '+str(an_adsorbed_species['name']))
+				for index in range(len(binding_site_data)):
+					binding_site_datum = binding_site_data[index]
+					adsorb_single_species_to_cluster(cluster, surface_atoms, binding_site_datum, cutoff, an_adsorbed_species, binding_sites_name, index+1, system_folder_name)
+			else:
+				print('Adsorbate Name: '+str(an_adsorbed_species['name'])+' --> Will not gather '+binding_sites_name.lower().replace('_',' ')+' models as specified in your Run_Adsorber.py script.')
 
 	# ==================================================================================================
 

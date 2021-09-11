@@ -1,0 +1,51 @@
+# Regular
+ SYSTEM = Cu78_Adsorbate_Calc_see_submitSL
+ ISYM = 0
+ NSW = 2000
+ EDIFF = 0.1E-4
+ EDIFFG = -0.01
+ ENCUT = 350
+ GGA = BF 
+ LWAVE = .FALSE.
+ LCHARG = .FALSE.
+ PREC = medium
+ ISMEAR = -1 ; SIGMA = 0.1
+ ISIF = 0
+# ISPIN = 2
+
+# Speedup
+ NPAR = 12
+ NSIM = 4
+ IALGO = 48
+ LPLANE = .TRUE.
+ LREAL = Auto
+
+ LUSE_VDW=.TRUE.
+ Zab_VDW=-1.8867
+# LBEEFENS=.TRUE.
+
+#NEB
+# ICHAIN = 0
+# IMAGES = 8 
+# SPRING = -5.0
+# LCLIMB = .FALSE. 
+# LTANGENTOLD = .FALSE.
+# LDNEB = .FALSE.
+
+# Optiizer2
+ IBRION = 3 
+ POTIM = 0.00
+ IOPT = 2
+# MAXMOVE = 0.2
+# TIMESTEP = 0.1
+# FTIMEMAX = 1.0
+# FTIMEDEC = 0.5
+# FTIMEINC = 1.1
+# FALPHA = 0.1
+# FALPHADEC = 0.99
+# FNMIN = 5 
+# ILBFGSMEM = 20
+# LGLOBAL = .TRUE.
+# INVCURV = 0.01
+# LLINEOPT = .FALSE.
+ FDSTEP = 5E-3

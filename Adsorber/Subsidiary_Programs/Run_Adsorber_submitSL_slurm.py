@@ -116,6 +116,7 @@ if not wait_between_submissions:
 submitting_command = "sbatch submit.sl"
 for (dirpath, dirnames, filenames) in os.walk(path):
     dirnames.sort()
+    filenames.sort()
     if 'submit.sl' in filenames:
         if 'OUTCAR' in filenames:
             dirnames[:] = []

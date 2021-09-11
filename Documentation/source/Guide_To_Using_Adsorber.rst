@@ -10,8 +10,8 @@ There are three parts (Part A, Part B, and Part C) + a prelude step to using the
 Prelude Step
 ------------
 
-In this step, we will step up the ``Run_Adsorber.py`` script, which includes selecting which atoms in your system are surface atoms. The information about how to set up the ``Run_Adsorber.py`` script is given in :ref:`How_To_Run_Adsorber`. 
-Instructions of some of the more involved settings that are required in the ``Run_Adsorber.py`` script are given in :ref:`How_To_Obtain_Settings_for_Run_Adsorber`. These include: 
+In this step, we will step up the ``Run_Adsorber.py`` script, which includes selecting which atoms in your system are surface atoms. The information about how to set up the ``Run_Adsorber.py`` script is given in :ref:`Prelude_How_To_Run_Adsorber`. 
+Instructions of some of the more involved settings that are required in the ``Run_Adsorber.py`` script are given in :ref:`Prelude_How_To_Obtain_Settings_for_Run_Adsorber`. These include: 
 
 * indicating which atoms are surface atoms, as Adsorber does not identify surface atoms. This is required for Adsorber to know which atoms to consider when placing adsorbates onto top sites, bridging sites, three-fold sites, and four-fold sites. You can find out how to specify this in :ref:`marking_surface_atoms`. 
 * indicating how adsorbates are adsorbed to your system. This is given in :ref:`bind_molecule_to_surface_of_system`. 
@@ -35,7 +35,12 @@ Part C
 
 In this part, Adsorber will take the models of adsorbates on various sites on your system and create the files required to locally optimise these models in VASP. The guide to perform this part is given in :ref:`Part_C_Preparing_Adsorbed_Systems_For_VASP`. 
 
+Part D
+------
+
+In this part, a subsidiary program is used to gather information about your VASP local optimisations, including the energy of absorbate+system as well as adsorbates and system alone, as well as if the VASP local optimisation converged or not. The guide to perform this part is given in :ref:`Part_D_gathering_information_from_VASP_calculations`. 
+
 Final Notes about this process
 ------------------------------
 
-You may want to move backwards and forwards between these parts as you progress in your study. Parts B and C can be performed multiple times if you want to include extra adsorbates in your study. I performed Part C multiple times as I like to focus on obtaining and understanding the energetics of individual adsorbates on various top, bridging, three-fold, and four-fold sites of your model.
+You may want to move backwards and forwards between these parts as you progress in your study. Parts B - D can be performed multiple times if you want to include extra adsorbates in your study. I performed Part C multiple times as I like to focus on obtaining and understanding the energetics of an adsorbates on various top, bridging, three-fold, and four-fold sites and understand which of these site are preferable for binding before moving on to the next adsorbate. 

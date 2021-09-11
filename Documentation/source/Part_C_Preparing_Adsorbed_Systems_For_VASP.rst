@@ -25,7 +25,10 @@ Once you have done all of these requirements, you can then run the ``Run_Adsorbe
 
    python Run_Adsorber.py
 
-This will create a new folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` which contain VASP folders of your selected systems with adsorbates. These VASP folders contain a ``POSCAR`` of the system with adsorbate, as well as the ``INCAR``, ``KPOINTS``, ``POTCAR``, and ``submit.sl`` files, as well as any other files that you need for your VASP calcuations. 
+What will ``Run_Adsorber.py``: Part C do?
+-----------------------------------------
+
+``Run_Adsorber.py`` will take all the ``.xyz`` that you have placed in ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` and convert them into files ready to be run in VASP with the Slurm Workload Manager. ``Adsorber`` will create a new folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` that contain VASP folders of your selected systems with adsorbates. Each of these VASP folders contain a ``POSCAR`` of the system with adsorbate, as well as the ``INCAR``, ``KPOINTS``, ``POTCAR``, and ``submit.sl`` files, as well as any other files that you need for your VASP calcuations. If the VASP folder exists and it contains a ``POSCAR``, this ``POSCAR`` will not be replaced as you may have updated the ``POSCAR`` if your VASP job entered prematurally without converging. If you do want to force override all ``POSCAR`` files, you will want to set ``part_c_force_create_original_POSCAR = True`` in your ``Run_Adsorber.py`` script. 
 
 Note: This ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` folder may get big, so just check the amount of space that the newly created ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` is taking up as it is being created. 
 
@@ -41,37 +44,151 @@ Once you have run the ``Run_Adsorber.py`` script with ``Step_to_Perform = 'Part 
    cd Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP
    Run_Adsorber_submitSL_slurm.py
 
-Running the ``Run_Adsorber_submitSL_slurm.py`` script in the terminal will submit all your VASP jobs. 
+Running the ``Run_Adsorber_submitSL_slurm.py`` script in the terminal will submit all your VASP jobs. **This script will only submit jobs to slurm that do not have an OUTCAR file.** Any jobs that are currently running or have finished running will not be resubmitted, as they will have created an OUTCAR file. 
 
 What to do if some jobs have not finished/converged
 ---------------------------------------------------
 
-If some of your jobs have not converged or have not finished, you will need to go though them and resubmit those jobs that have not finished. You can do this by changing directory into a job that has not completed and running the ``vfin.pl`` script in your terminal:
+If some of your jobs have not converged or have not finished, you will need to go though them and resubmit those jobs that have not finished. You can use the ``vfin.pl`` and ``vef.pl`` scripts in the ``VTST`` toolset to do this (see https://theory.cm.utexas.edu/vtsttools/ for more information about the ``VTST`` toolset for VASP and how to download it). However, there are also programs included in ``Adsorber`` that can help you do this with ease. These programs are described below:
+
+``Run_Adsorber_determine_unconverged_VASP_jobs.py``: Determine which jobs have converged and which have not
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This program is designed to inform you of which VASP jobs have converge and which have not. To run this, move into the folder that you would like to examine all jobs that are within subdirectories of. Then run this program in the terminal. For example, if you want to examine if all VASP jobs from Part A have converged, perform the following in the terminal:
 
 .. code-block:: bash
 
-   cd INTO_VASP_FOLDER_YOU_WANT_TO_RESUME
-   vfin.pl
+   cd Part_A_Non_Adsorbed_Files_For_VASP
+   Run_Adsorber_determine_unconverged_VASP_jobs.py
 
-vfin.pl is a script included in the ``VTST`` toolset. See https://theory.cm.utexas.edu/vtsttools/ for more information about the ``VTST`` toolset for VASP and how to download it. 
-
-However, if you have lots of jobs you want to resume with VASP, you can run a script to resume your jobs that have not converged. To do this, first cd into the ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` folder and run a script called ``Run_Adsorber_prepare_unconverged_VASP_jobs.py``. This will perform the ``vfin.pl`` script on all your jobs that have not converged.
+If you want to check if all VASP jobs from Part C have converged, perform the following in the terminal:
 
 .. code-block:: bash
 
    cd Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP
-   Run_Adsorber_prepare_unconverged_VASP_jobs.py
+   Run_Adsorber_determine_unconverged_VASP_jobs.py
 
-``Run_Adsorber_prepare_unconverged_VASP_jobs.py`` will tell you which jobs have converged and which have not converged, and will prepare the unconverged jobs for resubmission using the ``vfin.pl`` script. If you do not want the ``Run_Adsorber_prepare_unconverged_VASP_jobs.py`` script to prepare any folders but only tell you which jobs have converged and which jobs have not converged, add ``False`` after the script when you submit it to the terminal, as shown below:
-
-.. code-block:: bash
-
-   Run_Adsorber_prepare_unconverged_VASP_jobs.py False
-
-You can then resume your unconverged jobs by running a script called ``Run_Adsorber_submit_unconverged_VASP_jobs.py`` in the same directory as you ran the ``Run_Adsorber_prepare_unconverged_VASP_jobs.py`` script, which will submit all VASP jobs that have not converged. 
+If you want to just want to check if the VASP jobs for a particular adsorbate from Part C have converged, for example if all systems that had CO adsorbed to its surface, perform the following in the terminal:
 
 .. code-block:: bash
 
-   Run_Adsorber_submit_unconverged_VASP_jobs.py
+   cd Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/CO
+   Run_Adsorber_determine_unconverged_VASP_jobs.py
 
-If you do not want to submit all the jobs that have been prepared for resuming by the ``Run_Adsorber_submit_unconverged_VASP_jobs.py`` script, you will need to go though by hand and submit the jobs you do want to resume manually. 
+This will give you a list of VASP jobs that have converged and have not converged:
+
+.. code-block:: bash
+
+   ==============================================
+   The following VASP jobs CONVERGED
+   CO_top_sites_53_130 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_53_130)
+   CO_top_sites_42_119 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_42_119)
+   CO_top_sites_30_107 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_30_107)
+   CO_top_sites_32_109 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_32_109)
+   CO_top_sites_31_108 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_31_108)
+   CO_top_sites_36_113 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_36_113)
+   CO_top_sites_47_124 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_47_124)
+   CO_top_sites_35_112 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_35_112)
+   CO_top_sites_29_106 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_29_106)
+   CO_top_sites_41_118 (./CO/Top_Sites/Ico_Sites_Green/CO_top_sites_41_118)
+   ==============================================
+   The following VASP jobs DID NOT CONVERGE
+   CO_top_sites_49_126 (./CO/Top_Sites/5_Fold_Vertex_Site_Red/CO_top_sites_49_126)
+   CO_top_sites_27_104 (./CO/Top_Sites/5_Fold_Vertex_Site_Red/CO_top_sites_27_104)
+   CO_top_sites_58_135 (./CO/Top_Sites/Weird_Sites_Yellow/CO_top_sites_58_135)
+   CO_top_sites_12_89 (./CO/Top_Sites/Weird_Sites_Yellow/CO_top_sites_12_89)
+   CO_top_sites_19_96 (./CO/Top_Sites/Weird_Sites_Yellow/CO_top_sites_19_96)
+   CO_top_sites_21_98 (./CO/Top_Sites/Weird_Sites_Yellow/CO_top_sites_21_98)
+   CO_top_sites_44_121 (./CO/Top_Sites/Weird_Sites_Yellow/CO_top_sites_44_121)
+   ==============================================
+
+If you just want the names of the jobs and not the directories printed, type ``Run_Adsorber_determine_unconverged_VASP_jobs.py False`` into the terminal. This will give the following:
+
+.. code-block:: bash
+
+   ==============================================
+   The following VASP jobs CONVERGED
+   CO_top_sites_53_130
+   CO_top_sites_42_119
+   CO_top_sites_30_107
+   CO_top_sites_32_109
+   CO_top_sites_31_108
+   CO_top_sites_36_113
+   CO_top_sites_47_124
+   CO_top_sites_35_112
+   CO_top_sites_29_106
+   CO_top_sites_41_118
+   ==============================================
+   The following VASP jobs DID NOT CONVERGE
+   CO_top_sites_49_126
+   CO_top_sites_27_104
+   CO_top_sites_58_135
+   CO_top_sites_12_89
+   CO_top_sites_19_96
+   CO_top_sites_21_98
+   CO_top_sites_44_121
+   ==============================================
+
+.. _Part_C_Run_Adsorber_prepare_unconverged_VASP_jobs_PY:
+
+``Run_Adsorber_prepare_unconverged_VASP_jobs.py``: Prepare VASP jobs for resubmission, either with the same or a new convergence criteria
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If not all your VASP jobs converged, or you want to tighten your convergence criteria (i.e. change your value of ``EDIFFG`` in your ``INCAR`` file so it is closer to 0.0 eV or 0.0 eV/Ang), you can setup your VASP calculations to be resubmitted to VASP from the last geometry optimisation step. To do this, you will need to prepare a new python script in the same place on your computer as your ``Run_Adsorber.py`` called ``prepare_unconverged_VASP_jobs.py``. An example of this ``prepare_unconverged_VASP_jobs.py`` python script is as follows:
+
+.. code-block:: python
+
+   from Adsorber import Run_Adsorber_prepare_unconverged_VASP_jobs
+
+   files_with_VASP_calcs = ['Part_A_Non_Adsorbed_Files_For_VASP','Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP']
+   options = {'max_energy_from_lowest_energy': float('inf')}
+   force_resubmit_all_VASP_jobs_found = False
+
+   Run_Adsorber_prepare_unconverged_VASP_jobs(files_with_VASP_calcs,path_to_VASP_input_files,options,force_resubmit_all_VASP_jobs_found)
+
+The settings for this script are:
+
+   * ``files_with_VASP_calcs`` (*list of file paths strings*): This is a list that contains all the directories of all the jobs you would like to resubmit. Only jobs that have not converged will be resubmitted, unless ``force_resubmit_all_VASP_jobs_found`` is set to ``True``. 
+   * ``options`` (*dict.*): This dictionary allow you to pick options for resubmitting certain VASP jobs for resubmission. This is particularly useful if you want to resubmit only specific VASP jobs when you are tightening your convergence critera. Some of these options that are available are: 
+
+      * ``'max_energy_from_lowest_energy'`` (*float*): This is the maximum energy for VASP jobs that have run within each folder in ``files_with_VASP_calcs`` to have obtained from the lowest energy configuration. To figure out.
+
+   * ``force_resubmit_all_VASP_jobs_found`` (*bool*): If you want all VASP jobs that are found in subdirectories within paths specifies in ``files_with_VASP_calcs`` to be prepared to be rerun with VASP, set this variable to ``True``. Otherwise, set this variable to ``False``. You want to do this if you are tightening your convergence criteria for your calculations. This is the only time you will want to set this to ``True``. **Once you are finished tighening the convergence on your jobs, it is best to set this back to** ``False`` **immediately**. 
+
+You can then run this program by typing the following into the terminal:
+
+.. code-block:: bash
+
+   python Run_Adsorber_prepare_unconverged_VASP_jobs.py
+
+For each job that is setup for resubmission, the ``INCAR``, ``KPOINT``, ``OUTCAR``, ``POSCAR``, and ``submit.sl`` files , as well as any output and error files created by slurm during the VASP optimisation, are moved to a folder called ``Submission_Folder``. The ``CHG``, ``CHGCAR``, ``CONTCAR``, ``DOSCAR``, ``EIGENVAL``, ``IBZKPT``, ``OSZICAR``, ``PCDAT``, ``PCDAT``, ``REPORT``, ``vasprun.xml``, ``WAVECAR``, ``XDATCAR`` files are deleted, the last image written in the ``OUTCAR`` is used as the new ``POSCAR``, and the old ``OUTCAR`` is deleted. ``Run_Adsorber_prepare_unconverged_VASP_jobs.py`` **will also prepare any VASP jobs for resubmission that had issues, because the** ``OUTCAR`` **or** ``CONTCAR`` **could not be loaded.** In this case, the POSCAR used will be the original POSCAR. Files from the previous VASP job run will  be stored in a folder called ``Submission_Folder`` with ``Issue`` included in the label. 
+
+**=> If you want to change the** ``INCAR`` **,** ``KPOINT`` **, or** ``submit.sl`` **files used for these resubmitted VASP jobs**, you need to rerun your ``Run_Adsorber.py`` script again, running it in ``Part C`` mode. To do this:
+
+1. Make the necessary changes to your ``INCAR`` and/or ``KPOINT`` files in your ``VASP_Files`` folder.
+2. Make the necessary changes to your ``submit.sl`` script by making changes to your ``slurm_information`` dictionary in your ``Run_Adsorber.py`` script. 
+3. Make sure that the ``part_to_perform`` variable in your ``Run_Adsorber.py`` script is set to ``'Part C'`` (``part_to_perform = 'Part C'``).
+4. Run your ``Run_Adsorber.py`` script in the terminal:
+
+.. code-block:: bash
+
+   python Run_Adsorber.py
+
+**=> If you want to change the convergence criteria**, perform the steps as above, making sure you change the ``EDIFFG`` tag in the ``INCAR`` file suppied in the ``VASP_Files`` folder.
+
+``Run_Adsorber_Tidy_Finished_Jobs.py``: Clean up the files for jobs that you are happy with
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VASP makes lots of files after it has run. These can be annoying to keep if you are transferring files about. The ``Run_Adsorber_Tidy_Finished_Jobs.py`` script will get rid of all the unnecessary files that are created from all subdirectories. The files that are removed are: ``CHG``, ``CHGCAR``, ``CONTCAR``, ``DOSCAR``, ``EIGENVAL``, ``fe.dat``, ``IBZKPT``, ``OSZICAR``, ``PCDAT``, ``POTCAR``, ``REPORT``, ``vasprun.xml``, ``vaspout.eps``, ``WAVECAR``, ``XDATCAR``, and ``vdw_kernel.bindat``. The ``INCAR``, ``KPOINTS``, ``OUTCAR``, ``POSCAR``, and ``submit.sl`` files are not removed, as well as any output and error files that are created by slurm during the VASP optimsation, are **NOT** removed by this script. To perform this script, move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py`` into the terminal:
+
+.. code-block:: bash
+
+   ``Run_Adsorber_Tidy_Finished_Jobs.py``
+
+If you do want to remove all ``INCAR``, ``KPOINTS``, and ``submit.sl`` files in these folders as well,  move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py full`` into the terminal: 
+
+.. code-block:: bash
+
+   ``Run_Adsorber_Tidy_Finished_Jobs.py full``
+
+Note: the ``Run_Adsorber_Tidy_Finished_Jobs.py`` program will not change or remove any files that are in your ``VASP_Files`` folder. 

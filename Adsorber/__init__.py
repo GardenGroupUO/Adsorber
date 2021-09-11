@@ -1,7 +1,7 @@
 # The information about the Adsorber program
 
 __name__    = 'The Adsorber Program'
-__version__ = '1.5'
+__version__ = '1.9'
 __author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
 
 import sys
@@ -110,7 +110,8 @@ __doc__ = 'See https://adsorber.readthedocs.io/en/latest/ for the documentation 
 
 from Adsorber.Adsorber.Adsorber_Program import Adsorber_Program
 from Adsorber.Subsidiary_Programs.Copy_Files_from_Folder_B_to_Folder_C import Copy_Files_from_Folder_B_to_Folder_C
-__all__ = ['Adsorber_Program','Copy_Files_from_Folder_B_to_Folder_C'] 
+from Adsorber.Subsidiary_Programs.Run_Adsorber_prepare_unconverged_VASP_jobs import Run_Adsorber_prepare_unconverged_VASP_jobs
+__all__ = ['Adsorber_Program','Copy_Files_from_Folder_B_to_Folder_C','Run_Adsorber_prepare_unconverged_VASP_jobs']
 
 # ------------------------------------------------------------------------------------------------------------------------
 

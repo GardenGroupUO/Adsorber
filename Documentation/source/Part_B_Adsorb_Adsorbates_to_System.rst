@@ -59,7 +59,8 @@ For example, if you want to see the COOH molecule bound to three-fold site label
 
 .. figure:: Images/Outputs/placement_of_adsorbate.png
    :align: center
-   :figwidth: 50%
+   :figwidth: 100%
+   :width: 600
    :alt: placement_of_adsorbate
 
    This example cluster with a COOH molecule adsorbed to three-fold site labelled 44 (just one of the orientations is shown in this example).

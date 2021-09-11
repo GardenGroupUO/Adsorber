@@ -32,6 +32,7 @@ def import_settings(self,part_to_perform,cluster_or_surface_model,system_filenam
 		import_cutoff_setting(self,cutoff)
 		self.data_storage_file = 'adsorber_data.txt'
 		self.system_folder_name = 'Part_B_All_Systems_with_Adsorbed_Species'
+		check_saving_binding_sites(adsorbed_species)
 	elif self.part_to_perform == 'Part C':
 		# Settings for Part C
 		self.VASP_folder_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP' 
@@ -117,4 +118,27 @@ def import_cutoff_setting(self,cutoff):
 		print('"cutoff" = '+str(cutoff))
 		print('"cutoff" is a '+str(type(cutoff)))
 		print('Check this out. The Adsorber program will finish without completing')
-		exit()		
+		exit()
+
+all_binding_sites = ['Top_Sites','Bridge_Sites','Three_Fold_Sites','Four_Fold_Sites']
+def check_saving_binding_sites(adsorbed_species):
+	for adsorbed_speciee in adsorbed_species:
+		if 'sites_to_bind_adsorbate_to' in adsorbed_speciee:
+			if isinstance(adsorbed_speciee['sites_to_bind_adsorbate_to'],str):
+				adsorbed_speciee['sites_to_bind_adsorbate_to'] = [adsorbed_speciee['sites_to_bind_adsorbate_to']]
+			if not isinstance(adsorbed_speciee['sites_to_bind_adsorbate_to'],list):
+				print('Error importing adsorbed_species into Adsorber for adsorbate: '+str(adsorbed_speciee['name']))
+				print('Your entry for "sites_to_bind_adsorbate_to" must be a list')
+				print('"sites_to_bind_adsorbate_to": '+str(adsorbed_speciee['sites_to_bind_adsorbate_to']))
+				print('Check this out. Adsorber will finishing without beginning.')
+				exit()
+			adsorbed_speciee['sites_to_bind_adsorbate_to'] = list(set(adsorbed_speciee['sites_to_bind_adsorbate_to']))
+			for adsorbed_speciee_binding_site in adsorbed_speciee['sites_to_bind_adsorbate_to']:
+				if not adsorbed_speciee_binding_site in all_binding_sites:
+					print('Error importing adsorbed_species into Adsorber for adsorbate: '+str(adsorbed_speciee['name']))
+					print('Your entry for "sites_to_bind_adsorbate_to" is: '+str(adsorbed_speciee['sites_to_bind_adsorbate_to']))
+					print('The entries can only include: '+str(all_binding_sites))
+					print('Check this out. Adsorber will finishing without beginning.')
+					exit()
+		else:
+			adsorbed_speciee['sites_to_bind_adsorbate_to'] = all_binding_sites
