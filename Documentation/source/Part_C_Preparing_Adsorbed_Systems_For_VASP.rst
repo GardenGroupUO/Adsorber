@@ -134,17 +134,18 @@ If you just want the names of the jobs and not the directories printed, type ``R
 ``Run_Adsorber_prepare_unconverged_VASP_jobs.py``: Prepare VASP jobs for resubmission, either with the same or a new convergence criteria
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If not all your VASP jobs converged, or you want to tighten your convergence criteria (i.e. change your value of ``EDIFFG`` in your ``INCAR`` file so it is closer to 0.0 eV or 0.0 eV/Ang), you can setup your VASP calculations to be resubmitted to VASP from the last geometry optimisation step. To do this, you will need to prepare a new python script in the same place on your computer as your ``Run_Adsorber.py`` called ``prepare_unconverged_VASP_jobs.py``. An example of this ``prepare_unconverged_VASP_jobs.py`` python script is as follows:
+If not all your VASP jobs converged, or you want to tighten your convergence criteria (i.e. change your value of ``EDIFFG`` in your ``INCAR`` file so it is closer to 0.0 eV or 0.0 eV/Ang), you can setup your VASP calculations to be resubmitted to VASP from the last geometry optimisation step. To do this, you first need to prepare a new python script in the same place on your computer as your ``Run_Adsorber.py`` called ``prepare_unconverged_VASP_jobs.py``. An example of this ``prepare_unconverged_VASP_jobs.py`` python script is as follows:
 
 .. code-block:: python
 
    from Adsorber import Run_Adsorber_prepare_unconverged_VASP_jobs
 
-   files_with_VASP_calcs = ['Part_A_Non_Adsorbed_Files_For_VASP','Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP']
-   options = {'max_energy_from_lowest_energy': float('inf')}
-   force_resubmit_all_VASP_jobs_found = False
+   #files_with_VASP_calcs = ['Part_A_Non_Adsorbed_Files_For_VASP','Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP']
+   files_with_VASP_calcs = ['Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/CHO']
 
-   Run_Adsorber_prepare_unconverged_VASP_jobs(files_with_VASP_calcs,path_to_VASP_input_files,options,force_resubmit_all_VASP_jobs_found)
+   options = {'energies_from_lowest_energy': float('inf')}
+
+   Run_Adsorber_prepare_unconverged_VASP_jobs(files_with_VASP_calcs,options)
 
 The settings for this script are:
 
@@ -153,17 +154,15 @@ The settings for this script are:
 
       * ``'max_energy_from_lowest_energy'`` (*float*): This is the maximum energy for VASP jobs that have run within each folder in ``files_with_VASP_calcs`` to have obtained from the lowest energy configuration. To figure out.
 
-   * ``force_resubmit_all_VASP_jobs_found`` (*bool*): If you want all VASP jobs that are found in subdirectories within paths specifies in ``files_with_VASP_calcs`` to be prepared to be rerun with VASP, set this variable to ``True``. Otherwise, set this variable to ``False``. You want to do this if you are tightening your convergence criteria for your calculations. This is the only time you will want to set this to ``True``. **Once you are finished tighening the convergence on your jobs, it is best to set this back to** ``False`` **immediately**. 
-
 You can then run this program by typing the following into the terminal:
 
 .. code-block:: bash
 
    python Run_Adsorber_prepare_unconverged_VASP_jobs.py
 
-For each job that is setup for resubmission, the ``INCAR``, ``KPOINT``, ``OUTCAR``, ``POSCAR``, and ``submit.sl`` files , as well as any output and error files created by slurm during the VASP optimisation, are moved to a folder called ``Submission_Folder``. The ``CHG``, ``CHGCAR``, ``CONTCAR``, ``DOSCAR``, ``EIGENVAL``, ``IBZKPT``, ``OSZICAR``, ``PCDAT``, ``PCDAT``, ``REPORT``, ``vasprun.xml``, ``WAVECAR``, ``XDATCAR`` files are deleted, the last image written in the ``OUTCAR`` is used as the new ``POSCAR``, and the old ``OUTCAR`` is deleted. ``Run_Adsorber_prepare_unconverged_VASP_jobs.py`` **will also prepare any VASP jobs for resubmission that had issues, because the** ``OUTCAR`` **or** ``CONTCAR`` **could not be loaded.** In this case, the POSCAR used will be the original POSCAR. Files from the previous VASP job run will  be stored in a folder called ``Submission_Folder`` with ``Issue`` included in the label. 
+For each job that is setup for resubmission, the ``CONTCAR``, ``INCAR``, ``KPOINT``, ``OUTCAR``, ``POSCAR``, and ``submit.sl`` files , as well as any output and error files created by slurm during the VASP optimisation, are moved to a folder called ``Submission_Folder``. The ``CHG``, ``CHGCAR``, ``DOSCAR``, ``EIGENVAL``, ``IBZKPT``, ``OSZICAR``, ``PCDAT``, ``PCDAT``, ``REPORT``, ``vasprun.xml``, ``WAVECAR``, ``XDATCAR`` files are deleted, the last image written in the ``OUTCAR`` is used as the new ``POSCAR``, and the old ``OUTCAR`` is deleted. ``Run_Adsorber_prepare_unconverged_VASP_jobs.py`` **will also prepare any VASP jobs for resubmission that had issues, because the** ``OUTCAR`` **or** ``CONTCAR`` **could not be loaded.** In this case, the POSCAR used will be the original POSCAR. Files from the previous VASP job run will  be stored in a folder called ``Submission_Folder`` with ``Issue`` included in the label. 
 
-**=> If you want to change the** ``INCAR`` **,** ``KPOINT`` **, or** ``submit.sl`` **files used for these resubmitted VASP jobs**, you need to rerun your ``Run_Adsorber.py`` script again, running it in ``Part C`` mode. To do this:
+**Second, if you want to change the** ``INCAR`` **,** ``KPOINT`` **, or** ``submit.sl`` **files used for these resubmitted VASP jobs**, you need to rerun your ``Run_Adsorber.py`` script again, running it in ``Part C`` mode. To do this:
 
 1. Make the necessary changes to your ``INCAR`` and/or ``KPOINT`` files in your ``VASP_Files`` folder.
 2. Make the necessary changes to your ``submit.sl`` script by making changes to your ``slurm_information`` dictionary in your ``Run_Adsorber.py`` script. 

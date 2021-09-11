@@ -149,8 +149,8 @@ If you open this file in a notepad program (for example in Sublime, see https://
 
 Every ``select ({Indices});`` line that comes before a ``color atoms`` line are the indices of the atoms that you have select for binding adsorbates to. You can copy the ``ADSORBATE_ADSORPTIONSITE_Label_Index.xyz`` files from your ``Part_B_All_Systems_with_Adsorbed_Species\ADSORBATE\ADSORPTIONSITE`` folder to the corresponding ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files\ADSORBATE\ADSORPTIONSITE`` folder by hand. Here, you want to look at the ``Index`` of your ``ADSORBATE_ADSORPTIONSITE_Label_Index.xyz`` and compare these to your entries in the relevant ``select ({Indices});`` lines. 
 
-How to automate the copying of these ``xyz`` files
---------------------------------------------------
+How to automate the copying of these ``xyz`` files: Using ``copy_files_from_folder_B_to_C.py``
+----------------------------------------------------------------------------------------------
 
 This can be laborious, so for this reason I have created another python script called ``copy_files_from_folder_B_to_C.py`` which can copy the relevant files for you. An example of this is shown below: 
 
