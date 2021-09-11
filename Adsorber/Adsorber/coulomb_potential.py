@@ -3,7 +3,7 @@ import numpy as np
 from ase.calculators.calculator import Calculator
 from ase.neighborlist import neighbor_list
 
-from ase.constraints import FixAtoms, FixBondLengths
+#from ase.constraints import FixAtoms, FixBondLengths
 
 def get_unit_vector(vector):
 	unit_vector = vector / np.linalg.norm(vector)

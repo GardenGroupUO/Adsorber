@@ -1,4 +1,3 @@
-from ase import Atom, Atoms
 from ase.io import read
 
 def get_system(system_filename):

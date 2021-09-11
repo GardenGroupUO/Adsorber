@@ -4,11 +4,11 @@ Geoffrey Weal, Run_Adsorber_prepare_unconverged_VASP_jobs.py, 21/08/2021
 This program is designed to prepare unconvverged VASP jobs for resubmission. 
 
 '''
-import os, sys
+import os
 from ase.io import read, write
 from shutil import copyfile
 
-from Adsorber.Subsidiary_Programs.Part_D_Methods import reverse_readline, determine_convergence_of_output
+from Adsorber.Subsidiary_Programs.Part_D_Methods import determine_convergence_of_output
 
 class Run_Adsorber_prepare_unconverged_VASP_jobs:
 

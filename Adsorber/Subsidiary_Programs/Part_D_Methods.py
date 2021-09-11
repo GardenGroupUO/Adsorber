@@ -172,7 +172,8 @@ def determine_convergence_of_output(path_to_output):
     return False
 
 def determine_convergence_and_energy_of_output(path_to_output):
-    convergence = False; energy = None
+    convergence = False
+    energy = None
     for line in reverse_readline(path_to_output+'/OUTCAR'):
         if 'force has converged' in line:
             convergence = True
@@ -193,7 +194,6 @@ def determine_convergence_and_energy_of_output(path_to_output):
                 break
         elif 'FREE ENERGIE OF THE ION-ELECTRON SYSTEM' in line:
             break
-    #import pdb; pdb.set_trace()
     return convergence, energy
 
 # ================================================================================================================================================
@@ -242,7 +242,6 @@ def get_OUTCAR_Atoms_files(path_to_OUTCAR,files_in_submission_folder,no_of_atom_
     centre_translation_matrix = first_system_only.get_center_of_mass()
     first_system_adsorbate.set_positions(first_system_adsorbate.get_positions() - centre_translation_matrix)
     first_system_only.set_positions(first_system_only.get_positions() - centre_translation_matrix)
-    first_system_only_positions = first_system_only.get_positions()
     if os.path.basename(path_to_OUTCAR).startswith(Submission_Folder):
         name = path_to_OUTCAR.split('/')[-2]
     else:
@@ -355,29 +354,28 @@ def compare_adsorbate_positions(graph1, graph2, second_system, indices_compared,
     graph_2_copy = graph2.copy()
     second_system_positions = second_system.get_positions()
     # Change positions in graph due to previous rotation of second_system before this method in Run_Adsorber_Part_D_gather_information.py
-    for index in graph2.nodes:
-        graph2.nodes[index]['positions'] = tuple(second_system_positions[index])
+    for index in graph_2_copy.nodes:
+        graph_2_copy.nodes[index]['positions'] = tuple(second_system_positions[index])
     # update neighbour indices in graph2 if atoms are misalligned to atom indices in the first_system
     if compare_neighbours:
         if not indices_compared == 'Consecutive':
-            for index in graph2.nodes:
+            for index in graph_2_copy.nodes:
                 import pdb; pdb.set_trace()
-                neighbours = tuple(indices_compared[neighbour] for neighbour in graph2.nodes[index]['system_neighbours'])
-                graph2.nodes[index]['system_neighbours'] = neighbours
-        are_graphs_isomorphic = nx.is_isomorphic(graph1, graph2, node_match=node_match_1)
+                neighbours = tuple(indices_compared[neighbour] for neighbour in graph_2_copy.nodes[index]['system_neighbours'])
+                graph_2_copy.nodes[index]['system_neighbours'] = neighbours
+        are_graphs_isomorphic = nx.is_isomorphic(graph1, graph_2_copy, node_match=node_match_1)
     else:
-        are_graphs_isomorphic = nx.is_isomorphic(graph1, graph2, node_match=node_match_2)
+        are_graphs_isomorphic = nx.is_isomorphic(graph1, graph_2_copy, node_match=node_match_2)
     return are_graphs_isomorphic
 
 # ================================================================================================================================================
 
-from numpy import dot
 from scipy.spatial.transform import Rotation
 def rotation_second_system(first_system_adsorbate,second_system_adsorbate,no_of_atoms_in_bare_system_xyz,masses):
     estimated_rotation, rmsd = Rotation.align_vectors(first_system_adsorbate.get_positions()[:no_of_atoms_in_bare_system_xyz],second_system_adsorbate.get_positions()[:no_of_atoms_in_bare_system_xyz],masses[:no_of_atoms_in_bare_system_xyz])
     rotation_matrix = estimated_rotation.as_matrix()
     second_system_adsorbate_copy = second_system_adsorbate.copy()
-    second_system_adsorbate_copy.set_positions(dot(rotation_matrix,second_system_adsorbate_copy.get_positions().T).T)
+    second_system_adsorbate_copy.set_positions(np.dot(rotation_matrix,second_system_adsorbate_copy.get_positions().T).T)
     return second_system_adsorbate_copy
 
 def compare_position_of_adsorbates(first_system,first_graph,second_system,second_graph,len_of_cluster,compare_neighbours=True):

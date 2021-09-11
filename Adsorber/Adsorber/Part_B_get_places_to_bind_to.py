@@ -57,7 +57,6 @@ def get_above_atom_sites(cluster,surface_atoms,distance_of_dummy_adatom_from_sur
 	binding_point_data = []
 	cluster_center_of_mass = cluster.get_center_of_mass()
 	cluster_positions = cluster.get_positions()
-	original_no_of_atoms = len(cluster)
 	for surface_atom_index in surface_atoms:
 		origin_position = get_origin_position(cluster_or_surface_model,cluster_center_of_mass,cluster_positions[surface_atom_index])
 		binding_point_datum = get_above_atom_adsorption_site(surface_atom_index,cluster,cluster_positions,distance_of_dummy_adatom_from_surface,origin_position)

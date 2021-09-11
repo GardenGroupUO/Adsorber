@@ -1,9 +1,6 @@
 import numpy as np
 from math import pi
 
-from ase import Atom
-from ase.visualize import view
-
 from Adsorber.Adsorber.other_methods import get_unit_vector
 
 def get_automatic_rotations(cluster, surface_atoms, centre_of_binding_origin, indices_of_atoms_involved, direction_to_point_molecule_along, cutoff_to_figure_out, adsorbed_molecule, binding_atom_index, binding_sites_name):

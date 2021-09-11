@@ -16,8 +16,8 @@ from Adsorber.Subsidiary_Programs.Part_D_Methods import get_cluster_name_from_Ru
 
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
-from openpyxl.styles import colors
-from openpyxl.styles import Font, Color, Alignment
+#from openpyxl.styles import colors
+#from openpyxl.styles import Font, Color, Alignment
 center_alignment = Alignment(horizontal='center')
 from openpyxl.styles.fills import PatternFill
 
@@ -127,11 +127,9 @@ if not len(OUTCAR_not_found) == 0:
 
 print('==================================================')
 print('Performing structural analysis.')
-from ase.visualize import view
-from time import time
 from datetime import timedelta
 from tqdm import tqdm, trange
-from Adsorber.Subsidiary_Programs.Part_D_Methods import get_OUTCAR_Atoms_files, compare_position_of_adsorbates, make_graph_of_adsorbate, rotation_second_system, convert_seconds_to_human_readable_time
+from Adsorber.Subsidiary_Programs.Part_D_Methods import get_OUTCAR_Atoms_files, compare_position_of_adsorbates, make_graph_of_adsorbate, rotation_second_system
 
 def comprehensive_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz,attach_edges=True,compare_neighbours=True):
 	print('-----------------------------------------------------')
@@ -229,7 +227,7 @@ for sheet_name, data_for_sheet in data.items():
 	for index in trange(len(data_for_sheet),unit="CONTCAR or OUTCAR"):
 		job_id,project_id,project_name,path_to_VASP_folder,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,maximum_memory_used,energy,did_converge,similar_systems,neighbours,notes = data_for_sheet[index]
 		outcar_location_data = get_OUTCAR_Atoms_files(path_to_VASP_folder,files_in_submission_folder,no_of_atoms_in_bare_system_xyz)
-		if outcar_location_data == None:
+		if outcar_location_data is None:
 			continue
 		all_outcar_objects.append(outcar_location_data)
 	# make graphs of plots
@@ -237,7 +235,7 @@ for sheet_name, data_for_sheet in data.items():
 	if no_of_entries <= 500:
 		attach_edges = True; compare_neighbours = True
 		comprehensive_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz,attach_edges=attach_edges,compare_neighbours=compare_neighbours)
-	elif 500 < no_of_entries <= 2000:
+	elif no_of_entries <= 2000:
 		simple_adsorbate_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz)
 	else:
 		no_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz)

@@ -156,14 +156,9 @@ This is the location of these useful ASE tools. You want to put this as a path i
 	export PATH=/Users/geoffreyweal/Library/Python/3.6/bin:$PATH
 	############################################################
 
-Packaging
----------
 
-The ``packaging`` program is also used in this program to check the versions of ASE that you are using for compatibility issues. The easiest way to install ``packaging`` is though pip. Type the following into the terminal:
 
-.. code-block:: bash
 
-	pip3 install --upgrade --user packaging
 
 Networkx
 --------
@@ -173,6 +168,25 @@ Networkx
 .. code-block:: bash
 
 	pip3 install --upgrade --user networkx
+
+Openpyxl
+--------
+
+``Openpyxl`` is a python program that is used in ``Adsorber`` to write excel spreadsheets of information of your clusters and surface models with adsorbates attach once they have been locally optimised with VASP. The easiest way to install ``Openpyxl`` is though pip. Type the following into the terminal:
+
+.. code-block:: bash
+
+	pip3 install --upgrade --user openpyxl
+
+Packaging
+---------
+
+The ``packaging`` program is also used in this program to check the versions of ASE that you are using for compatibility issues. The easiest way to install ``packaging`` is though pip. Type the following into the terminal:
+
+.. code-block:: bash
+
+	pip3 install --upgrade --user packaging
+
 
 .. _Installation_of_Adsorber:
 

@@ -2,7 +2,6 @@ import numpy as np
 
 from ase import Atom
 from ase.io import write
-from ase.visualize import view
 
 from Adsorber.Adsorber.other_methods import make_folder, get_unit_vector, Rodrigues_Rotation_formula
 from Adsorber.Adsorber.Part_B_automated_rotation_methods import get_automatic_rotations, get_distance

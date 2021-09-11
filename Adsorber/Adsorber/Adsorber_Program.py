@@ -1,7 +1,7 @@
 import os, shutil
 import numpy as np
 
-from ase import Atom, Atoms
+from ase import Atom
 from ase.io import write
 
 from Adsorber import __version__
