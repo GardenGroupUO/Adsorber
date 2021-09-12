@@ -114,7 +114,7 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-html_logo = 'Images/icon_image/icon_drawing_github.png'
+html_logo = 'Images/icon_image/icon_drawing_github_white.png'
 #html_theme_path = ["themes"]
 html_theme_options = {
     'canonical_url': '',

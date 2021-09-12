@@ -35,15 +35,18 @@ Welcome to the Adsorber documentation!
    :target: https://lgtm.com/projects/g/GardenGroupUO/Adsorber/context:python
    :alt: LGTM Grade
 
-.. sectionauthor:: Geoffrey Weal <geoffrey.weal@gmail.com>
-.. sectionauthor:: Dr. Anna Garden <anna.garden@otago.ac.nz>
-
-Group page: https://blogs.otago.ac.nz/annagarden/
 
 .. image:: Images/icon_image/icon_drawing_github.png
   :width: 800
   :alt: Adsorber_Logo
   :align: center
+
+
+.. sectionauthor:: Geoffrey Weal <geoffrey.weal@gmail.com>
+.. sectionauthor:: Dr. Anna Garden <anna.garden@otago.ac.nz>
+
+Group page: https://blogs.otago.ac.nz/annagarden/
+
 
 What is Adsorber
 ================
