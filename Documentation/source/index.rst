@@ -40,6 +40,11 @@ Welcome to the Adsorber documentation!
 
 Group page: https://blogs.otago.ac.nz/annagarden/
 
+.. image:: Images/icon_image/icon_drawing_github.png
+  :width: 800
+  :alt: Adsorber_Logo
+  :align: center
+
 What is Adsorber
 ================
 

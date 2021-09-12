@@ -19,7 +19,7 @@ Group page: https://blogs.otago.ac.nz/annagarden/
 
 ## What is Adsorber
 
-Adsorber is designed to adsorb molecules in various way to a cluster or surface. 
+Adsorber is designed to create a number of models that have adsorbates adsorbed to various top, bridge, three-fold, and four-fold site on a cluster or surface model. 
 
 ## Installation
 
@@ -33,7 +33,7 @@ Jmol is also used for looking at your cluster/surface model with adsorbed atoms 
 
 ## Output files that are created by Adsorber
 
-Adsorber will adsorb atoms and molecules on various binding sites across your cluster or surface model. An example of an COOH molecules adsorbed to a vertex site on a Cu<sub>78</sub> cluster is shown below
+Adsorber will adsorb atoms and molecules on various binding sites across your cluster or surface model. These include top, bridge, three-fold, and four-fold sites. An example of an COOH molecules adsorbed to a corner top-site on a Cu<sub>78</sub> cluster is shown below
 
 <p align="center">
 	<img src="https://github.com/GardenGroupUO/Adsorber/blob/main/Documentation/source/Images/COOH_site_1_rotation_0.png">
