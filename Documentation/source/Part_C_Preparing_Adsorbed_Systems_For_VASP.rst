@@ -46,6 +46,42 @@ Once you have run the ``Run_Adsorber.py`` script with ``Step_to_Perform = 'Part 
 
 Running the ``Run_Adsorber_submitSL_slurm.py`` script in the terminal will submit all your VASP jobs. **This script will only submit jobs to slurm that do not have an OUTCAR file.** Any jobs that are currently running or have finished running will not be resubmitted, as they will have created an OUTCAR file. 
 
+If you dont want to run all the jobs in ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` but just a select few, you want to move into that folder and then type ``Run_Adsorber_submitSL_slurm.py`` into the terminal. For example, lets say that I only want to run the jobs that are in the directory ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/COOH_symmetric/Bridge_Sites/Other_5_fold_Sites_Blue``, then we want to move into this directory and then type ``Run_Adsorber_submitSL_slurm.py`` into the terminal:
+
+.. code-block:: bash
+
+   cd Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/COOH_symmetric/Bridge_Sites/Other_5_fold_Sites_Blue
+   Run_Adsorber_submitSL_slurm.py
+
+``Run_Adsorber_submitSL_slurm.py`` is set up to only allow 1000 jobs to be running or in the queue in slurm. You can change this value in the ``Run_Adsorber_submitSL_slurm.py``, however by default slurm usually only allows for 1000 jobs to be running or in the queue at any one time. Before you run ``Run_Adsorber_submitSL_slurm.py`` you can see how many jobs you are submitting to the queue by running typing ``no_of_submitSL_files`` into the terminal in the directory you are in. To use this command, you need to include the alias in your ``~/.bashrc``:
+
+.. code-block:: bash
+
+   alias no_of_submitSL_files='find . -name "submit.sl" -type f -not -path "*Submission_Folder_*" | wc -l'
+
+For example, if I want to find out all the jobs in ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP``, I move into this directory and type ``no_of_submitSL_files`` into the terminal:
+
+.. code-block:: bash
+
+   cd Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP
+   no_of_submitSL_files
+
+If I want to find out all the jobs in ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/COOH_symmetric/Bridge_Sites/Other_5_fold_Sites_Blue``, I move into this directory and type ``no_of_submitSL_files`` into the terminal:
+
+.. code-block:: bash
+
+   cd Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/COOH_symmetric/Bridge_Sites/Other_5_fold_Sites_Blue
+   no_of_submitSL_files
+
+To find out the number of jobs that are running or are waiting in the queue in slurm, you can type ``no_of_jobs_running_or_queued`` into the terminal. To use this command, you need to enter this alias into your ``~/.bashrc``:
+
+.. code-block:: bash
+
+   alias no_of_jobs_running_or_queued='squeue -u $USER | wc -l'
+
+NOTE: You **CAN** enter more than 1000 jobs into the slurm queue with ``Run_Adsorber_submitSL_slurm.py``. If you reach 1000 jobs queued in slurm, ``Run_Adsorber_submitSL_slurm.py`` will patiently wait for current running jobs to complete and add more of your jobs into the slurm queue as current jobs are completed. 
+
+
 What to do if some jobs have not finished/converged
 ---------------------------------------------------
 

@@ -17,7 +17,7 @@ from Adsorber.Subsidiary_Programs.Part_D_Methods import get_cluster_name_from_Ru
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 #from openpyxl.styles import colors
-from openpyxl.styles import Font, Alignment # , Color
+from openpyxl.styles import Alignment # , Color, Font
 center_alignment = Alignment(horizontal='center')
 from openpyxl.styles.fills import PatternFill
 

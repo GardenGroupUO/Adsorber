@@ -20,7 +20,7 @@ OUTCAR_file = 'OUTCAR'
 submission_folder_name = 'Submission_Folder'
 Did_converged = []
 Did_not_converge = []
-for root, dirs, files in os.walk('.'):
+for root, dirs, files in os.walk(os.getcwd()):
 	if submission_folder_name in root:
 		dirs[:] = []
 		files[:] = []

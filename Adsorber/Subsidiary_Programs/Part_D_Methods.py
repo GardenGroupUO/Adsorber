@@ -163,36 +163,30 @@ def determine_convergence_and_time_elapsed_and_date_finished_and_Max_mem_Gb_and_
         time_elapsed = convert_seconds_to_human_readable_time(time_elapsed_seconds)
     return convergence, time_elapsed, date_finished, Max_mem_Gb, energy
 
+force_has_converged = 'force has converged'
+end_message = 'FREE ENERGIE OF THE ION-ELECTRON SYSTEM' 
 def determine_convergence_of_output(path_to_output):
     for line in reverse_readline(path_to_output+'/OUTCAR'):
-        if 'force has converged' in line:
+        if force_has_converged in line:
             return True
-        elif 'FREE ENERGIE OF THE ION-ELECTRON SYSTEM' in line:
+        elif end_message in line:
             break
     return False
 
+got_energy = 'energy(sigma->0)' 
 def determine_convergence_and_energy_of_output(path_to_output):
-    convergence = False
-    energy = None
+    convergence = False; energy = None
     for line in reverse_readline(path_to_output+'/OUTCAR'):
-        if 'force has converged' in line:
+        if force_has_converged in line:
             convergence = True
             if energy is not None:
                 break
-        elif ('energy(sigma->0)' in line):
+        elif got_energy in line:
             line = line.rstrip().split()
+            energy = float(line[-1])
             if convergence:
-                energy = float(line[6])
                 break
-            elif len(line) == 7:
-                energy = float(line[6])
-                break
-            elif len(line) == 8:
-                energy = float(line[7])
-                break
-            else:
-                break
-        elif 'FREE ENERGIE OF THE ION-ELECTRON SYSTEM' in line:
+        elif end_message in line:
             break
     return convergence, energy
 

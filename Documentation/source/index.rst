@@ -11,6 +11,11 @@ Welcome to the Adsorber documentation!
    :alt: Python Version
 
 
+.. image:: https://github.com/GardenGroupUO/Adsorber
+   :target: https://github.com/GardenGroupUO/Adsorber
+   :alt: GitHub release (latest by date)
+
+
 .. image:: https://img.shields.io/github/v/release/GardenGroupUO/Adsorber
    :target: https://github.com/GardenGroupUO/Adsorber
    :alt: GitHub release (latest by date)

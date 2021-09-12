@@ -268,12 +268,25 @@ As well as installing Adsorber, the Atomic Simulation Environment (ASE) GUI and 
 Other Useful things to know before you start
 --------------------------------------------
 
-You may use squeue to figure out what jobs are running in slurm. For monitoring what slurm jobs are running, I have found the following alias useful. Include the following in your ``~/.bashrc``
+You may use squeue to figure out what jobs are running in slurm. For monitoring what slurm jobs are running, I have found the following alias useful. Include the following in your ``~/.bashrc``:
 
 .. code-block:: bash
 	
 	squeue -o "%.20i %.9P %.5Q %.50j %.8u %.8T %.10M %.11l %.6D %.4C %.6b %.20S %.20R %.8q" -u $USER --sort=+i
 
+There are also two aliases that are useful, these are 
+
+* ``no_of_jobs_running_or_queued``: Will indicate the number of jobs that are either running or in the queue in slurm. 
+* ``no_of_submitSL_files``: Will give the number of VASP models in subdirectories that are to be run. These should all contain submit.sl files, which is what this alias is doing. 
+
+These two aliases are given below for you to also add to your ``~/.bashrc``:
+
+.. code-block:: bash
+
+	alias no_of_jobs_running_or_queued='squeue -u $USER | wc -l'
+	alias no_of_submitSL_files='find . -name "submit.sl" -type f -not -path "*Submission_Folder_*" | wc -l'
+
+These two aliases are explained further in :ref:`How_to_submit_files_to_slurm`.
 
 Summary of what you want in the ``~/.bashrc`` for the LatticeFinder program if you manually installed LatticeFinder
 -------------------------------------------------------------------------------------------------------------------
@@ -290,6 +303,9 @@ You want to have the following in your ``~/.bashrc``:
 	export PATH="$PATH_TO_Adsorber"/Adsorber/Subsidiary_Programs:$PATH
 
 	squeue -o "%.20i %.9P %.5Q %.50j %.8u %.8T %.10M %.11l %.6D %.4C %.6b %.20S %.20R %.8q" -u $USER --sort=+i
+
+	alias no_of_jobs_running_or_queued='squeue -u $USER | wc -l'
+	alias no_of_submitSL_files='find . -name "submit.sl" -type f -not -path "*Submission_Folder_*" | wc -l'
 
 	#########################################################
 
