@@ -114,7 +114,7 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-html_logo = 'Images/icon_image/icon_drawing.png'
+html_logo = 'Images/icon_image/icon_drawing_github.png'
 #html_theme_path = ["themes"]
 html_theme_options = {
     'canonical_url': '',
@@ -134,7 +134,7 @@ html_theme_options = {
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = 'Images/icon_image/icon_drawing_mini_v2.png' #'Images/gnome.png'
+html_favicon = 'Images/icon_image/icon_realfavicongenerator_net/favicon.ico' #'Images/gnome.png'
 
 """
 html_theme = "classic"
