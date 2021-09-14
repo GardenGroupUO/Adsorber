@@ -9,7 +9,15 @@ At any point during and after your VASP calculations have been running (during P
 
    Run_Adsorber_Part_D_gather_information.py
 
-This will create an excel file called ``Part_D_Information_on_VASP_Calculations.xlsx`` that contains various information about your VASP calculations, including:
+This will create an excel file called ``Part_D_Information_on_VASP_Calculations.xlsx`` that contains various information about your VASP calculations. All adsorbates will be collected together based on their name before any ``_``. For example, if you tried adsorbing ``COOH`` in two ways, called ``COOH_symmetric`` and ``COOH_O_tilted``, ``Run_Adsorber_Part_D_gather_information.py`` will group the information from these two sets of calculations together because they both start with ``COOH`` before the ``_``, telling ``Run_Adsorber_Part_D_gather_information.py`` they both involve adsorbing ``COOH`` to the surface of your model. 
+
+If you only want to get information for a few different adsorbates, include these adsorbates after typing ``Run_Adsorber_Part_D_gather_information.py`` into the terminal. For example, if we only want to gather information on the adsorbates ``CHO`` and ``COOH``, we do the following:
+
+.. code-block:: bash
+
+   Run_Adsorber_Part_D_gather_information.py CHO COOH
+
+The following information is included in the ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet:
 
 * ``'Job'``: The Job ID of the job assign by slurm. 
 * ``'Project'``: The name of the project.

@@ -5,7 +5,7 @@ Geoffrey Weal, Adsorber_Part_D_create_excel_file.py, 22/08/2021
 Create excel file that contains all the information from your jobs
 
 '''
-import os, string
+import os, sys, string
 
 from ase import Atoms
 from ase.io import read, write
@@ -20,6 +20,11 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment # , Color, Font
 center_alignment = Alignment(horizontal='center')
 from openpyxl.styles.fills import PatternFill
+
+if len(sys.argv) <= 1:
+	get_adsorbates = 'all'
+else:
+	get_adsorbates = sys.argv[1:]
 
 introductory_remarks()
 
@@ -98,14 +103,8 @@ def add_to_data(data, root, folder_name):
 	data.setdefault(sheet_name,[]).append([job_id,project_id,project_name,root,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,Max_mem_Gb,energy,did_converge,None,None,notes])
 	return found_OUTCAR, description
 
-folder_names = ['Part_A_Non_Adsorbed_Files_For_VASP','Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP']
-print('==================================================')
-print('Collecting data about OUTCAR files in: '+str(folder_names))
-data = {}
-OUTCAR_not_found = []
-jobs_not_run = []
-for folder_name in folder_names:
-	for root, dirs, files in os.walk(folder_name):
+def check_subdirectories(data, path, folder_name, get_adsorbates, OUTCAR_not_found, jobs_not_run):
+	for root, dirs, files in os.walk(path):
 		if Submission_Folder in root:
 			files[:] = []
 			dirs[:] = []
@@ -126,6 +125,24 @@ for folder_name in folder_names:
 			files[:] = []
 			dirs[:] = []
 			continue
+
+folder_names = ['Part_A_Non_Adsorbed_Files_For_VASP','Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP']
+print('==================================================')
+print('Collecting data about OUTCAR files in: '+str(folder_names))
+data = {}
+OUTCAR_not_found = []
+jobs_not_run = []
+for folder_name in folder_names:
+	directories = [folder for folder in os.listdir(folder_name) if os.path.isdir(folder_name+'/'+folder)]
+	if not (get_adsorbates == 'all') and (folder_name == 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP'):
+		for index in range(len(directories)-1,-1,-1):
+			folder = directories[index]
+			if not any([folder.startswith(adsorbate_name) for adsorbate_name in get_adsorbates]):
+				del directories[index]
+	for directory in directories:
+		path = folder_name+'/'+directory
+		check_subdirectories(data, path, folder_name, get_adsorbates, OUTCAR_not_found, jobs_not_run)
+
 
 if not len(OUTCAR_not_found) == 0:
 	print('-----------------------------------------------------------------')
