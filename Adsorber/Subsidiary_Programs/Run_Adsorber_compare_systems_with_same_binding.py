@@ -64,15 +64,15 @@ for sheetname in sheetnames:
 		energy = sheet.cell(row=row_index, column=11).value
 		binding_surface_atoms = sheet.cell(row=row_index, column=15).value
 		similar_systems.setdefault(binding_surface_atoms,[]).append((energy,job_name,job_path))
-	for key in sorted(similar_systems.keys()):
+	for key in sorted(similar_systems.keys(),reverse=True):
 		if len(similar_systems[key]) > 1:
-			similar_systems[key].sort()
+			similar_systems[key].sort(reverse=True)
 			key_name = get_key_name(key)
 			saving_path = saving_suffix_path+'/'+sheetname+'/'+key_name
 			print(key_name)
 			make_dir(saving_path)
 			file = open(saving_path+'/similar_systems.txt','w')
-			file.write('name\tenergy (eV)')
+			file.write('name\tenergy (eV)\n')
 			all_outcar_files = []
 			for energy, job_name, job_path in similar_systems[key]:
 				try:
@@ -82,7 +82,7 @@ for sheetname in sheetnames:
 						final_image = read(job_path+'/CONTCAR')
 					except Exception as ef:
 						raise ef
-				write(saving_path+'/'+job_name+'.xyz',final_image)
+				#write(saving_path+'/'+job_name+'.xyz',final_image)
 				all_outcar_files.append(final_image)
-				file.write(job_name+'\t'+str(round(float(energy.replace('=','')),5)))
+				file.write(job_name+'\t'+str(round(float(energy.replace('=','')),5))+'\n')
 			write(saving_path+'/'+key_name+'.traj',all_outcar_files)

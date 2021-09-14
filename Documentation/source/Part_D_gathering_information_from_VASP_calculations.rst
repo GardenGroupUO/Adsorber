@@ -70,3 +70,4 @@ This will create a folder called ``Similar_Systems`` into your ``Part_D_Results_
 ``Run_Adsorber_prepare_unconverged_VASP_jobs.py``: Prepare Jobs for resubmission
 --------------------------------------------------------------------------------
 
+pass
