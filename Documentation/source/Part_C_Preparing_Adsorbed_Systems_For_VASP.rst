@@ -218,12 +218,12 @@ VASP makes lots of files after it has run. These can be annoying to keep if you 
 
 .. code-block:: bash
 
-   ``Run_Adsorber_Tidy_Finished_Jobs.py``
+   Run_Adsorber_Tidy_Finished_Jobs.py
 
 If you do want to remove all ``INCAR``, ``KPOINTS``, and ``submit.sl`` files in these folders as well,  move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py full`` into the terminal: 
 
 .. code-block:: bash
 
-   ``Run_Adsorber_Tidy_Finished_Jobs.py full``
+   Run_Adsorber_Tidy_Finished_Jobs.py full
 
 Note: the ``Run_Adsorber_Tidy_Finished_Jobs.py`` program will not change or remove any files that are in your ``VASP_Files`` folder. 

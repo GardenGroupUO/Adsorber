@@ -304,11 +304,24 @@ def convert_neighbours_to_string(neighbours):
 	a_string = ','.join(a_string)
 	return a_string
 
+def get_key_name(key):
+	key_split = key.replace(' ','_')
+	key_split = key_split.rstrip().split('(,')
+	for index in range(len(key_split)):
+		key_split_part = key_split[index].replace('[','')
+		key_split_part = key_split_part.replace(']','')
+		key_split_part = key_split_part.replace('(','')
+		key_split_part = key_split_part.replace(')','')
+		key_split_part = key_split_part.replace('->','to')
+		key_split[index] = key_split_part.replace(',','+')
+	key_name = '__'.join(key_split)
+	return key_name
+
 workbook = Workbook()
 for sheet_name, data_for_sheet in data.items():
 	print(sheet_name)
 	sheet = workbook.create_sheet(sheet_name)
-	title = ['Job', 'Project', 'Job Name', 'Path', 'Description', 'Time submitted for', 'Date Submitted', 'Date Finished', 'Time Elapsed (hrs)', 'Max. Memory (Gb)', 'Energy (eV)', 'Rel. Energy (eV)', 'Converged', 'Similar to', 'No of surface atoms adsorbed to', 'Notes']
+	title = ['Job', 'Project', 'Job Name', 'Path', 'Description', 'Time submitted for', 'Date Submitted', 'Date Finished', 'Time Elapsed (hrs)', 'Max. Memory (Gb)', 'Energy (eV)', 'Rel. Energy (eV)', 'Converged', 'Similar to', 'No of surface atoms adsorbed to', 'Folder name in "Similar_Systems"', 'Notes']
 	for index in range(len(title)):
 		sheet[get_column_letter(index+1)+'1'] = title[index]
 		sheet[get_column_letter(index+1)+'1'].alignment = center_alignment
@@ -340,7 +353,8 @@ for sheet_name, data_for_sheet in data.items():
 		sheet['M'+str(index+2)].fill = green_colour if did_converge else red_colour
 		sheet['N'+str(index+2)] = convert_similar_systems_to_string(similar_systems)
 		sheet['O'+str(index+2)] = convert_neighbours_to_string(neighbours)
-		sheet['P'+str(index+2)] = notes
+		sheet['P'+str(index+2)] = get_key_name(sheet['O'+str(index+2)].value)
+		sheet['Q'+str(index+2)] = notes
 		for letter in string.ascii_uppercase[:13]:
 			sheet[letter+str(index+2)].alignment = center_alignment
 
@@ -348,8 +362,10 @@ std = workbook.get_sheet_by_name('Sheet')
 workbook.remove_sheet(std)
 
 save_folder_name = 'Part_D_Results_Folder'
-if not os.path.exists(save_folder_name):
-	os.makedirs(save_folder_name)
+def make_dir(save_folder_name):
+	if not os.path.exists(save_folder_name):
+		os.makedirs(save_folder_name)
+make_dir(save_folder_name)
 
 excel_name = "Part_D_Information_on_VASP_Calculations.xlsx"
 print('Saving excel spreadsheet as: '+str(excel_name))
@@ -358,6 +374,55 @@ print('Spreadsheet has been saved.')
 
 # --------------------------------------------------------------------------------------------------------------------------
 
+print('==================================================')
+print('Placing data into making traj files for each site.')
+for sheet_name, data_for_sheet in data.items():
+	print('--------------------------------------------------')
+	print(sheet_name)
+	print('--------------------------------------------------')
+	energies = [(datum[11], index_in_excel, datum[3]) for (datum, index_in_excel) in zip(data_for_sheet, range(2,len(data_for_sheet)+2)) if datum[10] is not None]
+	# Make traj files of systems
+	energies.sort(key=lambda datum: datum[0])
+	if sheet_name == 'Originals':
+		folder_name = folder_names[0]
+	else:
+		folder_name = folder_names[1]
+	path_to_place_traj = save_folder_name+'/VASP_job_trajectories/'+sheet_name
+	make_dir(path_to_place_traj)
+	counter = 1
+	for energy, index_in_excel, path_to_VASP_folder in energies:
+		folders = [folder for folder in os.listdir(path_to_VASP_folder) if (os.path.isdir(path_to_VASP_folder+'/'+folder) and folder.startswith(Submission_Folder) and not ('Issue' in folder))]
+		folders.sort(key=lambda x:int(x.replace(Submission_Folder+'_','')))
+		minimisation_process = []
+		for index in range(len(folders)):
+			folder = folders[index]
+			if index == 0:
+				minimisation_process += read(path_to_VASP_folder+'/'+folder+'/OUTCAR',index=':')
+			else:
+				minimisation_process += read(path_to_VASP_folder+'/'+folder+'/OUTCAR',index='1:')
+		if len(folders) == 0:
+			minimisation_process += read(path_to_VASP_folder+'/OUTCAR',index=':')
+		else:
+			minimisation_process += read(path_to_VASP_folder+'/OUTCAR',index='1:')
+		print(path_to_VASP_folder)
+		if not (0 <= index_in_excel-2 <= len(data_for_sheet)):
+			print('Error')
+			import pdb; pdb.set_trace()
+			exit()
+		job_name = data_for_sheet[index_in_excel-2][2]
+		if sheet_name == 'Originals':
+			path_and_name = path_to_place_traj+'/'+str(job_name)+'_FT.traj'
+		else:
+			path_and_name = path_to_place_traj+'/'+str(counter)+'_'+str(job_name)+'_FT.traj'
+		write(path_and_name, minimisation_process)
+		counter += 1
+
+print('All traj files have been written.')
+print('Done')
+print('==================================================')
+
+
+'''
 print('==================================================')
 print('Placing data into making traj/database files.')
 for sheet_name, data_for_sheet in data.items():
@@ -411,3 +476,4 @@ for sheet_name, data_for_sheet in data.items():
 print('traj/database files have all beed written.')
 print('Done')
 print('==================================================')
+'''
