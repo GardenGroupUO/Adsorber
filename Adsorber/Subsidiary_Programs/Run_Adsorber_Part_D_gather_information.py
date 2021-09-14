@@ -219,7 +219,7 @@ def simple_adsorbate_structural_analysis(data,sheet_name,all_outcar_objects,len_
 				break
 		data[sheet_name][index1][-3] = similar_system_adsorbates.get(first_name,None)
 		# get neighbouring atoms
-		data[sheet_name][index1][-2] = get_neighbours(first_system_adsorbate,len_of_cluster)
+		data[sheet_name][index1][-2] = get_neighbours(first_system_adsorbate,len_of_system)
 
 def no_structural_analysis(data,sheet_name,all_outcar_objects,len_of_system):
 	print('-----------------------------------------------------')
