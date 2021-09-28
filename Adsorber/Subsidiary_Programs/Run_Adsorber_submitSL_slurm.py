@@ -114,6 +114,7 @@ if not wait_between_submissions:
     max_consec_counter = 250
     consec_counter = 0
 submitting_command = "sbatch submit.sl"
+error_counter = 0
 for (dirpath, dirnames, filenames) in os.walk(path):
     dirnames.sort()
     filenames.sort()
