@@ -390,6 +390,13 @@ print('Spreadsheet has been saved.')
 
 # --------------------------------------------------------------------------------------------------------------------------
 
+def get_OUTCAR_file(path_to,index):
+	try:
+		OUTCAR_images = read(path_to,index=index)
+	except:
+		OUTCAR_images = read(path_to+'.gz',index=index)
+	return OUTCAR_images
+
 print('==================================================')
 print('Placing data into making traj files for each site.')
 for sheet_name, data_for_sheet in data.items():
@@ -408,29 +415,20 @@ for sheet_name, data_for_sheet in data.items():
 	counter = 1
 	pbar = tqdm(energies,unit="traj files processed")
 	for energy, index_in_excel, path_to_VASP_folder in pbar:
-		'''
-		import pdb; pdb.set_trace()
-		to_file_short_path = path_to_VASP_folder.split('/')
-		for index in len(to_file_short_path):
-			if sheet_name in to_file_short_path[index]:
-				break
-		to_file_short_path
-		'''
 		pbar.set_description("Processing %s" % str(path_to_VASP_folder.split('/')[-1]))
-		#print(path_to_VASP_folder)
 		folders = [folder for folder in os.listdir(path_to_VASP_folder) if (os.path.isdir(path_to_VASP_folder+'/'+folder) and folder.startswith(Submission_Folder) and not ('Issue' in folder))]
 		folders.sort(key=lambda x:int(x.replace(Submission_Folder+'_','')))
 		minimisation_process = []
 		for index in range(len(folders)):
 			folder = folders[index]
 			if index == 0:
-				minimisation_process += read(path_to_VASP_folder+'/'+folder+'/OUTCAR',index=':')
+				minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/'+folder+'/OUTCAR',index=':')
 			else:
-				minimisation_process += read(path_to_VASP_folder+'/'+folder+'/OUTCAR',index='1:')
+				minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/'+folder+'/OUTCAR',index='1:')
 		if len(folders) == 0:
-			minimisation_process += read(path_to_VASP_folder+'/OUTCAR',index=':')
+			minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/OUTCAR',index=':')
 		else:
-			minimisation_process += read(path_to_VASP_folder+'/OUTCAR',index='1:')
+			minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/OUTCAR',index='1:')
 		if not (0 <= index_in_excel-2 <= len(data_for_sheet)):
 			print('Error')
 			import pdb; pdb.set_trace()
