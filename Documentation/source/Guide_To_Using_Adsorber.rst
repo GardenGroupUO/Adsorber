@@ -33,7 +33,7 @@ In this part, your VASP optimised system will have all adsorbates attached to it
 Part C
 ------
 
-In this part, Adsorber will take the models of adsorbates on various sites on your system and create the files required to locally optimise these models in VASP. The guide to perform this part is given in :ref:`Part_C_Preparing_Adsorbed_Systems_For_VASP`. 
+In this part, Adsorber will take the models of adsorbates on various sites on your system and create the files required to locally optimise these models in VASP. The guide to perform this part is given in :ref:`Part_C1_Preparing_Adsorbed_Systems_For_VASP`. Subsidiary programs have also been designed to resubmit jobs that have not completed or need to be converged tigher or looser. These are designed in :ref:`Part_C2_Subsidiary_Programs`.
 
 Part D
 ------

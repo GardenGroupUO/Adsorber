@@ -283,7 +283,7 @@ These two aliases are given below for you to also add to your ``~/.bashrc``:
 
 .. code-block:: bash
 
-	alias no_of_jobs_running_or_queued='squeue -u $USER | wc -l'
+	alias no_of_jobs_running_or_queued="echo $((squeue -u $USER | wc -l) | awk '{print $1 - 1}')"
 	alias no_of_submitSL_files='find . -name "submit.sl" -type f -not -path "*Submission_Folder_*" | wc -l'
 
 These two aliases are explained further in :ref:`How_to_submit_files_to_slurm`.
@@ -304,7 +304,7 @@ You want to have the following in your ``~/.bashrc``:
 
 	squeue -o "%.20i %.9P %.5Q %.50j %.8u %.8T %.10M %.11l %.6D %.4C %.6b %.20S %.20R %.8q" -u $USER --sort=+i
 
-	alias no_of_jobs_running_or_queued='squeue -u $USER | wc -l'
+	alias no_of_jobs_running_or_queued="echo $((squeue -u $USER | wc -l) | awk '{print $1 - 1}')"
 	alias no_of_submitSL_files='find . -name "submit.sl" -type f -not -path "*Submission_Folder_*" | wc -l'
 
 	#########################################################

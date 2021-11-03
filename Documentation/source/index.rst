@@ -85,7 +85,8 @@ Table of Contents
    Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber
    Part_A_Optimising_System_Initially
    Part_B_Adsorb_Adsorbates_to_System
-   Part_C_Preparing_Adsorbed_Systems_For_VASP
+   Part_C1_Preparing_Adsorbed_Systems_For_VASP
+   Part_C2_Subsidiary_Programs
    Part_D_gathering_information_from_VASP_calculations
    genindex
    py-modindex

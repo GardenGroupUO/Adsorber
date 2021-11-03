@@ -48,7 +48,7 @@ Furthermore, in some cases, some of your VASP jobs will converge the adsorbate t
 The following methods can help you figure out if different VASP jobs have converged to the same place and help resume any jobs that you want to tighten the convergence of
 
 ``Run_Adsorber_compare_systems_with_same_binding.py``: Comparing systems where adsorbate binds to the same surface atoms
-***********************************************************************************************************************
+************************************************************************************************************************
 
 As well as using the ``Similar to`` and ``No of surface atoms adsorbed to`` columns of the ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet, you can also use this program to help figure out which systems converged to the same place. This program will look through your ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet, compare those systems that have the same ``No of surface atoms adsorbed to``, and write files to help you analyse those systems that may be similar. 
 
@@ -68,6 +68,23 @@ This will create a folder called ``Similar_Systems`` into your ``Part_D_Results_
 * ``xyz`` files: These are xyz files of the final states that jobs had reached before finishing. These ``xyz`` files may all look the same, because these jobs may have converged to the same place.
 
 ``Run_Adsorber_prepare_unconverged_VASP_jobs.py``: Prepare Jobs for resubmission
---------------------------------------------------------------------------------
+********************************************************************************
 
-pass
+You may want to rerun some of your jobs, either because they finished with errors, did not converge, or because you want to change the convergence criteria for that job (either by tightening or loosening the convergence criteria). See :ref:`Part_C_Run_Adsorber_prepare_unconverged_VASP_jobs_PY` for information about how to prepare jobs for being resubmitted to slurm. 
+
+``Run_Adsorber_Tidy_Finished_Jobs.py``: Clean up the files for jobs that you are happy with
+*******************************************************************************************
+
+VASP makes lots of files after it has run. These can be annoying to keep if you are transferring files about. The ``Run_Adsorber_Tidy_Finished_Jobs.py`` script will get rid of all the unnecessary files that are created from all subdirectories. The files that are removed are: ``CHG``, ``CHGCAR``, ``CONTCAR``, ``DOSCAR``, ``EIGENVAL``, ``fe.dat``, ``IBZKPT``, ``OSZICAR``, ``PCDAT``, ``POTCAR``, ``REPORT``, ``vasprun.xml``, ``vaspout.eps``, ``WAVECAR``, ``XDATCAR``, and ``vdw_kernel.bindat``. The ``INCAR``, ``KPOINTS``, ``OUTCAR``, ``POSCAR``, and ``submit.sl`` files are not removed, as well as any output and error files that are created by slurm during the VASP optimsation, are **NOT** removed by this script. To perform this script, move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py`` into the terminal:
+
+.. code-block:: bash
+
+   Run_Adsorber_Tidy_Finished_Jobs.py
+
+If you do want to remove all ``INCAR``, ``KPOINTS``, and ``submit.sl`` files in these folders as well,  move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py full`` into the terminal: 
+
+.. code-block:: bash
+
+   Run_Adsorber_Tidy_Finished_Jobs.py full
+
+Note: the ``Run_Adsorber_Tidy_Finished_Jobs.py`` program will not change or remove any files that are in your ``VASP_Files`` folder. 

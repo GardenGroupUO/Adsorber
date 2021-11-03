@@ -134,11 +134,12 @@ OUTCAR_not_found = []
 jobs_not_run = []
 for folder_name in folder_names:
 	directories = [folder for folder in os.listdir(folder_name) if os.path.isdir(folder_name+'/'+folder)]
-	if not (get_adsorbates == 'all') and (folder_name == 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP'):
+	if (not get_adsorbates == 'all') and (folder_name == 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP'):
 		for index in range(len(directories)-1,-1,-1):
 			folder = directories[index]
-			if not any([folder.startswith(adsorbate_name) for adsorbate_name in get_adsorbates]):
+			if not any([(folder.split('_')[0] == adsorbate_name) for adsorbate_name in get_adsorbates]):
 				del directories[index]
+	directories.sort()
 	for directory in directories:
 		path = folder_name+'/'+directory
 		check_subdirectories(data, path, folder_name, get_adsorbates, OUTCAR_not_found, jobs_not_run)
@@ -250,6 +251,29 @@ def no_structural_analysis(data,sheet_name,all_outcar_objects,len_of_system):
 				break
 		data[sheet_name][index1][-2] = get_neighbours(first_system_adsorbate,len_of_system)
 
+def convert_neighbours_to_string(neighbours):
+	if neighbours is None:
+		return '---'
+	details = []
+	for symbol, atoms in neighbours.items():
+		counter = 1
+		for atom in atoms:
+			detail = [atom[1],symbol,counter,atom[0]]
+			details.append(detail)
+	details.sort(key=lambda x:(-len(x[0]),x[1],x[2]))
+	a_string = [str(len(neighs))+' ('+symbol+str(a_no)+' ['+str(index)+'->'+','.join([str(nn) for nn in neighs])+'])' for neighs,symbol,a_no,index in details if len(neighs) > 0]
+	a_string = ','.join(a_string)
+	return a_string
+
+def look_for_similar_systems(data,sheet_name):
+	similar_system_adsorbates = {}
+	for datum in data[sheet_name]:
+		neighbours = convert_neighbours_to_string(datum[-2])
+		similar_system_adsorbates[neighbours] = similar_system_adsorbates.get(neighbours,0) + 1
+	for index in range(len(data[sheet_name])):
+		neighbours = convert_neighbours_to_string(data[sheet_name][index][-2])
+		data[sheet_name][index][-3] = similar_system_adsorbates[neighbours]
+
 for sheet_name, data_for_sheet in data.items():
 	if sheet_name == 'Originals':
 		continue
@@ -264,6 +288,7 @@ for sheet_name, data_for_sheet in data.items():
 		all_outcar_objects.append(outcar_location_data)
 	# make graphs of plots
 	no_of_entries = len(all_outcar_objects)
+	'''
 	if no_of_entries <= 500:
 		attach_edges = True; compare_neighbours = True
 		comprehensive_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz,attach_edges=attach_edges,compare_neighbours=compare_neighbours)
@@ -271,6 +296,9 @@ for sheet_name, data_for_sheet in data.items():
 		simple_adsorbate_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz)
 	else:
 		no_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz)
+	'''
+	no_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz)
+	look_for_similar_systems(data,sheet_name)
 	print('-----------------------------------------------------')
 
 # --------------------------------------------------------------------------------------------------------------------------
@@ -284,25 +312,13 @@ red_colour   = PatternFill("solid", fgColor="00FF6600")
 def convert_similar_systems_to_string(similar_systems):
 	if similar_systems is None:
 		return '---'
+	if isinstance(similar_systems,int):
+		return similar_systems
 	elif isinstance(similar_systems,list):
 		return ', '.join(similar_systems)
 	else:
 		print('check')
 		import pdb; pdb.set_trace()
-
-def convert_neighbours_to_string(neighbours):
-	if neighbours is None:
-		return '---'
-	details = []
-	for symbol, atoms in neighbours.items():
-		counter = 1
-		for atom in atoms:
-			detail = [atom[1],symbol,counter,atom[0]]
-			details.append(detail)
-	details.sort(key=lambda x:(-len(x[0]),x[1],x[2]))
-	a_string = [str(len(neighs))+' ('+symbol+str(a_no)+' ['+str(index)+'->'+','.join([str(nn) for nn in neighs])+'])' for neighs,symbol,a_no,index in details if len(neighs) > 0]
-	a_string = ','.join(a_string)
-	return a_string
 
 def get_key_name(key):
 	key_split = key.replace(' ','_')
@@ -390,7 +406,18 @@ for sheet_name, data_for_sheet in data.items():
 	path_to_place_traj = save_folder_name+'/VASP_job_trajectories/'+sheet_name
 	make_dir(path_to_place_traj)
 	counter = 1
-	for energy, index_in_excel, path_to_VASP_folder in energies:
+	pbar = tqdm(energies,unit="traj files processed")
+	for energy, index_in_excel, path_to_VASP_folder in pbar:
+		'''
+		import pdb; pdb.set_trace()
+		to_file_short_path = path_to_VASP_folder.split('/')
+		for index in len(to_file_short_path):
+			if sheet_name in to_file_short_path[index]:
+				break
+		to_file_short_path
+		'''
+		pbar.set_description("Processing %s" % str(path_to_VASP_folder.split('/')[-1]))
+		#print(path_to_VASP_folder)
 		folders = [folder for folder in os.listdir(path_to_VASP_folder) if (os.path.isdir(path_to_VASP_folder+'/'+folder) and folder.startswith(Submission_Folder) and not ('Issue' in folder))]
 		folders.sort(key=lambda x:int(x.replace(Submission_Folder+'_','')))
 		minimisation_process = []
@@ -404,7 +431,6 @@ for sheet_name, data_for_sheet in data.items():
 			minimisation_process += read(path_to_VASP_folder+'/OUTCAR',index=':')
 		else:
 			minimisation_process += read(path_to_VASP_folder+'/OUTCAR',index='1:')
-		print(path_to_VASP_folder)
 		if not (0 <= index_in_excel-2 <= len(data_for_sheet)):
 			print('Error')
 			import pdb; pdb.set_trace()

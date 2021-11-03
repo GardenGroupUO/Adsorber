@@ -1,7 +1,7 @@
 # The information about the Adsorber program
 
 __name__    = 'The Adsorber Program'
-__version__ = '1.9'
+__version__ = '1.10'
 __author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
 
 import sys
@@ -114,4 +114,3 @@ from Adsorber.Subsidiary_Programs.Run_Adsorber_prepare_unconverged_VASP_jobs imp
 __all__ = ['Adsorber_Program','Copy_Files_from_Folder_B_to_Folder_C','Run_Adsorber_prepare_unconverged_VASP_jobs']
 
 # ------------------------------------------------------------------------------------------------------------------------
-

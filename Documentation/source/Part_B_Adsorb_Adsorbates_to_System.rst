@@ -172,4 +172,4 @@ This program will copy of the relevant ``ADSORBATE_ADSORPTIONSITE_Label_Index.xy
 What To Do Once You Have Placed Selected ``xyz`` Files Into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-Once you have placed the selected adsorbate+system ``xyz`` files into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` of the desired orientations/rotations, you can proceed to Part C (:ref:`Part_C_Preparing_Adsorbed_Systems_For_VASP`). 
+Once you have placed the selected adsorbate+system ``xyz`` files into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` of the desired orientations/rotations, you can proceed to Part C (:ref:`Part_C1_Preparing_Adsorbed_Systems_For_VASP`). 
