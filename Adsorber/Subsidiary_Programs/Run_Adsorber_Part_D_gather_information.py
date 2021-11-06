@@ -12,6 +12,7 @@ from ase.io import read, write
 
 from Adsorber import __version__
 from Adsorber.Subsidiary_Programs.Part_D_Methods import introductory_remarks, get_project_id_and_time_from_slurm, get_start_date_from_OUTCAR, determine_convergence_and_time_elapsed_and_date_finished_and_Max_mem_Gb_and_energy_of_output
+from Adsorber.Subsidiary_Programs.Part_D_Methods import get_job_id, get_EDIFFG_from_OUTCAR
 from Adsorber.Subsidiary_Programs.Part_D_Methods import get_cluster_name_from_Run_AdsorberPY_script
 
 from openpyxl import Workbook
@@ -47,13 +48,6 @@ bare_system_xyz = read(name_of_xyz_file)
 no_of_atoms_in_bare_system_xyz = len(bare_system_xyz)
 
 # --------------------------------------------------------------------------------------------------------------------------
-
-def get_job_id(path_to_OUTCAR):
-	for file in os.listdir(path_to_OUTCAR):
-		if os.path.isfile(path_to_OUTCAR+'/'+file) and file.startswith('slurm-') and file.endswith('.out'):
-			job_id = int(file.replace('slurm-','').replace('.out',''))
-			return job_id
-	return 'None'
 
 Submission_Folder = 'Submission_Folder'
 def add_to_data(data, root, folder_name):
@@ -95,12 +89,14 @@ def add_to_data(data, root, folder_name):
 		job_id = get_job_id(path_to_OUTCAR)
 		date_submitted, start_time_timestamp = get_start_date_from_OUTCAR(path_to_OUTCAR)
 		did_converge, time_elapsed, date_finished, Max_mem_Gb, energy = determine_convergence_and_time_elapsed_and_date_finished_and_Max_mem_Gb_and_energy_of_output(path_to_OUTCAR,start_time_timestamp)
+		EDIFFG = get_EDIFFG_from_OUTCAR(path_to_OUTCAR)
 	else:
 		job_id = 'None'
 		did_converge = 'OUTCAR not found'
 		date_submitted, start_time_timestamp, time_elapsed, date_finished, Max_mem_Gb, energy = None, None, None, None, None, None
+		EDIFFG = '---'
 	notes = ''
-	data.setdefault(sheet_name,[]).append([job_id,project_id,project_name,root,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,Max_mem_Gb,energy,did_converge,None,None,notes])
+	data.setdefault(sheet_name,[]).append([job_id,project_id,project_name,root,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,Max_mem_Gb,EDIFFG,energy,did_converge,None,None,notes])
 	return found_OUTCAR, description
 
 def check_subdirectories(data, path, folder_name, get_adsorbates, OUTCAR_not_found, jobs_not_run):
@@ -281,7 +277,7 @@ for sheet_name, data_for_sheet in data.items():
 	print('Getting system+adsorbate objects by processing CONTCARs/OUTCARs from '+str(sheet_name))
 	all_outcar_objects = []
 	for index in trange(len(data_for_sheet),unit="CONTCAR or OUTCAR"):
-		job_id,project_id,project_name,path_to_VASP_folder,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,maximum_memory_used,energy,did_converge,similar_systems,neighbours,notes = data_for_sheet[index]
+		job_id,project_id,project_name,path_to_VASP_folder,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,maximum_memory_used,EDIFFG,energy,did_converge,similar_systems,neighbours,notes = data_for_sheet[index]
 		outcar_location_data = get_OUTCAR_Atoms_files(path_to_VASP_folder,files_in_submission_folder,no_of_atoms_in_bare_system_xyz)
 		if outcar_location_data is None:
 			continue
@@ -337,15 +333,17 @@ workbook = Workbook()
 for sheet_name, data_for_sheet in data.items():
 	print(sheet_name)
 	sheet = workbook.create_sheet(sheet_name)
-	title = ['Job', 'Project', 'Job Name', 'Path', 'Description', 'Time submitted for', 'Date Submitted', 'Date Finished', 'Time Elapsed (hrs)', 'Max. Memory (Gb)', 'Energy (eV)', 'Rel. Energy (eV)', 'Converged', 'Similar to', 'No of surface atoms adsorbed to', 'Folder name in "Similar_Systems"', 'Notes']
+	title = ['Job', 'Project', 'Job Name', 'Path', 'Description', 'Time submitted for', 'Date Submitted', 'Date Finished', 'Time Elapsed (hrs)', 'Max. Memory (Gb)', 'EDIFFG (eV)', 'Energy (eV)', 'Rel. Energy (eV)', 'Converged', 'Similar to', 'No of surface atoms adsorbed to', 'Folder name in "Similar_Systems"', 'Notes']
 	for index in range(len(title)):
 		sheet[get_column_letter(index+1)+'1'] = title[index]
 		sheet[get_column_letter(index+1)+'1'].alignment = center_alignment
-	data_for_sheet.sort(key=lambda datum: datum[3])
-	energies = [(datum[10], index_in_excel, datum[3]) for (datum, index_in_excel) in zip(data_for_sheet, range(2,len(data_for_sheet)+2)) if datum[10] is not None]
+	#data_for_sheet.sort(key=lambda datum: datum[3])
+	#import pdb; pdb.set_trace()
+	data_for_sheet.sort(key=lambda datum: float('inf') if datum[12] is None else datum[12])
+	#energies = [(datum[12], index_in_excel, datum[3]) for (datum, index_in_excel) in zip(data_for_sheet, range(2,len(data_for_sheet)+2)) if datum[12] is not None]
 	#min_energy, min_energy_index_in_excel, _ = min(energies,key=lambda datum: datum[0])
 	for index in range(len(data_for_sheet)):
-		job_id,project_id,project_name,path_to_VASP_folder,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,maximum_memory_used,energy,did_converge,similar_systems,neighbours,notes = data_for_sheet[index]
+		job_id,project_id,project_name,path_to_VASP_folder,files_in_submission_folder,description,time_submitted_for,date_submitted,time_elapsed,date_finished,maximum_memory_used,EDIFFG,energy,did_converge,similar_systems,neighbours,notes = data_for_sheet[index]
 		sheet['A'+str(index+2)] = job_id
 		sheet['B'+str(index+2)] = project_id
 		sheet['C'+str(index+2)] = project_name
@@ -356,21 +354,22 @@ for sheet_name, data_for_sheet in data.items():
 		sheet['H'+str(index+2)] = date_finished
 		sheet['I'+str(index+2)] = time_elapsed
 		sheet['J'+str(index+2)] = '='+str(maximum_memory_used) if (maximum_memory_used is not None) else None
+		sheet['K'+str(index+2)] = EDIFFG
 		if not energy is None:
 			energy = round(energy,14)
-			sheet['K'+str(index+2)] = '='+str(energy)
+			sheet['L'+str(index+2)] = '='+str(energy)
 			if sheet_name == 'Originals':
-				sheet['L'+str(index+2)] = ''
+				sheet['M'+str(index+2)] = ''
 			else:
-				sheet['L'+str(index+2)] = '=K'+str(index+2)+'-MIN(K:K)'
+				sheet['M'+str(index+2)] = '=L'+str(index+2)+'-MIN(L:L)'
 		else:
-			sheet['K'+str(index+2)] = sheet['L'+str(index+2)] = ''
-		sheet['M'+str(index+2)] ='Yes' if did_converge else 'No'
-		sheet['M'+str(index+2)].fill = green_colour if did_converge else red_colour
-		sheet['N'+str(index+2)] = convert_similar_systems_to_string(similar_systems)
-		sheet['O'+str(index+2)] = convert_neighbours_to_string(neighbours)
-		sheet['P'+str(index+2)] = get_key_name(sheet['O'+str(index+2)].value)
-		sheet['Q'+str(index+2)] = notes
+			sheet['L'+str(index+2)] = sheet['L'+str(index+2)] = ''
+		sheet['N'+str(index+2)] ='Yes' if did_converge else 'No'
+		sheet['N'+str(index+2)].fill = green_colour if did_converge else red_colour
+		sheet['O'+str(index+2)] = convert_similar_systems_to_string(similar_systems)
+		sheet['P'+str(index+2)] = convert_neighbours_to_string(neighbours)
+		sheet['Q'+str(index+2)] = get_key_name(sheet['P'+str(index+2)].value)
+		sheet['R'+str(index+2)] = notes
 		for letter in string.ascii_uppercase[:13]:
 			sheet[letter+str(index+2)].alignment = center_alignment
 
@@ -444,60 +443,3 @@ for sheet_name, data_for_sheet in data.items():
 print('All traj files have been written.')
 print('Done')
 print('==================================================')
-
-
-'''
-print('==================================================')
-print('Placing data into making traj/database files.')
-for sheet_name, data_for_sheet in data.items():
-	print('--------------------------------------------------')
-	print(sheet_name)
-	print('--------------------------------------------------')
-	energies = [(datum[10], index_in_excel, datum[3]) for (datum, index_in_excel) in zip(data_for_sheet, range(2,len(data_for_sheet)+2)) if datum[10] is not None]
-	# Make traj files of systems
-	energies.sort(key=lambda datum: datum[0])
-	if sheet_name == 'Originals':
-		folder_name = folder_names[0]
-	else:
-		folder_name = folder_names[1]
-	initial_traj = []
-	ending_traj  = []
-	for energy, index_in_excel, path_to_VASP_folder in energies:
-		print(path_to_VASP_folder)
-		folders = [folder for folder in os.listdir(path_to_VASP_folder) if (os.path.isdir(path_to_VASP_folder+'/'+folder) and folder.startswith(Submission_Folder))]
-		if len(folders) == 0:
-			#initial_system = read(path_to_VASP_folder+'/OUTCAR',index=0)
-			initial_system = read(path_to_VASP_folder+'/POSCAR')
-		else:
-			if not (Submission_Folder+'_1') in folders:
-				print('Error')
-				exit()
-			else:
-				#initial_system = read(path_to_VASP_folder+'/'+Submission_Folder+'_1/OUTCAR',index=0)
-				initial_system = read(path_to_VASP_folder+'/'+Submission_Folder+'_1/POSCAR')		
-		initial_traj.append(initial_system)
-		try:
-			final_system = read(path_to_VASP_folder+'/OUTCAR')
-		except Exception as expection:
-			final_system = Atoms()
-			final_system.set_cell(initial_system.get_cell())
-		ending_traj.append(final_system)
-		# if outcar does not contain the full optimisation (i.e. needed to restart the calc due to non-convergence), this will compile all images from all outcar files together
-		try:
-			if not len(folders) == 0:
-				full_trajectory = [] 
-				full_trajectory.append(initial_system)
-				folders.sort(key=lambda folder: int(folder.replace(Submission_Folder+'_','')))
-				for folder in folders:
-					full_trajectory += read(path_to_VASP_folder+'/'+folder+'/OUTCAR',index='1:')
-				full_trajectory += read(path_to_VASP_folder+'/OUTCAR',index='1:')
-				write(path_to_VASP_folder+'/full_trajectory.traj', full_trajectory)
-		except Exception as expection:
-			pass
-	write(save_folder_name+'/'+sheet_name+'_initials.traj', initial_traj)
-	write(save_folder_name+'/'+sheet_name+'_ending.traj',   ending_traj)
-	print('--------------------------------------------------')
-print('traj/database files have all beed written.')
-print('Done')
-print('==================================================')
-'''

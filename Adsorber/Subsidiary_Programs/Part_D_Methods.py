@@ -89,6 +89,13 @@ def convert_seconds_to_human_readable_time(time_in_seconds):
     time_str += str(round(seconds,0))+' secs'
     return time_str
 
+def get_job_id(path_to_OUTCAR):
+    for file in os.listdir(path_to_OUTCAR):
+        if os.path.isfile(path_to_OUTCAR+'/'+file) and file.startswith('slurm-') and file.endswith('.out'):
+            job_id = int(file.replace('slurm-','').replace('.out',''))
+            return job_id
+    return 'None'
+
 def get_start_date_from_OUTCAR(root):
     with open(root+'/OUTCAR','r') as OUTCAR:
         for line in OUTCAR:
@@ -106,6 +113,15 @@ def get_finish_time(date_submitted,time_elapsed):
     date_finished = datetime.fromtimestamp(date_finished)
     date_finished = date_finished.strftime('%Y.%m.%d %H:%M:%S')
     return date_finished
+
+def get_EDIFFG_from_OUTCAR(root):
+    with open(root+'/OUTCAR','r') as OUTCAR:
+        for line in OUTCAR:
+            if 'EDIFFG' in line:
+                line = line.rstrip().split()
+                EDIFFG = float(line[2])
+                return EDIFFG
+    return '---'
 
 def get_project_id_and_time_from_slurm(root):
     project_id = None

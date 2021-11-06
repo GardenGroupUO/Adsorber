@@ -21,7 +21,7 @@ if len(sys.argv) > 1:
 	else:
 		write_similarity_traj_files = True
 else:
-	write_similarity_traj_files = True
+	write_similarity_traj_files = False
 
 def make_dir(save_folder_name):
 	if not os.path.exists(save_folder_name):
@@ -74,8 +74,8 @@ for sheetname in sheetnames:
 	for row_index in range(2,sheet.max_row+1):
 		job_name = sheet.cell(row=row_index, column=3).value
 		job_path = sheet.cell(row=row_index, column=4).value
-		energy = float(sheet.cell(row=row_index, column=11).value.replace('=',''))
-		binding_surface_atoms = sheet.cell(row=row_index, column=15).value
+		energy = float(sheet.cell(row=row_index, column=12).value.replace('=',''))
+		binding_surface_atoms = sheet.cell(row=row_index, column=16).value
 		system_information.append([energy,binding_surface_atoms,job_name,job_path])
 	# ------------------------------------------------------------------------------------------------
 	system_information.sort()
