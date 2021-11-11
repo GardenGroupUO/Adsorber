@@ -42,11 +42,20 @@ for root, dirs, files in os.walk(os.getcwd()):
 			Did_not_converge.append(job_details)
 
 print('==============================================')
-print('The following VASP jobs CONVERGED')
-for VASP_job in Did_converged:
-	print(VASP_job)
-print('==============================================')
-print('The following VASP jobs DID NOT CONVERGE')
-for VASP_job in Did_not_converge:
-	print(VASP_job)
+if (len(Did_converged)+len(Did_not_converge)) == 0:
+	if len(Did_converged) == 0:
+		print('The following VASP jobs CONVERGED')
+		for VASP_job in Did_converged:
+			print(VASP_job)
+	else:
+		print('No jobs found had converged')
+	print('==============================================')
+	if len(Did_not_converge) == 0:
+		print('The following VASP jobs DID NOT CONVERGE')
+		for VASP_job in Did_not_converge:
+			print(VASP_job)
+	else:
+		print('All jobs found had converged')
+else:
+	print('No jobs were found in this directory and subdirectories')
 print('==============================================')
