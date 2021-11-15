@@ -144,9 +144,10 @@ for folder_name in folder_names:
 if not len(OUTCAR_not_found) == 0:
 	print('-----------------------------------------------------------------')
 	print('Note: the following do not have an OUTCAR file and therefore may have not been run on VASP+slurm.')
-	print(' This may be because they have just starting running on slurm if these jobs are currently running on slurm')
+	print('This may be because they have just starting running on slurm if these jobs are currently running on slurm')
 	for path in OUTCAR_not_found:
 		print(path)
+	print('(scroll up for start of message)')
 	input_string = input('Press enter to continue, or x then enter to close this program: ')
 	if input_string in ['x']:
 		exit('Closing this program')

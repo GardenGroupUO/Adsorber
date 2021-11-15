@@ -11,11 +11,6 @@ Welcome to the Adsorber documentation!
    :alt: Python Version
 
 
-.. image:: https://github.com/GardenGroupUO/Adsorber
-   :target: https://github.com/GardenGroupUO/Adsorber
-   :alt: GitHub release (latest by date)
-
-
 .. image:: https://img.shields.io/github/v/release/GardenGroupUO/Adsorber
    :target: https://github.com/GardenGroupUO/Adsorber
    :alt: GitHub release (latest by date)
@@ -59,6 +54,8 @@ What is Adsorber
 Adsorber is a program designed to adsorb molecules in various way to the surface of a cluster or a surface. This program adsorbed molecules ontop of atoms, ontop of bridge sites, ontop of three-fold sites, and ontop of four fold sites. 
 
 A guide on how to use the ``Adsorber`` program is given in :ref:`Guide_To_Using_Adsorber`. 
+
+This program is definitely a "work in progress". I have made it as easy to use as possible, but there are always oversights to program development and some parts of it may not be as easy to use as it could be. If you have any issues with the program or you think there would be better/easier ways to use and implement things in ``Adsorber``, feel free to email Geoffrey about these (geoffrey.weal@gmail.com). Feedback is very much welcome!
 
 Installation
 ============

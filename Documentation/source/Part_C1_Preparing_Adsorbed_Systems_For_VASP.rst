@@ -97,6 +97,8 @@ To find out the number of jobs that are running or are waiting in the queue in s
 
    alias no_of_jobs_running_or_queued='squeue -u $USER | wc -l'
 
+Note: This will give you the number of jobs you have in your slurm queue, plus 1. So whatever number you get from ``no_of_jobs_running_or_queued``, minus 1 from it to get the actual number of jobs in your queue. Not suer how to fix this yet. 
+
 NOTE: You **CAN** enter more than 1000 jobs into the slurm queue with ``Run_Adsorber_submitSL_slurm.py``. If you reach 1000 jobs queued in slurm, ``Run_Adsorber_submitSL_slurm.py`` will patiently wait for current running jobs to complete and add more of your jobs into the slurm queue as current jobs are completed. 
 
 

@@ -4,7 +4,7 @@
 Prelude 1: *Run_Adsorber.py* - Running Adsorber
 ###############################################
 
-In this article, we will look at how to run the genetic algorithm. This program is run though the **Run_Adsorber.py** script, which includes all the information on what cluster to globally optimise and the genetic algorithm settings to use. You can find other examples of ``Run_Adsorber.py`` files at `github.com/GardenGroupUO/Organisms <https://github.com/GardenGroupUO/Organisms>`_ under ``Examples\Playground`` and ``Examples\Example_Run_Files``. Also, you can try out this program by running an example script through a Jupyter notebook. See Examples_of_Running_GA to get access to examples of running Organisms through this Jupyter notebook!
+In this article, we will look at how to run the ``Adsorber`` program. This program is run though the **Run_Adsorber.py** script, which includes all the information required for ``Adsorber`` to adsorb species to surface sites of surfaces and clusters. You can find an example of ``Run_Adsorber.py`` files at `github.com/GardenGroupUO/Adsorber <https://github.com/GardenGroupUO/Adsorber>`_ under ``Examples``.
 
 .. contents::
     :depth: 2

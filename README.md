@@ -11,8 +11,6 @@
 [![Licence](https://img.shields.io/github/license/GardenGroupUO/Adsorber)](https://www.gnu.org/licenses/agpl-3.0.en.html)
 [![LGTM Grade](https://img.shields.io/lgtm/grade/python/github/GardenGroupUO/Adsorber)](https://lgtm.com/projects/g/GardenGroupUO/Adsorber/context:python)
 
-CURRENTLY UNDER RECONSTRUCTION: SOME FEATURES MAY NOT CURRENTLY BE WORKING
-
 Authors: Dr. Geoffrey R. Weal and Dr. Anna L. Garden (University of Otago, Dunedin, New Zealand)
 
 Group page: https://blogs.otago.ac.nz/annagarden/
@@ -44,6 +42,10 @@ Adsorber will adsorb atoms and molecules on various binding sites across your cl
 All the information about this program is found online at [adsorber.readthedocs.io/en/latest/](https://adsorber.readthedocs.io/en/latest/). Click the button below to also see the documentation: 
 
 [![Documentation](https://img.shields.io/badge/Docs-click%20here-brightgreen)](https://adsorber.readthedocs.io/en/latest/)
+
+## The ``Adsorber`` Program is a "work in progress"
+
+This program is definitely a "work in progress". I have made it as easy to use as possible, but there are always oversights to program development and some parts of it may not be as easy to use as it could be. If you have any issues with the program or you think there would be better/easier ways to use and implement things in ``Adsorber``, feel free to email Geoffrey about these (geoffrey.weal@gmail.com). Feedback is very much welcome!
 
 ## About
 

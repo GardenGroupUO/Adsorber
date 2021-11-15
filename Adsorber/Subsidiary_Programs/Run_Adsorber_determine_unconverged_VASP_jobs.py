@@ -41,16 +41,19 @@ for root, dirs, files in os.walk(os.getcwd()):
 		else:
 			Did_not_converge.append(job_details)
 
+Did_converged.sort()
+Did_not_converge.sort()
+
 print('==============================================')
-if (len(Did_converged)+len(Did_not_converge)) == 0:
-	if len(Did_converged) == 0:
+if (len(Did_converged)+len(Did_not_converge)) > 0:
+	if len(Did_converged) > 0:
 		print('The following VASP jobs CONVERGED')
 		for VASP_job in Did_converged:
 			print(VASP_job)
 	else:
 		print('No jobs found had converged')
 	print('==============================================')
-	if len(Did_not_converge) == 0:
+	if len(Did_not_converge) > 0:
 		print('The following VASP jobs DID NOT CONVERGE')
 		for VASP_job in Did_not_converge:
 			print(VASP_job)
