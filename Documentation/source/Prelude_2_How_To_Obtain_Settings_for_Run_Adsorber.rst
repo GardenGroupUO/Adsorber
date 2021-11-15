@@ -149,7 +149,7 @@ The youtube clip below shows an example of all the orientations that are created
 
 .. raw:: html
 
-    <div style="position: relative; padding-bottom: 0.0%; overflow: hidden; max-width: 700px; ">
+    <div style="position: relative; overflow: hidden; max-width: 700px; ">
       <iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/fRnPBR23-_c?autoplay=1&loop=1&showinfo=0" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
     </div>
 
