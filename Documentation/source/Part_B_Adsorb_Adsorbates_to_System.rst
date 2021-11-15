@@ -24,14 +24,14 @@ This will create a folder called ``Part_B_All_Systems_with_Adsorbed_Species`` th
 
 Adsorber will created many ``xyz`` files, many of which you may not want to run in VASP. This may be because many of the sites are structural degenerate, or to orientate the adsorbate in certain directions. 
 
-In the next step, we choose which of these ``xyz`` files to further locally optimise in VASP. To do this, VASP also contains another folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` that also contains folders in the format of ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files\ADSORBATE\ADSORPTION_SITE`` but does not contain ``xyz`` files. What you want do is to **choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. 
+In the next step, we choose which of these ``xyz`` files to further locally optimise in VASP. To do this, VASP will also create another folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``. What you want do is to **choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. 
 
 How to Choose Which ``xyz`` Files to Optimise in VASP
 -----------------------------------------------------
 
 We will now discuss how to choose ``xyz`` files for further optimise in VASP. This section requires the use of the ASE GUI and Jmol to view our chemical systems. The installation and use of these visualisation programs is given in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
 
-To help determine which surface sites to adsorb adsorbates to, ``Adsorber`` creates four xyz files that show all the binding sites found in your system. These are:
+To help determine which surface sites to adsorb adsorbates to, ``Adsorber`` will create a folder called ``Part_B_Binding_Site_Locations`` that contains four xyz files that show all the binding sites found in your system. These are:
 
 1. ``SYSTEM_NAME_top_sites.xyz``: This ``xyz`` file contains all the top sites across your system. 
 2. ``SYSTEM_NAME_bridging_sites.xyz``: This ``xyz`` file contains all the bridging sites across your system. 
@@ -65,10 +65,10 @@ For example, if you want to see the COOH molecule bound to three-fold site label
 
    This example cluster with a COOH molecule adsorbed to three-fold site labelled 44 (just one of the orientations is shown in this example).
 
-``Label`` and ``Index``
------------------------
+Selecting binding sites using the ``Label`` command in Jmol
+------------------------------------------------------------
 
-``Label`` and ``Index`` are two degenerate ways of representing the same binding site. Often the type of software that you use to view ``SYSTEM_NAME_top_sites.xyz``, ``SYSTEM_NAME_bridging_sites.xyz``, ``SYSTEM_NAME_three_fold_sites.xyz``, and ``SYSTEM_NAME_four_fold_sites.xyz``. If you use Jmol, you can view the ``Label`` of each binding site. To do this, first open the xyz file in the terminal:  
+You can view the ``Label`` of each binding site in Jmol. This is the number that is assign to each of the binding sites. To do this, first open the xyz file in the terminal:  
 
 .. code-block:: bash
 
@@ -86,17 +86,6 @@ This will open up your cluster/surface model in Jmol. Then in the Jmol menu clic
    :alt: binding_sites_labelled
 
    Top sites (``SYSTEM_NAME_top_sites.xyz``), bridging sites (``SYSTEM_NAME_bridging_sites.xyz``), and three-fold sites (``SYSTEM_NAME_three_fold_sites.xyz``) across this cluster, where each of these sites are represented with hydrogen atoms. Each site is labelled ``HX``, where ``X`` is the ``Label`` for that binding site. 
-
-If you use ASE GUI, you can view the ``Index`` of each binding site. To do this, first open the xyz file in the terminal:  
-
-.. code-block:: bash
-
-  ase gui SYSTEM_NAME_top_sites.xyz
-  ase gui SYSTEM_NAME_bridging_sites.xyz
-  ase gui SYSTEM_NAME_three_fold_sites.xyz
-  ase gui SYSTEM_NAME_four_fold_sites.xyz
-
-This will open up your cluster/surface model in Jmol. Then in the Jmol menu click ``Display > Label > Name``. This will label all the atoms by their element symbol and ``Label``, where the binding site are labelled ``HX``, where ``X`` is the ``Label`` of the hydrogen/binding site in the cluster/surface model. 
 
 Advice on how I Choose ``xyz`` Files for VASP Optimise with ``Adsorber``
 ------------------------------------------------------------------------
