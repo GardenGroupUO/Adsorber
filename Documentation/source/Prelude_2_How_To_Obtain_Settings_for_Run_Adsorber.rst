@@ -153,7 +153,7 @@ The youtube clip below shows an example of all the orientations that are created
       <iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/fRnPBR23-_c?autoplay=1&loop=1&showinfo=0" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
     </div>
 
-   
+.. <div style="position: relative; padding-bottom: 56.25%; overflow: hidden; max-width: 700px; ">
 
 
 How to enter **index**, **axis**, and **rotations** into the ``adsorbed_species`` dictionary in the ``Run_Adsorber.py`` script
