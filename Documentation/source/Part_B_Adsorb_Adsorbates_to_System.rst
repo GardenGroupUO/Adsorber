@@ -3,7 +3,7 @@
 Part B: Adsorbing Adsorbates to your System
 ###########################################
 
-Once you have locally optimsed your system, you can adsorb your adsorbates to your system. To do this, **set the** ``Step_to_Perform`` ** variable in the** ``Run_Adsorber.py`` **script to** ``'Part B'``:
+Once you have locally optimsed your system, you can adsorb your adsorbates to your system. To do this, **set the** ``Step_to_Perform`` **variable in the** ``Run_Adsorber.py`` **script to** ``'Part B'``:
 
 .. code-block:: python
 
