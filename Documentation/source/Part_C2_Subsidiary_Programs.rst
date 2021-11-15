@@ -1,7 +1,7 @@
 .. _Part_C2_Subsidiary_Programs:
 
-Part C: What To Do If Some Jobs Have Not Finished/Converged
-###########################################################
+Part C.2: What To Do If Some Jobs Have Not Finished/Converged
+#############################################################
 
 In many cases, some of your jobs may have not converged, may not have finished due to an error, or you may want to restart your job with a tigher convergence criteria. In these cases you will want to reset your jobs to be resubmitted. There are way to do this (for example, using the ``vfin.pl`` and ``vef.pl`` scripts in the ``VTST`` toolset, https://theory.cm.utexas.edu/vtsttools/). In Adsorber, we have written a few programs and have set up a few protocols to 
 
@@ -130,7 +130,7 @@ If not all your VASP jobs converged, you can setup your VASP calculations to be 
    #main_information = {'path_to_resubmission_list_file': path_to_resubmission_list_file}
 
    # if you would like to prepare jobs even if they have already converged, change this to True
-   force_prepare = True
+   force_prepare = false
    # If you want to also update the VASP files while performing this task
    update_VASP_files = False
 
@@ -141,7 +141,7 @@ If not all your VASP jobs converged, you can setup your VASP calculations to be 
    slurm_information['nodes'] = 1
    slurm_information['ntasks_per_node'] = 12
    slurm_information['mem-per-cpu'] = '1200MB'
-   slurm_information['email'] = 'geoffreywealslurmnotifications@gmail.com'
+   slurm_information['email'] = 'yourslurmnotificationemailaddress@gmail.com'
    slurm_information['vasp_version'] = 'VASP/5.3.5-intel-2017a-VTST-BEEF'
    slurm_information['vasp_execution'] = 'vasp_cd'
 
@@ -159,12 +159,13 @@ There are five variables to specify in this script. These are :
    * For ``prepare_jobs_switch = 'folder'``: 
 
       * ``files_with_VASP_calcs`` (*list*): This is the list of directories that contains the jobs you would like to resume. This program will look through the directories in this list as well as all the subdirectories in this list and will resume all the jobs within these directories and subdirectories. 
-      * ``energies_from_lowest_energy`` (*float*, optional): This variable allows the user to only prepare those jobs that within ``energies_from_lowest_energy`` eV of the lowest energy adsorbate+system. Any adsorbate+systems that are above ``energies_from_lowest_energy`` eV of the lowest energy adsorbate+system will not be prepared for resuming. Default: ``energies_from_lowest_energy = float('inf')``
-      * ``force_prepare`` (*bool.*, optional): This setting will only prepare those jobs that have not converged. If you set this to ``True``, this program will prepare all files in dictories and subdirectories if they are converged and not converged. Default: ``False``. 
+      * ``energies_from_lowest_energy`` (*float*, optional): This variable allows the user to only prepare those jobs that within ``energies_from_lowest_energy`` eV of the lowest energy adsorbate+system. Any adsorbate+systems that are above ``energies_from_lowest_energy`` eV of the lowest energy adsorbate+system will not be prepared for resuming. Default: ``energies_from_lowest_energy = float('inf')`` (Figure this out, maybe remove)
 
    * For ``prepare_jobs_switch = 'text'``:
 
       * ``path_to_resubmission_list_file`` (*str.*): This is the path to the text file that contains all the paths the jobs that you want to resume. You can make this list using the ``Run_Adsorber_determine_unconverged_VASP_jobs.py`` program. See :ref:`Part_C_Run_Adsorber_determine_unconverged_VASP_jobs` for more information. 
+
+* ``force_prepare`` (*bool.*): This setting will only prepare those jobs that have not converged. If you set this to ``True``, this program will prepare all files in dictories and subdirectories if they are converged and not converged. Default: ``False``. 
 
 * ``update_VASP_files`` (*bool.*): If this variable is set to ``True``, the files that are in your ``VASP_files`` folder will be copied into the job that are prepared. This allows you to make changes to the files in your ``VASP_files`` folder that you would like to adopt in the jobs you prepare, such as changing the convergence criteria in the ``INCAR``. If you set this to ``False``, the original VASP files from the Job will be used. Default: ``False``. 
 

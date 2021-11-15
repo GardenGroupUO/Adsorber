@@ -141,7 +141,7 @@ Every ``select ({Indices});`` line that comes before a ``color atoms`` line are 
 How to automate the copying of these ``xyz`` files: Using ``copy_files_from_folder_B_to_C.py``
 ----------------------------------------------------------------------------------------------
 
-This can be laborious, so for this reason I have created another python script called ``copy_files_from_folder_B_to_C.py`` which can copy the relevant files for you. An example of this is shown below: 
+The process of choosing which binding sites to use for adsorbating adsorbates to can be a laborious process. For this reason, I have created another python script called ``copy_files_from_folder_B_to_C.py`` which can copy the relevant files for you. An example of this is shown below: 
 
 .. code-block:: python
 
@@ -156,7 +156,7 @@ This can be laborious, so for this reason I have created another python script c
 
    Copy_Files_from_Folder_B_to_Folder_C(adsorbates, top_sites, bridge_sites, three_fold_sites, four_fold_sites)
 
-This program will copy of the relevant ``ADSORBATE_ADSORPTIONSITE_Label_Index.xyz`` files from your ``Part_B_All_Systems_with_Adsorbed_Species\ADSORBATE\ADSORPTIONSITE`` folders into the ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files\ADSORBATE\ADSORPTIONSITE`` folders. All orientations/rotations of adsorbates are included, therefore you will need to delete those orientations/rotations you do not want to include. 
+This program will copy of the relevant ``ADSORBATE_ADSORPTIONSITE_Label_Index.xyz`` files from your ``Part_B_All_Systems_with_Adsorbed_Species`` folders to your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` folder. All orientations/rotations of adsorbates are included, therefore you will need to delete those orientations/rotations you do not want to include. These will be place in folders based on the names you gave the binding sites in the dictionaries. For example, you will find the folders ``Weird_Sites_Yellow``, ``5_Fold_Vertex_Site_Red``, ``Weird_Corners_Blue``, ``Ico_Sites_Green`` in your ``Top_Sites`` folder in ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``. 
 
 What To Do Once You Have Placed Selected ``xyz`` Files Into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``
 ----------------------------------------------------------------------------------------------------------------------------------------

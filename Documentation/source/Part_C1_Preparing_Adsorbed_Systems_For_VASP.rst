@@ -1,7 +1,7 @@
 .. _Part_C1_Preparing_Adsorbed_Systems_For_VASP:
 
-Part C: Preparing Selected Adsorbed Systems For VASP Optimisation
-#################################################################
+Part C.1: Preparing Selected Adsorbed Systems For VASP Optimisation
+###################################################################
 
 After you have selected the binding sites to adsorb adsorbates onto and have placed their associated ``xyz`` files into ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` (with the desired orientations/rotations), we can proceed to preparing the VASP files for these systems with adsorbates. To do this, **set the** ``Step_to_Perform`` **variable in the** ``Run_Adsorber.py`` **script to** ``'Part C'``:
 
@@ -44,7 +44,7 @@ If you realise you have entered in wrong settings in the ``INCAR`` or ``submit.s
 I want to add more new places that adsorbates can bind to on the surface of the cluster/surface model in Part B, what do I do here?
 ===================================================================================================================================
 
-Run your ``Run_Adsorber.py`` script again. This will create new folders and VASP files of these new arrangements of adsorbates on the surface of your cluster/surface model in your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` folder. Your other VASP jobs will be unaffected (as long as your have not changed any of your VASP input files in the ``VASP_Files`` folder, such as the ``INCAR``, ``KPOINTS``, and ``POTAR`` files). Your original ``POSCAR`` will not be changed (unless you have set ``part_c_force_create_original_POSCAR = True``. We recommend you not to do this here). 
+Run your ``Run_Adsorber.py`` script once you have included all the new binding sites to your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` folder. Running your your ``Run_Adsorber.py`` script again will add new folders and VASP files of these new arrangements of adsorbates on the surface of your cluster/surface model in your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` folder. Your other VASP jobs will be unaffected (as long as your have not changed any of your VASP input files in the ``VASP_Files`` folder, such as the ``INCAR``, ``KPOINTS``, and ``POTCAR`` files). Your original ``POSCAR`` will not be changed (unless you have set ``part_c_force_create_original_POSCAR = True``. We recommend you not to do this here). 
 
 
 .. _How_to_submit_files_to_slurm:
