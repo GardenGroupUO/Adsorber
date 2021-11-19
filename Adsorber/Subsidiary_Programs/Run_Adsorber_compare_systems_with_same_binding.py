@@ -76,11 +76,8 @@ for sheetname in sheetnames:
 		job_path = sheet.cell(row=row_index, column=4).value
 		energy = float(sheet.cell(row=row_index, column=12).value.replace('=',''))
 		binding_surface_atoms = sheet.cell(row=row_index, column=16).value
-		system_information.append([energy,binding_surface_atoms,job_name,job_path])
-	# ------------------------------------------------------------------------------------------------
+		system_information.append([energy,binding_surface_atoms,job_name,job_path,row_index])
 	system_information.sort()
-	for index in range(len(system_information)):
-		system_information[index].append(index+2)
 	# ------------------------------------------------------------------------------------------------
 	similar_systems = {}
 	for energy, binding_surface_atoms, job_name, job_path, row_index in system_information:
@@ -118,8 +115,9 @@ for sheetname in sheetnames:
 				#print(key_name)
 				make_dir(saving_path)
 				file = open(saving_path+'/similar_systems.txt','w')
-				file.write('name\tenergy (eV)\n')
+				file.write('no.\tname\tenergy (eV)\trow in excel spreadsheet\n')
 				all_outcar_files = []
+				counter = 1
 				for energy, row_index, job_name, job_path in similar_systems[key]:
 					if os.path.exists(job_path+'/OUTCAR'):
 						final_image = read(job_path+'/OUTCAR')
@@ -139,7 +137,8 @@ for sheetname in sheetnames:
 							error_message(job_path)
 					#write(saving_path+'/'+job_name+'.xyz',final_image)
 					all_outcar_files.append(final_image)
-					file.write(job_name+'\t'+str(round(float(energy),5))+'\n')
+					file.write(str(counter)+'\t'+job_name+'\t'+str(round(float(energy),5))+'\t'+str(row_index)+'\n')
+					counter += 1
 				write(saving_path+'/'+key_name+'.traj',all_outcar_files)
 	# ------------------------------------------------------------------------------------------------
 

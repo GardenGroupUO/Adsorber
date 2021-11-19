@@ -100,21 +100,23 @@ def add_to_data(data, root, folder_name):
 	return found_OUTCAR, description
 
 def check_subdirectories(data, path, folder_name, get_adsorbates, OUTCAR_not_found, jobs_not_run):
+	submitSL_file = 'submit.sl'
+	INCAR_file = 'INCAR'
+	submission_folder_name = 'Submission_Folder'
+	OUTCAR_file = 'OUTCAR'
 	for root, dirs, files in os.walk(path):
-		if Submission_Folder in root:
-			files[:] = []
+		if submission_folder_name in root:
 			dirs[:] = []
+			files[:] = []
 			continue
-		dirs.sort()
-		found_slurm_file = False
-		for file in files:
-			if file == 'submit.sl':
-				found_slurm_file = True
-				break
-		if found_slurm_file:
+		for index in range(len(dirs)-1,-1,-1):
+			dirname = dirs[index]
+			if dirname.startswith(submission_folder_name):
+				del dirs[index]
+		if (submitSL_file in files) and (INCAR_file in files):
 			found_OUTCAR, description = add_to_data(data, root, folder_name)
-			if not found_OUTCAR:
-				if folder_name == 'Part_A_Non_Adsorbed_Files_For_VASP' and not 'system' in root:
+			if not (OUTCAR_file in files):
+				if (folder_name == 'Part_A_Non_Adsorbed_Files_For_VASP') and not ('system' in root):
 					pass
 				else:
 					OUTCAR_not_found.append(description)

@@ -11,19 +11,12 @@ def prepare_unconverged_VASP_jobs_from_textfile(path_to_resubmission_list_file, 
 	vasp_jobs_to_resubmit = []
 	with open(path_to_resubmission_list_file,'r') as FILE:
 		for line in FILE:
+			if (not line.strip()) or (line.startswith('#')):
+				continue
 			path = line.rstrip().split()[0]
 			if not os.path.exists(path):
+				print('Error: The following does not exist: '+str(path))
 				continue
-			if submission_folder_name in root:
-				dirs[:] = []
-				files[:] = []
-				continue
-			for index in range(len(dirs)-1,-1,-1):
-				dirname = dirs[index]
-				if dirname.startswith(submission_folder_name):
-					del dirs[index]
-			#if OUTCAR_file in files:
-			#	paths_to_VASP_job_to_prepare.append(root)
 			vasp_jobs_to_resubmit.append(path)
 
 	vasp_jobs_to_resubmit.sort()

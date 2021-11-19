@@ -22,10 +22,14 @@ def make_VASP_folders(system,adsorbed_species,look_through_folder='Selected_Syst
 				break
 		for file in files:
 			if file.endswith('.xyz'):
-				system = read(root+'/'+file)
-				#system, original_positions_of_atoms = system_with_atoms_rearranged_alphabetically(system)
 				file_name = file.replace('.xyz','')
 				folder_to_save_to = folder_name+root.replace(look_through_folder,'')+'/'+file_name
+				# only copy over jobs that have not begun, you dont want to change anyting that is currently running. 
+				if os.path.exists(folder_to_save_to+'/OUTCAR'):
+					continue
+				# begin to make the necessary files
+				system = read(root+'/'+file)
+				#system, original_positions_of_atoms = system_with_atoms_rearranged_alphabetically(system)
 				if not os.path.exists(folder_to_save_to):
 					os.makedirs(folder_to_save_to)
 				if not os.path.exists(folder_to_save_to+'/POSCAR') or part_c_force_create_original_POSCAR:
