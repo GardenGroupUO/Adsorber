@@ -1,4 +1,5 @@
 import os, errno
+from copy import deepcopy
 from shutil import copyfile
 
 from ase import Atoms
@@ -19,7 +20,7 @@ def Copy_Files_from_Folder_B_to_Folder_C(adsorbates, top_sites, bridge_sites, th
 				all_top_sites += list(range(lower_limit, upper_limit+1, 1))
 		return all_top_sites 
 
-	binding_sites = [top_sites, bridge_sites, three_fold_sites, four_fold_sites]
+	binding_sites = [deepcopy(top_sites), deepcopy(bridge_sites), deepcopy(three_fold_sites), deepcopy(four_fold_sites)]
 	for index in range(len(binding_sites)):
 		sites = binding_sites[index]
 		if isinstance(sites,str):

@@ -66,7 +66,7 @@ def adsorb_single_species_to_cluster(cluster, surface_atoms, binding_site_datum,
 		#-----------------------------------------------------------------------------
 		#######################################################################################################################
 		if 'rotations' in an_adsorbed_species:
-			if an_adsorbed_species['rotations'].startswith('automatic'):
+			if isinstance(an_adsorbed_species['rotations'],str) and an_adsorbed_species['rotations'].startswith('automatic'):
 				rotations = get_automatic_rotations(cluster, surface_atoms, centre_of_binding_origin, indices_of_atoms_involved, direction_to_point_molecule_along, cutoff, adsorbed_molecule, binding_atom_index, binding_sites_name)
 				if an_adsorbed_species['rotations'].startswith('automatic with misalignment of ') and an_adsorbed_species['rotations'].startswith(' degrees'):
 					rotation_misalignment = float(an_adsorbed_species['rotations'].replace('automatic with misalignment of ','').replace(' degrees',''))
