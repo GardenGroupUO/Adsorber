@@ -248,7 +248,10 @@ def no_structural_analysis(data,sheet_name,all_outcar_objects,len_of_system):
 			counter += 1
 			if data[sheet_name][counter][2] == first_name:
 				break
-		data[sheet_name][index1][-2] = get_neighbours(first_system_adsorbate,len_of_system)
+		neighbours = get_neighbours(first_system_adsorbate,len_of_system)
+		if len(neighbours) == 0:
+			print('Warning: The adsorbate may not be attached to the surface of your system in '+str(first_name)+' ('+str(first_path)+').')
+		data[sheet_name][index1][-2] = neighbours
 
 def convert_neighbours_to_string(neighbours):
 	if neighbours is None:

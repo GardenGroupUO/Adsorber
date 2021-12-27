@@ -14,6 +14,7 @@ def prepare_unconverged_VASP_jobs_from_textfile(path_to_resubmission_list_file, 
 			if (not line.strip()) or (line.startswith('#')):
 				continue
 			path = line.rstrip().split()[0]
+			#import pdb; pdb.set_trace()
 			if not os.path.exists(path):
 				print('Error: The following does not exist: '+str(path))
 				continue

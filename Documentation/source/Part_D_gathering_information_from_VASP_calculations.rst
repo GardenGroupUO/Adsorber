@@ -59,7 +59,12 @@ To use this program, you want to first move into the same directory as your ``Ru
 .. code-block:: bash
 
    cd into_the_same_directory_as_your_Run_Adsorber_script
-   Run_Adsorber_compare_systems_with_same_binding.py
+   Run_Adsorber_compare_systems_with_same_binding.py write_similarity_traj_files upper_energy_limit
+
+You can have the following optional inputs:
+
+* ``write_similarity_traj_files`` (*bool*): If true, this program will write all the systems that were identical/similar to the same ``.traj`` file. This is to allow the user to check that all these systems are infact the same or similar enough to be regarded the same ('Default: ``false``'). 
+* ``upper_energy_limit`` (*float*): By default, all of the lowest energy version of identical final state systems is written to this system. If you only want to write those that are X.XX eV above the minimum energy system, set this value to X.XX eV. For example, if you only want to record those systems that are 0.5 eV above the minimum energy system, set this value to 0.5. (Default: record all lowenergy energy versions of identical states).
 
 This will create a folder called ``Similar_Systems`` into your ``Part_D_Results_Folder`` directory. This folder will contain subdirectories that are name in the same way as in your ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet (for example, ``1 (C1 [79->25]),1 (O1 [80->66])``. However this will be relabelled so that spaces are changed to ``_``, ``[``, ``]``, ``(``, and ``)`` removed, ``,`` to ``+`` and ``->`` to ``to``, e.g. ``1 (C1 [79->25]),1 (O1 [80->66])`` goes to ``1_C1_79to25__1_O1_80to66``). These alternative names are also give in the ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet, in the cell to the right of this cell. In these folders will contain:
 

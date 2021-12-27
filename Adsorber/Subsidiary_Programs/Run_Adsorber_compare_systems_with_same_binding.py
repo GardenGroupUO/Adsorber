@@ -15,13 +15,34 @@ from openpyxl.utils import get_column_letter
 
 from tqdm import tqdm
 
-if len(sys.argv) > 1:
-	if sys.argv[1].lower() in ['false','f']:
-		write_similarity_traj_files = False
+# -----------------------------------------------
+
+def set_write_similarity_traj_files(input_value):
+	true_values = ['true','t']
+	false_values = ['false','f']
+	if input_value.lower() in true_values+false_values:
+		if input_value.lower() in false_values:
+			write_similarity_traj_files = False
+		else:
+			write_similarity_traj_files = True
 	else:
-		write_similarity_traj_files = True
-else:
-	write_similarity_traj_files = False
+		write_similarity_traj_files = False
+
+def set_upper_energy_limit(input_value):
+	if isinstance(input_value,int):
+		upper_energy_limit = input_value
+	else:
+		upper_energy_limit = float('inf')
+		print('Upper Energy value not set (default).')
+
+if len(sys.argv) == 2:
+	set_write_similarity_traj_files(sys.argv[1])
+	set_upper_energy_limit(sys.argv[1])
+else if len(sys.argv) >= 3:
+	set_write_similarity_traj_files(sys.argv[1])
+	set_upper_energy_limit(sys.argv[2])
+
+# -----------------------------------------------
 
 def make_dir(save_folder_name):
 	if not os.path.exists(save_folder_name):
@@ -95,7 +116,10 @@ for sheetname in sheetnames:
 	lowest_lowest_energy = energy_of_each_similar_type[0][0]
 	with open(Part_D_Results_Folder_name+'/'+similar_systems_name+'_'+sheetname+'.txt','w') as all_sim_systems_file_representative:
 		for lowest_energy, row_index, key, no_of_sims, path in energy_of_each_similar_type:
-			if lowest_energy < (lowest_lowest_energy+0.4):
+			if lowest_energy < (lowest_lowest_energy+upper_energy_limit):
+				if key == None:
+					print('Error: '+str(path)+' may not have the adsorbate binding to the surface of your system. To check. Will ignore this.')
+					continue
 				to_string = str(row_index)+': '+str(get_key_name(key))+'\t['+str(no_of_sims)+']\t'+str(round(lowest_energy-lowest_lowest_energy,3))+' eV ('+str(round(lowest_energy,3))+' eV)'
 				print(to_string)
 				all_sim_systems_file_representative.write(str(path)+' \t'+to_string+'\n')

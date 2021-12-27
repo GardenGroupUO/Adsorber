@@ -34,14 +34,12 @@ for root, dirs, files in os.walk(os.getcwd()):
 			del dirs[index]
 	if (submitSL_file in files) and (INCAR_file in files):
 		jobname = os.path.basename(os.path.normpath(root))
-		job_details = jobname
+		path_to_output = root
+		job_details = [jobname,path_to_output]
 		if not (OUTCAR_file in files):
-			files_have_not_begun.append(job_details)
+			files_have_not_begun.append(job_details[0])
 			continue
-		path_to_output = root #+'/'+OUTCAR_file
 		converged = determine_convergence_of_output(path_to_output)
-		if write_job_directory:
-			job_details += ' ('+path_to_output+')'
 		if converged:
 			Did_converged.append(job_details)
 		else:
@@ -56,16 +54,22 @@ if (len(Did_converged)+len(Did_not_converge)+len(files_have_not_begun)) > 0:
 	print('==============================================')
 	if len(Did_converged) > 0:
 		print('The following VASP jobs CONVERGED')
-		for VASP_job in Did_converged:
-			print(VASP_job)
+		for name, path in Did_converged:
+			if write_job_directory:
+				print(name+' ('+path+')')
+			else:
+				print(name)
 		print('No of completed jobs: '+str(len(Did_converged)))
 	else:
 		print('No jobs found had converged')
 	print('==============================================')
 	if len(Did_not_converge) > 0:
 		print('The following VASP jobs DID NOT CONVERGE')
-		for VASP_job in Did_not_converge:
-			print(VASP_job)
+		for name, path in Did_not_converge:
+			if write_job_directory:
+				print(name+' ('+path+')')
+			else:
+				print(name)
 		print('No of uncompleted jobs: '+str(len(Did_not_converge)))
 	else:
 		print('All jobs found had converged')
@@ -73,9 +77,19 @@ if (len(Did_converged)+len(Did_not_converge)+len(files_have_not_begun)) > 0:
 	if len(files_have_not_begun) > 0:
 		print('The following VASP jobs HAVE NOT STARTED')
 		for VASP_job in files_have_not_begun:
-			print(VASP_job)
+			if write_job_directory:
+				print(name+' ('+path+')')
+			else:
+				print(name)
 		print('No of jobs that had not started: '+str(len(files_have_not_begun)))
 		print('==============================================')
 else:
 	print('No jobs were found in this directory and subdirectories')
 print('==============================================')
+
+def write_to_TXTfile(did_not_converge):
+	#import pdb; pdb.set_trace()
+	with open('unconverged_systems.txt','w') as unconverged_systemsTXT:
+		for name, path in did_not_converge:
+			unconverged_systemsTXT.write(str(path)+'\t'+str(name)+'\n')
+write_to_TXTfile(Did_not_converge)
