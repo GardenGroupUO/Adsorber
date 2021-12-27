@@ -38,7 +38,7 @@ def set_upper_energy_limit(input_value):
 if len(sys.argv) == 2:
 	set_write_similarity_traj_files(sys.argv[1])
 	set_upper_energy_limit(sys.argv[1])
-else if len(sys.argv) >= 3:
+elif len(sys.argv) >= 3:
 	set_write_similarity_traj_files(sys.argv[1])
 	set_upper_energy_limit(sys.argv[2])
 
