@@ -7,7 +7,7 @@ This program is designed to allow you to look at different VASP jobs with adsorb
 This program is designed to allow you to see if they have converged to the same place. 
 
 '''
-import os, sys
+import os, sys, re
 from ase.io import read, write
 
 from openpyxl import load_workbook
@@ -16,7 +16,6 @@ from openpyxl.utils import get_column_letter
 from tqdm import tqdm
 
 # -----------------------------------------------
-
 def set_write_similarity_traj_files(input_value):
 	true_values = ['true','t']
 	false_values = ['false','f']
@@ -27,21 +26,32 @@ def set_write_similarity_traj_files(input_value):
 			write_similarity_traj_files = True
 	else:
 		write_similarity_traj_files = False
+	return write_similarity_traj_files
+
+def is_float(element):
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
 
 def set_upper_energy_limit(input_value):
-	if isinstance(input_value,int):
-		upper_energy_limit = input_value
+	if input_value.isdigit() or is_float(input_value):
+		upper_energy_limit = float(input_value)
 	else:
 		upper_energy_limit = float('inf')
 		print('Upper Energy value not set (default).')
+	return upper_energy_limit
 
-if len(sys.argv) == 2:
-	set_write_similarity_traj_files(sys.argv[1])
-	set_upper_energy_limit(sys.argv[1])
+if len(sys.argv) == 1:
+	write_similarity_traj_files = set_write_similarity_traj_files(None)
+	upper_energy_limit = set_upper_energy_limit(None)
+elif len(sys.argv) == 2:
+	write_similarity_traj_files = set_write_similarity_traj_files(sys.argv[1])
+	upper_energy_limit = set_upper_energy_limit(sys.argv[1])
 elif len(sys.argv) >= 3:
-	set_write_similarity_traj_files(sys.argv[1])
-	set_upper_energy_limit(sys.argv[2])
-
+	write_similarity_traj_files = set_write_similarity_traj_files(sys.argv[1])
+	upper_energy_limit = set_upper_energy_limit(sys.argv[2])
 # -----------------------------------------------
 
 def make_dir(save_folder_name):
@@ -116,7 +126,7 @@ for sheetname in sheetnames:
 	lowest_lowest_energy = energy_of_each_similar_type[0][0]
 	with open(Part_D_Results_Folder_name+'/'+similar_systems_name+'_'+sheetname+'.txt','w') as all_sim_systems_file_representative:
 		for lowest_energy, row_index, key, no_of_sims, path in energy_of_each_similar_type:
-			if lowest_energy < (lowest_lowest_energy+upper_energy_limit):
+			if lowest_energy <= (lowest_lowest_energy+upper_energy_limit):
 				if key == None:
 					print('Error: '+str(path)+' may not have the adsorbate binding to the surface of your system. To check. Will ignore this.')
 					continue

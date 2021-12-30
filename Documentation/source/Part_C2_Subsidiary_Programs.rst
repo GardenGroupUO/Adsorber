@@ -123,7 +123,8 @@ If not all your VASP jobs converged, you can setup your VASP calculations to be 
    options = {'energies_from_lowest_energy': float('inf')}
 
    # If you want to resubmit certain adsorbate+systems given in a text file. 
-   path_to_resubmission_list_file = 'Part_D_Results_Folder/Similar_Systems_CHO.txt'
+   path_to_resubmission_list_file = 'Part_D_Results_Folder/Similar_Systems_CHO.txt' # example of path_to_resubmission_list_file as a string for a single file
+   # path_to_resubmission_list_file = ['Part_D_Results_Folder/Similar_Systems_CHO.txt', 'Part_D_Results_Folder/Similar_Systems_COOH.txt', 'Part_D_Results_Folder/Similar_Systems_CO.txt'] # example of path_to_resubmission_list_file as a list of files.
 
    # Information required to prepare jobs with selected switch
    main_information = {'files_with_VASP_calcs': files_with_VASP_calcs, 'options': options}
@@ -163,7 +164,7 @@ There are five variables to specify in this script. These are :
 
    * For ``prepare_jobs_switch = 'text'``:
 
-      * ``path_to_resubmission_list_file`` (*str.*): This is the path to the text file that contains all the paths the jobs that you want to resume. You can make this list using the ``Run_Adsorber_determine_unconverged_VASP_jobs.py`` program. See :ref:`Part_C_Run_Adsorber_determine_unconverged_VASP_jobs` for more information. 
+      * ``path_to_resubmission_list_file`` (*str./list/tuple*): This is the path to the text file(s) that contains all the paths the jobs that you want to resume. This can be given as a string to point to a single text file, or as a list that points to many text files. See the above code for an example of ``path_to_resubmission_list_file'' as a list``. NOTE: You can make this list using the ``Run_Adsorber_determine_unconverged_VASP_jobs.py`` program; see :ref:`Part_C_Run_Adsorber_determine_unconverged_VASP_jobs` for more information. 
 
 * ``force_prepare`` (*bool.*): This setting will only prepare those jobs that have not converged. If you set this to ``True``, this program will prepare all files in dictories and subdirectories if they are converged and not converged. Default: ``False``. 
 

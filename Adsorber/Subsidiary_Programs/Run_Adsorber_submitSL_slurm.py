@@ -119,7 +119,7 @@ for (dirpath, dirnames, filenames) in os.walk(path):
     dirnames.sort()
     filenames.sort()
     if 'submit.sl' in filenames:
-        if 'OUTCAR' in filenames:
+        if 'OUTCAR' in filenames: # if OUTCAR is found, the VASP files have already been run or are running, so don't want to submit this!
             dirnames[:] = []
             filenames[:] = []
             continue
