@@ -147,7 +147,7 @@ In the 'Location' line, if you remove the 'lib/python/site-packages' bit and rep
 
 	/Users/geoffreyweal/Library/Python/3.6/bin
 
-This is the location of these useful ASE tools. You want to put this as a path in your ``~/.bashrc`` as below:
+This is the location of these useful ASE tools. If you are having issues using the ase tools, for example if ``ase gui`` does not start, you want to put this as a path in your ``~/.bashrc`` as below:
 
 .. code-block:: bash
 
@@ -155,10 +155,6 @@ This is the location of these useful ASE tools. You want to put this as a path i
 	# For ASE
 	export PATH=/Users/geoffreyweal/Library/Python/3.6/bin:$PATH
 	############################################################
-
-
-
-
 
 Networkx
 --------
@@ -249,6 +245,7 @@ This will give you the path to the Adsorber program. You want to enter the resul
 
 	export PATH_TO_Adsorber="<Path_to_Adsorber>" 
 	export PYTHONPATH="$PATH_TO_Adsorber":$PYTHONPATH
+	export PATH="$PATH_TO_Adsorber"/bin:$PATH
 
 where ``"<Path_to_Adsorber>"`` is the directory path that you place Adsorber (Enter in here the result you got from the ``pwd`` command). Once you have run ``source ~/.bashrc``, the genetic algorithm should be all ready to go!
 
@@ -274,19 +271,17 @@ You may use squeue to figure out what jobs are running in slurm. For monitoring 
 	
 	squeue -o "%.20i %.9P %.5Q %.50j %.8u %.8T %.10M %.11l %.6D %.4C %.6b %.20S %.20R %.8q" -u $USER --sort=+i
 
-There are also two aliases that are useful, these are 
+There is also an aliases that is useful when submitting jobs to slurm: 
 
 * ``no_of_jobs_running_or_queued``: Will indicate the number of jobs that are either running or in the queue in slurm. 
-* ``no_of_submitSL_files``: Will give the number of VASP models in subdirectories that are to be run. These should all contain submit.sl files, which is what this alias is doing. 
 
-These two aliases are given below for you to also add to your ``~/.bashrc``:
+This alias is given below for you to also add to your ``~/.bashrc``:
 
 .. code-block:: bash
 
 	alias no_of_jobs_running_or_queued="squeue -u $USER | wc -l"
-	alias no_of_submitSL_files='find . -name "submit.sl" -type f -not -path "*Submission_Folder_*" | wc -l'
 
-These two aliases are explained further in :ref:`How_to_submit_files_to_slurm`.
+This alias is explained further in :ref:`Part_C1_Submitting_Jobs_to_Slurm`.
 
 Note that the ``no_of_jobs_running_or_queued`` reference will give you the number of jobs you have submitted to slurm, plus 1. So whatever number you get from ``no_of_jobs_running_or_queued``, minus 1 from it to get the number of jobs in your slurm queue. Don't know how to fix this yet.
 
@@ -302,6 +297,7 @@ You want to have the following in your ``~/.bashrc``:
 
 	export PATH_TO_Adsorber="<Path_to_Adsorber>" 
 	export PYTHONPATH="$PATH_TO_Adsorber":$PYTHONPATH
+	export PATH="$PATH_TO_Adsorber"/bin:$PATH
 	export PATH="$PATH_TO_Adsorber"/Adsorber/Subsidiary_Programs:$PATH
 
 	squeue -o "%.20i %.9P %.5Q %.50j %.8u %.8T %.10M %.11l %.6D %.4C %.6b %.20S %.20R %.8q" -u $USER --sort=+i

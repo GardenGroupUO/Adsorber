@@ -12,8 +12,8 @@ from Adsorber.Subsidiary_Programs.prepare_jobs_scripts.prepare_unconverged_VASP_
 
 from tqdm import tqdm
 from Adsorber.Subsidiary_Programs.prepare_jobs_scripts.prepare_unconverged_VASP_jobs_methods import already_reset, copy_files_from_VASP_files_folder, prepare_VASP_files_for_resubmission
-from Adsorber.Subsidiary_Programs.Part_D_Methods import determine_convergence_of_output
-from Adsorber.Adsorber.Part_C_Create_adsorbed_VASP_Files import make_individual_submitSL_files
+from Adsorber.Adsorber.Part_D_Methods import determine_convergence_of_output
+from Adsorber.Adsorber.make_VASP_files_methods import make_individual_submitSL_files
 
 class Run_Adsorber_prepare_unconverged_VASP_jobs:
 
@@ -57,7 +57,7 @@ class Run_Adsorber_prepare_unconverged_VASP_jobs:
 
 		# -------------------------------------------------------------------------------------------------------------------------------
 
-		self.Run_AdsorberPY_name = 'Run_Adsorber.py'
+		self.generalPY_name = 'general.py'
 
 		# -------------------------------------------------------------------------------------------------------------------------------
 
@@ -95,6 +95,12 @@ class Run_Adsorber_prepare_unconverged_VASP_jobs:
 		for path_to_output in pbar:
 			pbar.set_description('')
 			if already_reset(path_to_output):
+				#Copy the VASP files (like INCAR, KPOINTS, etc) from the VASP files folder to this folder.
+				if self.update_VASP_files:
+					copy_files_from_VASP_files_folder(path_to_output, self.vasp_files_folder)
+				# If slurm_information given, update it to that given in script.
+				if not self.slurm_information == None:
+					make_individual_submitSL_files(path_to_output, jobname, self.slurm_information)				
 				continue
 			converged = determine_convergence_of_output(path_to_output)
 			if self.force_prepare or not converged:

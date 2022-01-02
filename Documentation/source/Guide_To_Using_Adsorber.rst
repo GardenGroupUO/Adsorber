@@ -10,30 +10,24 @@ There are four parts (Part A, Part B, Part C + Part D) + a prelude step to using
 Prelude Step
 ------------
 
-In this step, we will step up the ``Run_Adsorber.py`` script, which includes selecting which atoms in your system are surface atoms. The information about how to set up the ``Run_Adsorber.py`` script is given in :ref:`Prelude_1_How_To_Run_Adsorber`. 
-Instructions of some of the more involved settings that are required in the ``Run_Adsorber.py`` script are given in :ref:`Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber`. These include: 
-
-* indicating which atoms are surface atoms, as Adsorber does not identify surface atoms. This is required for Adsorber to know which atoms to consider when placing adsorbates onto top sites, bridging sites, three-fold sites, and four-fold sites. You can find out how to specify this in :ref:`marking_surface_atoms`. 
-* indicating how adsorbates are adsorbed to your system. This is given in :ref:`bind_molecule_to_surface_of_system`. 
-
+In this step, we will step up the ``general.py`` and ``adsorbate.py`` scripts, which include all the inputs that are required across the whole ``Adsorber`` program. Information about how to set up these two python script are given in :ref:`Prelude_General_and_Adsorbates_scripts`. Extra details about how to set up the adsorbates in your ``adsorbate.py`` script are given in :ref:`Prelude_Info_for_Adsorbate_script`.
 
 Part A
 ------
 
-This part creates the VASP files to locally optimise your system. This is done first because this locally optimised system is used to adsorb adsorbate onto in Parts B and C. This part will also create the VASP files for locally optimising adsorbates (not bound to your system). 
-These files are not used further in the Adsorber program, but you often need to know what the energy of you adsorbates are under the functional you are using, so this allows you to easily obtain the energies of these adsorbates. 
+This part creates the VASP files to locally optimise your system, as well as lone adsorbates and any other molecules that you need to reference your VASP energies to.  
 The guide to perform this set is given in :ref:`Part_A_Optimising_System_Initially`. 
 If you already have the system locally optimised with your functional, feel free to move on to Part B. 
 
 Part B
 ------
 
-In this part, your VASP optimised system will have all adsorbates attached to it in all the various top sites, bridging sites, three fold sites, and four fold sites found across the surface of your system. From these you can select which models your want to include for further optimisation by VASP. The guide to perform this part is given in :ref:`Part_B_Adsorb_Adsorbates_to_System`. 
+In this part, your VASP optimised system will have all adsorbates attached to it in all the various top sites, bridging sites, three fold sites, and four fold sites found across the surface of your system. From these you can select which models your want to include for further optimisation by VASP. The guide to perform this part is given in :ref:`Part_B1_Adsorb_Adsorbates_to_System`, with further information in :ref:`Part_B1_marking_surface_atoms` and :ref:`Part_B2_What_to_do_with_files_from_Part_B`. 
 
 Part C
 ------
 
-In this part, Adsorber will take the models of adsorbates on various sites on your system and create the files required to locally optimise these models in VASP. The guide to perform this part is given in :ref:`Part_C1_Preparing_Adsorbed_Systems_For_VASP`. Subsidiary programs have also been designed to resubmit jobs that have not completed or need to be converged tigher or looser. These are designed in :ref:`Part_C2_Subsidiary_Programs`.
+In this part, Adsorber will take the models of adsorbates on various sites on your system and create the files required to locally optimise these models in VASP. The guide to perform this part is given in :ref:`Part_C1_Preparing_Adsorbed_Systems_For_VASP`, with further information in :ref:`Part_C1_Submitting_Jobs_to_Slurm` and :ref:`Part_C2_Unconverged_VASP_Jobs`. 
 
 Part D
 ------

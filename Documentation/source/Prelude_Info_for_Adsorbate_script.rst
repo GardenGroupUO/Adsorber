@@ -1,61 +1,12 @@
 
-.. _Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber:
+.. _Prelude_Info_for_Adsorbate_script:
 
-Prelude 2: How to obtain some of the settings for the ``Run_Adsorber.py`` script
-################################################################################
+Prelude 2: How to obtain some of the settings for the ``adsorber.py`` script
+############################################################################
 
-Following the :ref:`Prelude_1_How_To_Run_Adsorber` page that indicated what settings and inputs are needed to run the ``Run_Adsorber.py`` script, on this webpage we will describe how to obtain some of the settings that are not obvious as to how to obtain them from the :ref:`Prelude_1_How_To_Run_Adsorber` page. This includes how to obtain the information required to tell Adsorber how to bind atoms and molecules to the surface of your system. 
+Following the :ref:`Prelude_General_and_Adsorbates_scripts` page that indicated what settings and inputs are needed to run the ``Adsorber`` program, on this webpage we will describe how to obtain some of the settings that are not obvious as to how to obtain them from the :ref:`Prelude_General_and_Adsorbates_scripts` page. This includes how to obtain the information required to tell Adsorber how to bind atoms and molecules to the surface of your system. 
 
 This page requires the use of ASE GUI to view our chemical systems. The installation and use of this visualisation programs is given in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`. 
-
-.. _marking_surface_atoms:
-
-How to Mark Surface Atoms in your Cluster/Surface model in Adsorber 
-*******************************************************************
-
-One of the pieces of information that ``Adsorber`` need to know are which atoms on your cluster are the surface atoms. The easiest way to figure out which atoms are surface atoms is to open your cluster/surface model in ``ASE GUI``. An example is given below:
-
-.. figure:: Images/Cu_Cluster_Example_ASE_Surface_1.png
-   :align: center
-   :figwidth: 50%
-   :alt: Cu_Cluster_Example_ASE_Surface_1
-
-   An example cluster when observed in ASE GUI.
-
-Then you want to go to show the indices of the atoms in your cluster/surface model by clicking in the menu ``View > Show Labels > Atom Index``. This will show the indices of atoms in your cluster/surface model in your ASE GUI. 
-
-.. figure:: Images/Cu_Cluster_Example_ASE_Surface_2.png
-   :align: center
-   :figwidth: 50%
-   :alt: Cu_Cluster_Example_ASE_Surface_2
-
-   An example cluster when observed in ASE GUI, where atoms have been labelled by their indices.
-
-We will want to include the indices of the surface atoms in your cluster/surface model in the ``Run_Adsorber.py`` file in the ``surface_atoms`` list. In the example given in the ``Examples/Cu78_Example/15-3-3629.xyz`` file, the surface atoms are:
-
-.. code-block:: python
-
-	surface_atoms = [11,25,28,13,3,8,6,23,22,59,34,62,66,1,0,4,30,15,14,16,5,12,29,2,7,10,24,26,70,35,47,50,60,63,48,39,41,44,54,68,76,71,32,31,74,42,56,52,43,40,46,61,53,45,57,72,73,77]
-
-The ``Adsorber`` program will create a ``.xyz`` file called ``SYSTEM_NAME_tagged_surface_atoms.xyz`` that will have all surface atoms tagged 1 and all non-surface atoms tagged 0 (where ``SYSTEM_NAME`` is the name of the ``.xyz`` or ``.traj`` file that you gave for the ``name`` variable in ``Run_Adsorber.py``, see :ref:`Prelude_1_How_To_Run_Adsorber`). You can see this if you open ``SYSTEM_NAME_tagged_surface_atoms.xyz`` in ASE GUI, show atom index label by clicking ``View > Show Labels > Atom Index``, and colouring in atoms based on their tag by clicking ``View > Colors`` and selecting ``By tag``:
-
-.. figure:: Images/Cu_Cluster_Example_ASE_Surface_3_1.png
-   :align: center
-   :figwidth: 50%
-   :alt: Cu_Cluster_Example_ASE_Surface_3_1
-
-   Front view of an image of the example cluster where surface atoms are coloured pick, and non-surface atoms coloured green. This example ``.xyz`` file is created by ``Adsorber``. 
-
-.. figure:: Images/Cu_Cluster_Example_ASE_Surface_3_2.png
-   :align: center
-   :figwidth: 60%
-   :alt: Cu_Cluster_Example_ASE_Surface_3_2
-
-   Side view of an image of the example cluster where surface atoms are coloured pick, and non-surface atoms coloured green. This example ``.xyz`` file is created by ``Adsorber``. 
-
-All the surface atoms should be coloured pink, while the non-surface atoms coloured green. If there are any bulk atom coloured pink or surface atoms coloured green, you will need to remove or add the indices of atoms from the ``surface_atoms`` list in the ``Run_Adsorber.py`` file to make sure that ``surface_atoms`` reflects the atoms in the cluster/surface model that are in fact surface atoms.
-
-Note that if there are surface atoms that you do not want molecules to adsorb to, dont include them in this list. 
 
 .. _bind_molecule_to_surface_of_system:
 
@@ -103,7 +54,7 @@ Next, we would like to specify the direction of the axis we would like to align 
 
 This will align this axis to the "normal" of the surface. For above atom and bridge site, this axis will point as far away from any other atom on the cluster/surface model as possible. For this reason, we will point this vector from the **index** atom, which in this example is the index 1 C atom in this COOH molecule. 
 
-For this example, we would like to align the molecule on the surface such that the oxygen atoms are on opposite sides of the **axis** vector as possible. THis can be achieved with a vector that points ``(0.1,-1,0)`` from looking at the above figure of the COOH atom. The ``Adsorber`` program will use the `Rodrigues formula <https://en.wikipedia.org/wiki/Rodrigues%27_formula>`_ to rotate the molecule by this axis onto the "normal" vector of the surface. 
+For this example, we would like to align the molecule on the surface such that the oxygen atoms are on opposite sides of the **axis** vector as possible. This can be achieved with a vector that points ``(0.1,-1,0)`` from looking at the above figure of the COOH atom. 
 
 Note that you can also specify the following string for the **axis** vector:
 
@@ -113,6 +64,8 @@ Note that you can also specify the following string for the **axis** vector:
 * ``'-x'``: This is the ``(-1,0,0)`` vector
 * ``'-y'``: This is the ``(0,-1,0)`` vector
 * ``'-z'``: This is the ``(0,0,-1)`` vector
+
+The ``Adsorber`` program will use the `Rodrigues formula <https://en.wikipedia.org/wiki/Rodrigues%27_formula>`_ to rotate the molecule by this axis onto the "normal" vector of the surface. 
 
 Specifying the **rotations** variable
 =====================================
@@ -170,4 +123,4 @@ Once you have specied the **index**, **axis**, and **rotations**, you can add th
 	rotations = range(0,360,10)
 	COOH_adsorbed_species = {'name': 'COOH', 'molecule': COOH, 'distance_of_adatom_from_surface': distance_of_adatom_from_surface, 'index': 1, 'axis': COOH_axis, 'rotations': rotations}
 
-This dictionary is then appended to the ``adsorbed_species`` list in the ``Run_Adsorber.py`` script. See :ref:`Add the Atoms and Molecules on to the surface of your Cluster/Surface Model <add_atoms_and_molecules_on_to_surface_of_model>`.
+This dictionary is then appended to the ``adsorbed_species`` list in the ``adsorbate.py`` script. See :ref:`Setting_your_adsorbatepy_scripts`.

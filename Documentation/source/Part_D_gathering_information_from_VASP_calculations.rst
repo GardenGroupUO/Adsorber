@@ -3,19 +3,19 @@
 Part D: Gathering Information from VASP Calculations
 ####################################################
 
-At any point during and after your VASP calculations have been running (during Part A and Part C), you can run a python program that will gather information about your VASP calculations, such as the energies of your systems with attached adsorbates, and if your VASP calculations have converged or not. You can run this program by typing ``Run_Adsorber_Part_D_gather_information.py`` into the terminal in the same folder that you ran ``Run_Adosrber.py`` from: 
+At any point during and after your VASP calculations have been running (during Part A and Part C), you can run a python program that will gather information about your VASP calculations, such as the energies of your systems with attached adsorbates, and if your VASP calculations have converged or not. You can run this program by typing ``Adsorber PartD`` into the terminal in the same folder that your ``general.py``, ``adsorbate.py``, ``partA.py``, ``partB.py``, and ``partC.py`` scripts. 
 
 .. code-block:: bash
 
-   Run_Adsorber_Part_D_gather_information.py
+   Adsorber PartD
 
-This will create an excel file called ``Part_D_Information_on_VASP_Calculations.xlsx`` that contains various information about your VASP calculations. All adsorbates will be collected together based on their name before any ``_``. For example, if you tried adsorbing ``COOH`` in two ways, called ``COOH_symmetric`` and ``COOH_O_tilted``, ``Run_Adsorber_Part_D_gather_information.py`` will group the information from these two sets of calculations together because they both start with ``COOH`` before the ``_``, telling ``Run_Adsorber_Part_D_gather_information.py`` they both involve adsorbing ``COOH`` to the surface of your model. 
+This will create an excel file called ``Part_D_Information_on_VASP_Calculations.xlsx`` that contains various information about your VASP calculations. All adsorbates will be collected together based on their name before any ``_``. For example, if you tried adsorbing ``COOH`` in two ways, called ``COOH_symmetric`` and ``COOH_O_tilted``, ``Run_Adsorber_Part_D_gather_information.py`` will group the information from these two sets of calculations together because they both start with ``COOH`` before the ``_``, telling ``Adsorber`` they both involve adsorbing ``COOH`` to the surface of your model. 
 
-If you only want to get information for a few different adsorbates, include these adsorbates after typing ``Run_Adsorber_Part_D_gather_information.py`` into the terminal. For example, if we only want to gather information on the adsorbates ``CHO`` and ``COOH``, we do the following:
+If you only want to get information for a few different adsorbates, include these adsorbates after typing ``Adsorber PartD`` into the terminal. For example, if we only want to gather information on the adsorbates ``CHO`` and ``COOH``, we do the following:
 
 .. code-block:: bash
 
-   Run_Adsorber_Part_D_gather_information.py CHO COOH
+   Adsorber PartD CHO COOH
 
 The following information is included in the ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet:
 
@@ -47,19 +47,19 @@ Furthermore, in some cases, some of your VASP jobs will converge the adsorbate t
 
 The following methods can help you figure out if different VASP jobs have converged to the same place and help resume any jobs that you want to tighten the convergence of
 
-``Run_Adsorber_compare_systems_with_same_binding.py``: Comparing systems where adsorbate binds to the same surface atoms
+``Adsorber compare``: Comparing systems where adsorbate binds to the same surface atoms
 ************************************************************************************************************************
 
 As well as using the ``Similar to`` and ``No of surface atoms adsorbed to`` columns of the ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet, you can also use this program to help figure out which systems converged to the same place. This program will look through your ``Part_D_Information_on_VASP_Calculations.xlsx`` excel spreadsheet, compare those systems that have the same ``No of surface atoms adsorbed to``, and write files to help you analyse those systems that may be similar. 
 
 It is useful to know which system converge to the same place, because if you want to tighten the convergence criteria you don't need to waste computer time resuming calculations for system that have already converged to the same place with looser convergence criteria. Tightening the convergence of these system may run in identical fashions, therefore only wasting computer time. 
 
-To use this program, you want to first move into the same directory as your ``Run_Adsorber.py`` file and then type ``Run_Adsorber_compare_systems_with_same_binding.py`` into the terminal:
+To use this program, you want to first move into the same directory as your ``general.py``, ``adsorbate.py``, ``partA.py``, ``partB.py``, and ``partC.py`` scripts, and then type ``Adsorber compare`` into the terminal:
 
 .. code-block:: bash
 
    cd into_the_same_directory_as_your_Run_Adsorber_script
-   Run_Adsorber_compare_systems_with_same_binding.py write_similarity_traj_files upper_energy_limit
+   Adsorber compare write_similarity_traj_files upper_energy_limit
 
 You can have the following optional inputs:
 
@@ -72,24 +72,24 @@ This will create a folder called ``Similar_Systems`` into your ``Part_D_Results_
 * a ``traj`` file: This contains all the final states of your jobs. The images in this ``traj`` are ordered in the same manor as given in ``similar_systems.txt``. The images in this ``traj`` may all look the same, because these jobs may have converged to the same place.
 * ``xyz`` files: These are xyz files of the final states that jobs had reached before finishing. These ``xyz`` files may all look the same, because these jobs may have converged to the same place.
 
-``Run_Adsorber_prepare_unconverged_VASP_jobs.py``: Prepare Jobs for resubmission
-********************************************************************************
+``prepare_unconverged_VASP_jobs.py``: Prepare Jobs for resubmission
+*******************************************************************
 
 You may want to rerun some of your jobs, either because they finished with errors, did not converge, or because you want to change the convergence criteria for that job (either by tightening or loosening the convergence criteria). See :ref:`Part_C_Run_Adsorber_prepare_unconverged_VASP_jobs_PY` for information about how to prepare jobs for being resubmitted to slurm. 
 
-``Run_Adsorber_Tidy_Finished_Jobs.py``: Clean up the files for jobs that you are happy with
-*******************************************************************************************
+``Adsorber tidy``: Clean up the files for jobs that you are happy with
+**********************************************************************
 
 VASP makes lots of files after it has run. These can be annoying to keep if you are transferring files about. The ``Run_Adsorber_Tidy_Finished_Jobs.py`` script will get rid of all the unnecessary files that are created from all subdirectories. The files that are removed are: ``CHG``, ``CHGCAR``, ``CONTCAR``, ``DOSCAR``, ``EIGENVAL``, ``fe.dat``, ``IBZKPT``, ``OSZICAR``, ``PCDAT``, ``POTCAR``, ``REPORT``, ``vasprun.xml``, ``vaspout.eps``, ``WAVECAR``, ``XDATCAR``, and ``vdw_kernel.bindat``. The ``INCAR``, ``KPOINTS``, ``OUTCAR``, ``POSCAR``, and ``submit.sl`` files are not removed, as well as any output and error files that are created by slurm during the VASP optimsation, are **NOT** removed by this script. To perform this script, move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py`` into the terminal:
 
 .. code-block:: bash
 
-   Run_Adsorber_Tidy_Finished_Jobs.py
+   Adsorber tidy
 
 If you do want to remove all ``INCAR``, ``KPOINTS``, and ``submit.sl`` files in these folders as well,  move into the folders that can all the subfolders you wish to tidy up and enter ``Run_Adsorber_Tidy_Finished_Jobs.py full`` into the terminal: 
 
 .. code-block:: bash
 
-   Run_Adsorber_Tidy_Finished_Jobs.py full
+   Adsorber tidy full
 
-Note: the ``Run_Adsorber_Tidy_Finished_Jobs.py`` program will not change or remove any files that are in your ``VASP_Files`` folder. 
+Note: the ``Adsorber tidy`` command will not change or remove any files that are in your ``VASP_Files`` folder. 

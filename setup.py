@@ -43,7 +43,7 @@ def find_scripts():
 
 setup(name='Adsorber',
       packages=find_packages(root='Adsorber'),
-      scripts=find_scripts(),
+      scripts=['bin/Adsorber']+find_scripts(),
       version=get_version_number(),
       description="This program is designed to adsorb molecules to the surface of a cluster in all various ways..",
       long_description=get_long_description(),

@@ -78,12 +78,15 @@ Table of Contents
    Installation
    External_programs_that_will_be_useful_to_install_for_using_Adsorber
    Guide_To_Using_Adsorber
-   Prelude_1_How_To_Run_Adsorber
-   Prelude_2_How_To_Obtain_Settings_for_Run_Adsorber
+   Prelude_General_and_Adsorbates_scripts
+   Prelude_Info_for_Adsorbate_script
    Part_A_Optimising_System_Initially
-   Part_B_Adsorb_Adsorbates_to_System
+   Part_B1_Adsorb_Adsorbates_to_System
+   Part_B1_marking_surface_atoms
+   Part_B2_What_to_do_with_files_from_Part_B
    Part_C1_Preparing_Adsorbed_Systems_For_VASP
-   Part_C2_Subsidiary_Programs
+   Part_C1_Submitting_Jobs_to_Slurm
+   Part_C2_Unconverged_VASP_Jobs
    Part_D_gathering_information_from_VASP_calculations
    genindex
    py-modindex

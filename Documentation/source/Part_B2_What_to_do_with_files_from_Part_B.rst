@@ -1,35 +1,14 @@
-.. _Part_B_Adsorb_Adsorbates_to_System:
+.. _Part_B2_What_to_do_with_files_from_Part_B:
 
-Part B: Adsorbing Adsorbates to your System
-###########################################
+Part B2: How to choose which ``xyz`` files to optimise in VASP
+##############################################################
 
-Once you have locally optimsed your system, you can adsorb your adsorbates to your system. To do this, **set the** ``Step_to_Perform`` **variable in the** ``Run_Adsorber.py`` **script to** ``'Part B'``:
+After running PartB in ``Adsorber``, the ``Adsorber`` program will create a number of xyz files, where each adsorbate has been bound to each top, bridge, three-fold, and four-fold binding site across your system. However, you may not want to optimise everyone of these binding sites and want to be selective. **What you want do is to choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. 
 
-.. code-block:: python
+In this section, we will discuss how to choose ``xyz`` files for further optimise in VASP. This section requires the use of the ASE GUI and Jmol to view our chemical systems. The installation and use of these visualisation programs is given in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
 
-   Step_to_Perform = 'Part B'
-
-You can then run the ``Run_Adsorber.py`` script in the terminal:
-
-.. code-block:: bash
-
-   python Run_Adsorber.py
-
-This will create a folder called ``Part_B_All_Systems_with_Adsorbed_Species`` that contains adsorbates that are adsorbed at various sites across your system in ``xyz`` format. ``xyz`` files are found in the path: ``Part_B_All_Systems_with_Adsorbed_Species\ADSORBATE\ADSORPTIONSITE``, where ``ADSORBATE`` is the adsorbate you want to focus on, and ``ADSORPTIONSITE`` is the type of surface site that the adsorbate is bound to, being:
-
-* ``Top_Sites``: These are adsorbates that are bound to top sites above each surface atom.
-* ``Bridge_Sites``: These are adsorbates that are bound to bridging sites.
-* ``Three_Fold_Sites``: These are adsorbates that are bound to three fold sites. 
-* ``Four_Fold_Sites``: These are adsorbates that are bound to four fold sites. 
-
-Adsorber will created many ``xyz`` files, many of which you may not want to run in VASP. This may be because many of the sites are structural degenerate, or to orientate the adsorbate in certain directions. 
-
-In the next step, we choose which of these ``xyz`` files to further locally optimise in VASP. To do this, VASP will also create another folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``. What you want do is to **choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. 
-
-How to Choose Which ``xyz`` Files to Optimise in VASP
+How to choose which ``xyz`` files to optimise in VASP
 -----------------------------------------------------
-
-We will now discuss how to choose ``xyz`` files for further optimise in VASP. This section requires the use of the ASE GUI and Jmol to view our chemical systems. The installation and use of these visualisation programs is given in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
 
 To help determine which surface sites to adsorb adsorbates to, ``Adsorber`` will create a folder called ``Part_B_Binding_Site_Locations`` that contains four xyz files that show all the binding sites found in your system. These are:
 
