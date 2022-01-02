@@ -6,17 +6,19 @@ class CLICommand:
 
     @staticmethod
     def add_arguments(parser):
-        pass
-        #parser.add_argument('filename', nargs='*', help='Name of file to determine format for.')
+        parser.add_argument('settings', nargs='*', help='Enter in here a setting for submit that you would like to change.')
 
     @staticmethod
-    def run(args):
+    def run(args_submit):
+        args_submit_settings = args_submit.settings
         check_submit_settingsTXT()
-        continue_running = True
-        if len(args) > 0:
-            continue_running, wait_between_submissions = change_settings(args)
+        if len(args_submit_settings) > 0:
+            continue_running, wait_between_submissions = change_settings(args_submit_settings)
+        else:
+            continue_running = True
+            wait_between_submissions = False
         if continue_running:
-            Run_method()
+            Run_method(wait_between_submissions)
 
 # ------------------------------------------------------
 # These variables can be changed by the user.
@@ -38,20 +40,50 @@ time_to_wait_before_next_submission_due_to_not_waiting_between_submissions_DEFAU
 def read_submit_settingsTXT_file(path_to_txt_file):
     with open(path_to_txt_file,'r') as submit_settingsTXT:
         for line in submit_settingsTXT:
-            exec(line.rstrip())
+            if   'Max_jobs_in_queue_at_any_one_time = ' in line:
+                line = line.rstrip().replace('Max_jobs_in_queue_at_any_one_time = ','')
+                Max_jobs_in_queue_at_any_one_time = int(line)
+            elif 'time_to_wait_before_next_submission = ' in line:
+                line = line.rstrip().replace('time_to_wait_before_next_submission = ','')
+                time_to_wait_before_next_submission = float(line)
+            elif 'time_to_wait_max_queue = ' in line:
+                line = line.rstrip().replace('time_to_wait_max_queue = ','')
+                time_to_wait_max_queue = float(line)
+            elif 'time_to_wait_before_next_submission_due_to_temp_submission_issue = ' in line:
+                line = line.rstrip().replace('time_to_wait_before_next_submission_due_to_temp_submission_issue = ','')
+                time_to_wait_before_next_submission_due_to_temp_submission_issue = float(line)
+            elif 'number_of_consecutive_error_before_exitting = ' in line:
+                line = line.rstrip().replace('number_of_consecutive_error_before_exitting = ','')
+                number_of_consecutive_error_before_exitting = int(line)
+            elif 'time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = ' in line:
+                line = line.rstrip().replace('time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = ','')
+                time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = float(line)
+    variables_needed = ['Max_jobs_in_queue_at_any_one_time','time_to_wait_before_next_submission','time_to_wait_max_queue','time_to_wait_before_next_submission_due_to_temp_submission_issue','number_of_consecutive_error_before_exitting','time_to_wait_before_next_submission_due_to_not_waiting_between_submissions']
+    variables_you_do_not_have_in_settingsTXT = []
+    for variable in variables_needed:
+        if not variable in locals():
+            variables_you_do_not_have_in_settingsTXT.append(variable)
+    if not len(variables_you_do_not_have_in_settingsTXT) == 0:
+        print(variables_you_do_not_have_in_settingsTXT)
+        import pdb; pdb.set_trace()
+        exit('Error')
     return Max_jobs_in_queue_at_any_one_time,time_to_wait_before_next_submission,time_to_wait_max_queue,time_to_wait_before_next_submission_due_to_temp_submission_issue,number_of_consecutive_error_before_exitting,time_to_wait_before_next_submission_due_to_not_waiting_between_submissions
 
 def write_submit_settingsTXT_file(path_to_txt_file,Max_jobs_in_queue_at_any_one_time=Max_jobs_in_queue_at_any_one_time_DEFAULT,time_to_wait_before_next_submission=time_to_wait_before_next_submission_DEFAULT,time_to_wait_max_queue=time_to_wait_max_queue_DEFAULT,time_to_wait_before_next_submission_due_to_temp_submission_issue=time_to_wait_before_next_submission_due_to_temp_submission_issue_DEFAULT,number_of_consecutive_error_before_exitting=number_of_consecutive_error_before_exitting_DEFAULT,time_to_wait_before_next_submission_due_to_not_waiting_between_submissions=time_to_wait_before_next_submission_due_to_not_waiting_between_submissions_DEFAULT):
     with open(path_to_txt_file,'w') as submit_settingsTXT:
-        submit_settingsTXT.write('Max_jobs_in_queue_at_any_one_time = '+str(Max_jobs_in_queue_at_any_one_time))
-        submit_settingsTXT.write('time_to_wait_before_next_submission = '+str(time_to_wait_before_next_submission))
-        submit_settingsTXT.write('time_to_wait_max_queue = '+str(time_to_wait_max_queue))
-        submit_settingsTXT.write('time_to_wait_before_next_submission_due_to_temp_submission_issue = '+str(time_to_wait_before_next_submission_due_to_temp_submission_issue))
-        submit_settingsTXT.write('number_of_consecutive_error_before_exitting = '+str(number_of_consecutive_error_before_exitting))
-        submit_settingsTXT.write('time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = '+str(time_to_wait_before_next_submission_due_to_not_waiting_between_submissions))
+        submit_settingsTXT.write('Max_jobs_in_queue_at_any_one_time = '+str(Max_jobs_in_queue_at_any_one_time)+'\n')
+        submit_settingsTXT.write('time_to_wait_before_next_submission = '+str(time_to_wait_before_next_submission)+'\n')
+        submit_settingsTXT.write('time_to_wait_max_queue = '+str(time_to_wait_max_queue)+'\n')
+        submit_settingsTXT.write('time_to_wait_before_next_submission_due_to_temp_submission_issue = '+str(time_to_wait_before_next_submission_due_to_temp_submission_issue)+'\n')
+        submit_settingsTXT.write('number_of_consecutive_error_before_exitting = '+str(number_of_consecutive_error_before_exitting)+'\n')
+        submit_settingsTXT.write('time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = '+str(time_to_wait_before_next_submission_due_to_not_waiting_between_submissions)+'\n')
 
 def check_submit_settingsTXT():
     if not os.path.exists(path_to_txt_file):
+        write_submit_settingsTXT_file(path_to_txt_file)
+    try:
+        read_submit_settingsTXT_file(path_to_txt_file)
+    except:
         write_submit_settingsTXT_file(path_to_txt_file)
 
 def change_settings(args):
@@ -114,9 +146,9 @@ def change_settings(args):
         if len(args) == 2:
             print('Setting number_of_consecutive_error_before_exitting to default ('+str(number_of_consecutive_error_before_exitting_DEFAULT)+')')
             number_of_consecutive_error_before_exitting = number_of_consecutive_error_before_exitting_DEFAULT
-        elif not instance(args[1],float):
+        elif not instance(args[1],int):
             print('Error in changing submit sertings:')
-            print('You need to enter a float if you want to change the settings for number_of_consecutive_error_before_exitting')
+            print('You need to enter a int if you want to change the settings for number_of_consecutive_error_before_exitting')
             print('Your input value is: '+str(args[1]))
             exit('This program is closing without changing any settings')
         else:
@@ -148,7 +180,7 @@ def change_settings(args):
 
 # =========================================================================================================================================
 
-def Run_method():
+def Run_method(wait_between_submissions):
     '''
     Geoffrey Weal, Run_Adsorber_submitSL_slurm.py, 16/06/2021
 
@@ -166,7 +198,7 @@ def Run_method():
     import os, time, sys
     import subprocess
 
-    read_submit_settingsTXT_file(path_to_txt_file)
+    Max_jobs_in_queue_at_any_one_time,time_to_wait_before_next_submission,time_to_wait_max_queue,time_to_wait_before_next_submission_due_to_temp_submission_issue,number_of_consecutive_error_before_exitting,time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = read_submit_settingsTXT_file(path_to_txt_file)
 
     if wait_between_submissions == True:
         print('This program will wait one minute between submitting jobs.')

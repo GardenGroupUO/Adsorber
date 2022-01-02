@@ -94,7 +94,9 @@ class Run_Adsorber_prepare_unconverged_VASP_jobs:
 		pbar = tqdm(self.paths_to_VASP_job_to_prepare)
 		for path_to_output in pbar:
 			pbar.set_description('')
+			jobname = os.path.basename(os.path.normpath(path_to_output))
 			if already_reset(path_to_output):
+				pbar.set_description(jobname+' (Just VASP input and submit.sl files)')
 				#Copy the VASP files (like INCAR, KPOINTS, etc) from the VASP files folder to this folder.
 				if self.update_VASP_files:
 					copy_files_from_VASP_files_folder(path_to_output, self.vasp_files_folder)
@@ -104,7 +106,6 @@ class Run_Adsorber_prepare_unconverged_VASP_jobs:
 				continue
 			converged = determine_convergence_of_output(path_to_output)
 			if self.force_prepare or not converged:
-				jobname = os.path.basename(os.path.normpath(path_to_output))
 				pbar.set_description(jobname)
 				could_OUTCAR_CONTCAR_be_loaded = prepare_VASP_files_for_resubmission(path_to_output, self.submission_folder_name)
 				# If there was a problem with preparation

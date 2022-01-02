@@ -78,8 +78,9 @@ def copy_files_from_VASP_files_folder(path_to_VASP_job, vasp_files_folder):
 
 def already_reset(path_to_VASP_job):
 	list_of_files = [file for file in os.listdir(path_to_VASP_job) if os.path.isfile(path_to_VASP_job+'/'+file)]
-	if 'vdw_kernel.bindat' in list_of_files:
-		list_of_files.remove('vdw_kernel.bindat')
+	for a_file in ['vdw_kernel.bindat','full_trajectory.traj']:
+		if a_file in list_of_files:
+			list_of_files.remove(a_file)
 	has_VASP_job_been_reset = set(list_of_files) == set(['INCAR','KPOINTS','POSCAR','POTCAR','submit.sl'])
 	#if has_VASP_job_been_reset == False:
 	#	import pdb; pdb.set_trace()

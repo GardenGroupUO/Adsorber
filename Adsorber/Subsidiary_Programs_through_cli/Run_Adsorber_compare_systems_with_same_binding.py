@@ -1,5 +1,5 @@
 class CLICommand:
-    """to do
+    """This command will use data from Part_D_Information_on_VASP_Calculations.xlsx to write a text file of all those optimisations that fell to the same state, as well as traj of those identical states. See documentation for more information.
     """
 
     @staticmethod

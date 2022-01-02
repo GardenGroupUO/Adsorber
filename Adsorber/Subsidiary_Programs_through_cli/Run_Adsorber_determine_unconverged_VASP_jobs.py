@@ -1,5 +1,5 @@
 class CLICommand:
-    """Will determine which jobs have converged or not based on your INCAR input
+    """Will determine which jobs have converged or not based on your INCAR input.
     """
 
     @staticmethod
@@ -18,7 +18,7 @@ def Run_method(args_method):
 
 	'''
 	import os
-	from Adsorber.Subsidiary_Programs.Part_D_Methods import determine_convergence_of_output
+	from Adsorber.Adsorber.Part_D_Methods import determine_convergence_of_output
 
 	true_statements = ['true','t']
 	false_statements = ['false','f']

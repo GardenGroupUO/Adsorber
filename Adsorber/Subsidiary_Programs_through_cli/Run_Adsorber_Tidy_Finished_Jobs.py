@@ -1,5 +1,5 @@
 class CLICommand:
-    """to do
+    """This command is designed to remove all the unnecessary files from VASP optimisations once you have finished. This is meant to decease the space of your data as well as the filecount. To be used once you are done and dusted.  
     """
 
     @staticmethod
@@ -57,6 +57,8 @@ def Run_method(args_tidy):
             print(root)
             for file_to_remove in files_to_remove:
                 if file_to_remove in files:
+                    os.remove(root+'/'+file_to_remove)
+                if file_to_remove.startswith('core.'):
                     os.remove(root+'/'+file_to_remove)
             '''
             for file in files:

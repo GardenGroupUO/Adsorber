@@ -178,7 +178,7 @@ def Run_PartD(args_partD):
     print('Performing structural analysis.')
     from datetime import timedelta
     from tqdm import tqdm, trange
-    from Adsorber.Subsidiary_Programs.Part_D_Methods import get_OUTCAR_Atoms_files, compare_position_of_adsorbates, make_graph_of_adsorbate, rotation_second_system
+    from Adsorber.Adsorber.Part_D_Methods import get_OUTCAR_Atoms_files, compare_position_of_adsorbates, make_graph_of_adsorbate, rotation_second_system
 
     def comprehensive_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz,attach_edges=True,compare_neighbours=True):
         print('-----------------------------------------------------')
@@ -216,7 +216,7 @@ def Run_PartD(args_partD):
                 neighbours.setdefault(datum['symbol'],[]).append((index,(datum['system_neighbours'])))
             data[sheet_name][counter][-2] = neighbours
 
-    from Adsorber.Subsidiary_Programs.Part_D_Methods import nnd_and_half_distance
+    from Adsorber.Adsorber.Part_D_Methods import nnd_and_half_distance
     from Adsorber.Adsorber.Part_B_adsorb_single_species_to_cluster import is_same_system, get_distance
     def get_neighbours(system_adsorbate,len_of_cluster):
         neighbours = {}
