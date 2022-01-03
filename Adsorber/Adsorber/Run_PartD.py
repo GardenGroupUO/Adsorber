@@ -472,4 +472,4 @@ def Run_PartD(args_partD):
         print('==================================================')
 
     # finish program
-    finish_up()
+    #finish_up()
