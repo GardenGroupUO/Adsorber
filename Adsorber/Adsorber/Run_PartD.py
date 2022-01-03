@@ -27,6 +27,7 @@ from openpyxl.styles import Alignment # , Color, Font
 center_alignment = Alignment(horizontal='center')
 from openpyxl.styles.fills import PatternFill
 
+make_traj_files=False
 def Run_PartD(args_partD):
     """
     Geoffrey Weal, Adsorber_Part_D_create_excel_file.py, 22/08/2021
@@ -293,7 +294,7 @@ def Run_PartD(args_partD):
             neighbours = convert_neighbours_to_string(data[sheet_name][index][-2])
             data[sheet_name][index][-3] = similar_system_adsorbates[neighbours]
 
-    """
+
     for sheet_name, data_for_sheet in data.items():
         if sheet_name == 'Originals':
             continue
@@ -320,7 +321,7 @@ def Run_PartD(args_partD):
         no_structural_analysis(data,sheet_name,all_outcar_objects,no_of_atoms_in_bare_system_xyz)
         look_for_similar_systems(data,sheet_name)
         print('-----------------------------------------------------')
-    """
+
 
     # --------------------------------------------------------------------------------------------------------------------------
 
@@ -421,53 +422,54 @@ def Run_PartD(args_partD):
             OUTCAR_images = read(path_to+'.gz',index=index)
         return OUTCAR_images
 
-    print('==================================================')
-    print('Placing data into making traj files for each site.')
-    for sheet_name, data_for_sheet in data.items():
-        print('--------------------------------------------------')
-        print(sheet_name)
-        print('--------------------------------------------------')
-        energies = [(datum[11], index_in_excel, datum[3]) for (datum, index_in_excel) in zip(data_for_sheet, range(2,len(data_for_sheet)+2)) if datum[10] is not None]
-        # Make traj files of systems
-        energies.sort(key=lambda datum: datum[0])
-        if sheet_name == 'Originals':
-            folder_name = folder_names[0]
-        else:
-            folder_name = folder_names[1]
-        path_to_place_traj = save_folder_name+'/VASP_job_trajectories/'+sheet_name
-        make_dir(path_to_place_traj)
-        counter = 1
-        pbar = tqdm(energies,unit="traj files processed")
-        for energy, index_in_excel, path_to_VASP_folder in pbar:
-            pbar.set_description("Processing %s" % str(path_to_VASP_folder.split('/')[-1]))
-            folders = [folder for folder in os.listdir(path_to_VASP_folder) if (os.path.isdir(path_to_VASP_folder+'/'+folder) and folder.startswith(Submission_Folder) and not ('Issue' in folder))]
-            folders.sort(key=lambda x:int(x.replace(Submission_Folder+'_','')))
-            minimisation_process = []
-            for index in range(len(folders)):
-                folder = folders[index]
-                if index == 0:
-                    minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/'+folder+'/OUTCAR',index=':')
-                else:
-                    minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/'+folder+'/OUTCAR',index='1:')
-            if len(folders) == 0:
-                minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/OUTCAR',index=':')
-            else:
-                minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/OUTCAR',index='1:')
-            if not (0 <= index_in_excel-2 <= len(data_for_sheet)):
-                print('Error')
-                import pdb; pdb.set_trace()
-                exit()
-            job_name = data_for_sheet[index_in_excel-2][2]
+    if make_traj_files:
+        print('==================================================')
+        print('Placing data into making traj files for each site.')
+        for sheet_name, data_for_sheet in data.items():
+            print('--------------------------------------------------')
+            print(sheet_name)
+            print('--------------------------------------------------')
+            energies = [(datum[11], index_in_excel, datum[3]) for (datum, index_in_excel) in zip(data_for_sheet, range(2,len(data_for_sheet)+2)) if datum[10] is not None]
+            # Make traj files of systems
+            energies.sort(key=lambda datum: datum[0])
             if sheet_name == 'Originals':
-                path_and_name = path_to_place_traj+'/'+str(job_name)+'_FT.traj'
+                folder_name = folder_names[0]
             else:
-                path_and_name = path_to_place_traj+'/'+str(counter)+'_'+str(job_name)+'_FT.traj'
-            write(path_and_name, minimisation_process)
-            counter += 1
+                folder_name = folder_names[1]
+            path_to_place_traj = save_folder_name+'/VASP_job_trajectories/'+sheet_name
+            make_dir(path_to_place_traj)
+            counter = 1
+            pbar = tqdm(energies,unit="traj files processed")
+            for energy, index_in_excel, path_to_VASP_folder in pbar:
+                pbar.set_description("Processing %s" % str(path_to_VASP_folder.split('/')[-1]))
+                folders = [folder for folder in os.listdir(path_to_VASP_folder) if (os.path.isdir(path_to_VASP_folder+'/'+folder) and folder.startswith(Submission_Folder) and not ('Issue' in folder))]
+                folders.sort(key=lambda x:int(x.replace(Submission_Folder+'_','')))
+                minimisation_process = []
+                for index in range(len(folders)):
+                    folder = folders[index]
+                    if index == 0:
+                        minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/'+folder+'/OUTCAR',index=':')
+                    else:
+                        minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/'+folder+'/OUTCAR',index='1:')
+                if len(folders) == 0:
+                    minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/OUTCAR',index=':')
+                else:
+                    minimisation_process += get_OUTCAR_file(path_to_VASP_folder+'/OUTCAR',index='1:')
+                if not (0 <= index_in_excel-2 <= len(data_for_sheet)):
+                    print('Error')
+                    import pdb; pdb.set_trace()
+                    exit()
+                job_name = data_for_sheet[index_in_excel-2][2]
+                if sheet_name == 'Originals':
+                    path_and_name = path_to_place_traj+'/'+str(job_name)+'_FT.traj'
+                else:
+                    path_and_name = path_to_place_traj+'/'+str(counter)+'_'+str(job_name)+'_FT.traj'
+                write(path_and_name, minimisation_process)
+                counter += 1
 
-    print('All traj files have been written.')
-    print('Done')
-    print('==================================================')
+        print('All traj files have been written.')
+        print('Done')
+        print('==================================================')
 
     # finish program
     finish_up()

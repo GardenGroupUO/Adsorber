@@ -1,7 +1,7 @@
 import os, shutil
 import numpy as np
 
-from ase.io import read
+from ase.io import read, write
 
 def get_system(system_filename,add_vacuum=None,save_vacuum_system=False):
 	system = read(system_filename)
@@ -12,8 +12,8 @@ def get_system(system_filename,add_vacuum=None,save_vacuum_system=False):
 		if save_vacuum_system:
 			system_name_with_vacuum = '.'.join(system_filename.split('.')[:-1:])+'_with_vacuum_'+str(add_vacuum)+'_Ang.xyz'
 			write(system_name_with_vacuum,system)
-			print('Have added '+str(vacuum)+' Ang of vacuum to your system.')
-			print('This means that replicas of your system under periodic boundary conditions should be at least '+str(2.0*vacuum)+' Ang apart from each other.')
+			print('Have added '+str(add_vacuum)+' Ang of vacuum to your system.')
+			print('This means that replicas of your system under periodic boundary conditions should be at least '+str(2.0*add_vacuum)+' Ang apart from each other.')
 			print('Your system with vacuum has been saved as: '+str(system_name_with_vacuum))
 	return system
 

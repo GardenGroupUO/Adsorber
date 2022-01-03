@@ -11,7 +11,7 @@ def get_variable(script,setting,default='NG'): # (NG = Not Given)
 # =================================================================================================================
 
 general_script_name = 'general.py'
-adsorber_script_name = 'adsorbate.py'
+adsorbates_script_name = 'adsorbates.py'
 partA_script_name = 'partA.py'
 partB_script_name = 'partB.py'
 partC_script_name = 'partC.py'
@@ -50,10 +50,10 @@ def import_cluster_or_surface_model_setting(cluster_or_surface_model):
 # =================================================================================================================
 
 def import_adsorbate_settings():
-	if not os.path.exists(adsorber_script_name):
-		print('Error: You do not have a '+str(adsorber_script_name)+' file.')
+	if not os.path.exists(adsorbates_script_name):
+		print('Error: You do not have a '+str(adsorbates_script_name)+' file.')
 		print('This is required to provide the settings reguarding the adsorbate for Adsorber.')
-		print('See documentation for details on how to write a '+str(adsorber_script_name)+'file.')
+		print('See documentation for details on how to write a '+str(adsorbates_script_name)+'file.')
 		exit('This program will finish without beginning.')
 	import adsorbates
 	adsorbed_species = get_variable(adsorbates,'adsorbed_species')
