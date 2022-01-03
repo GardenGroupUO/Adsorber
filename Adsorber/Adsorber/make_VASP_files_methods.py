@@ -1,4 +1,4 @@
-
+import os
 
 def make_overall_potcar(folder_to_save_to,vasp_files_folder):
 	with open(folder_to_save_to+'/POSCAR') as POSCAR_file:
