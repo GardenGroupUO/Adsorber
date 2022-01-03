@@ -25,5 +25,5 @@ def introductory_remarks():
 def finish_up():
 	try:
 		rmtree('__pycache__')
-	except:
+	except Exception as ee:
 		print('Could not remove __pycache__')

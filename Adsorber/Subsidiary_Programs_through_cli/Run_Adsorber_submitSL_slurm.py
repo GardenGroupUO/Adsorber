@@ -83,7 +83,7 @@ def check_submit_settingsTXT():
         write_submit_settingsTXT_file(path_to_txt_file)
     try:
         read_submit_settingsTXT_file(path_to_txt_file)
-    except:
+    except Exception as ee:
         write_submit_settingsTXT_file(path_to_txt_file)
 
 def change_settings(args):

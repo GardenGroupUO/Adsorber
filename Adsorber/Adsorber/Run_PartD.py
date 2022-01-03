@@ -12,7 +12,7 @@ class CLICommand:
 
 import os, sys, string
 
-from ase import Atoms
+#from ase import Atoms
 from ase.io import read, write
 
 from Adsorber.Adsorber.Part_D_Methods import introductory_remarks, get_project_id_and_time_from_slurm, get_start_date_from_OUTCAR, determine_convergence_and_time_elapsed_and_date_finished_and_Max_mem_Gb_and_energy_of_output
@@ -417,7 +417,7 @@ def Run_PartD(args_partD):
     def get_OUTCAR_file(path_to,index):
         try:
             OUTCAR_images = read(path_to,index=index)
-        except:
+        except Exception as ee:
             OUTCAR_images = read(path_to+'.gz',index=index)
         return OUTCAR_images
 

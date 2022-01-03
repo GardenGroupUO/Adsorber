@@ -101,7 +101,7 @@ class Run_Adsorber_prepare_unconverged_VASP_jobs:
 				if self.update_VASP_files:
 					copy_files_from_VASP_files_folder(path_to_output, self.vasp_files_folder)
 				# If slurm_information given, update it to that given in script.
-				if not self.slurm_information == None:
+				if (not self.slurm_information is None):
 					make_individual_submitSL_files(path_to_output, jobname, self.slurm_information)				
 				continue
 			converged = determine_convergence_of_output(path_to_output)

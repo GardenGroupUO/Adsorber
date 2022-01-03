@@ -26,11 +26,11 @@ def Run_method(args_compare):
 	This program is designed to allow you to see if they have converged to the same place. 
 
 	'''
-	import os, re
+	import os
 	from ase.io import read, write
 
 	from openpyxl import load_workbook
-	from openpyxl.utils import get_column_letter
+	#from openpyxl.utils import get_column_letter
 
 	from tqdm import tqdm
 
@@ -148,7 +148,7 @@ def Run_method(args_compare):
 		with open(Part_D_Results_Folder_name+'/'+similar_systems_name+'_'+sheetname+'.txt','w') as all_sim_systems_file_representative:
 			for lowest_energy, row_index, key, no_of_sims, path in energy_of_each_similar_type:
 				if lowest_energy <= (lowest_lowest_energy+upper_energy_limit):
-					if key == None:
+					if (key is None):
 						print('Error: '+str(path)+' may not have the adsorbate binding to the surface of your system. To check. Will ignore this.')
 						continue
 					to_string = str(row_index)+': '+str(get_key_name(key))+'\t['+str(no_of_sims)+']\t'+str(round(lowest_energy-lowest_lowest_energy,3))+' eV ('+str(round(lowest_energy,3))+' eV)'

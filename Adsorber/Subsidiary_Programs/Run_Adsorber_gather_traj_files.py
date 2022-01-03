@@ -12,7 +12,7 @@ from ase.io import read, write
 
 from openpyxl import load_workbook
 
-from tqdm import tqdm
+#from tqdm import tqdm
 
 adsorbate_name = sys.argv[1]
 list_of_rows_from_argv = sys.argv[2:]
