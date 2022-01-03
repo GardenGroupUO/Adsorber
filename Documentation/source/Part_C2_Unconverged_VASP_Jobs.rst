@@ -13,7 +13,7 @@ These programs/protocols are described below.
 .. _Part_C_Run_Adsorber_determine_unconverged_VASP_jobs:
 
 ``Adsorber check_unconverged``: Determine which jobs have converged and which have not
-======================================================================================
+--------------------------------------------------------------------------------------
 
 This program is designed to inform you of which VASP jobs have converge and which have not. To run this, move into the folder that you would like to examine all jobs that are within subdirectories of. Then run this program in the terminal. For example, if you want to examine if all VASP jobs from Part A have converged, perform the following in the terminal:
 
@@ -93,13 +93,13 @@ If you just want the names of the jobs and not the directories printed, type ``R
 .. _Part_C_Run_Adsorber_prepare_unconverged_VASP_jobs_PY:
 
 What to do if you want to resubmit jobs to slurm
-================================================
+------------------------------------------------
 
 There are two programs that you can use for preparing jobs for resubmission to slurm, depending on what you want to do. The first thing to do is to make any changes to your convergence criteria or other VASP settings. Once you are happy, move on to one of the two pro before that is most suited to what you want to do. 
 
 
 Before preparing jobs for resubmission
---------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before using either of these programs, you want to first make any changes to the settings that you want to change in your ``INCAR`` file (and make any corrections that you need to make to your ``KPOINTS`` and ``POTCAR`` files if required). For example, if you want to change the geometric convergence criteria you want to change the ``EDIFF`` tag in your ``INCAR`` file now. 
 
@@ -107,48 +107,18 @@ If you dont need to make any changes to your ``INCAR``, do not worry about any o
 
 
 ``prepare_unconverged_VASP_jobs.py``: Prepare unconverged VASP jobs for resubmission
-------------------------------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If not all your VASP jobs converged, you can setup your VASP calculations to be resubmitted to VASP from the last geometry optimisation step. To do this, you first need to prepare a new python script in the same place on your computer as your ``general.py``, ``adsorbate.py``, ``partA.py``, ``partB.py``, and ``partC.py`` scripts called ``prepare_unconverged_VASP_jobs.py``. An example of this ``prepare_unconverged_VASP_jobs.py`` python script is as follows:
+If not all your VASP jobs converged, you can setup your VASP calculations to be resubmitted to VASP from the last geometry optimisation step. To do this, you first need to prepare a new python script in the same place on your computer as your ``general.py``, ``adsorbate.py``, ``partA.py``, ``partB.py``, and ``partC.py`` scripts called ``prepare_unconverged_VASP_jobs_PartC.py``. An example of this ``prepare_unconverged_VASP_jobs_PartC.py`` python script is as follows:
 
-.. code-block:: python
+.. literalinclude:: input_files/prepare_unconverged_VASP_jobs_PartC.py
+   :language: python
+   :caption: prepare_unconverged_VASP_jobs_PartC.py
+   :name: prepare_unconverged_VASP_jobs_PartC.py
+   :tab-width: 4
+   :linenos:
 
-   from Adsorber import Run_Adsorber_prepare_unconverged_VASP_jobs
-
-   # A switch that determines what type of resubmnission scheme you would like to perform
-   prepare_jobs_switch = 'folder' # text
-
-   # if you want to resubmit all adsorbate+systems that have an energy above the current minimum energy system.
-   files_with_VASP_calcs = ['Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP/COH']
-   options = {'energies_from_lowest_energy': float('inf')}
-
-   # If you want to resubmit certain adsorbate+systems given in a text file. 
-   path_to_resubmission_list_file = 'Part_D_Results_Folder/Similar_Systems_CHO.txt' # example of path_to_resubmission_list_file as a string for a single file
-   # path_to_resubmission_list_file = ['Part_D_Results_Folder/Similar_Systems_CHO.txt', 'Part_D_Results_Folder/Similar_Systems_COOH.txt', 'Part_D_Results_Folder/Similar_Systems_CO.txt'] # example of path_to_resubmission_list_file as a list of files.
-
-   # Information required to prepare jobs with selected switch
-   main_information = {'files_with_VASP_calcs': files_with_VASP_calcs, 'options': options}
-   #main_information = {'path_to_resubmission_list_file': path_to_resubmission_list_file}
-
-   # if you would like to prepare jobs even if they have already converged, change this to True
-   force_prepare = false
-   # If you want to also update the VASP files while performing this task
-   update_VASP_files = False
-
-   slurm_information = {}
-   slurm_information['project'] = 'uoo02568'
-   slurm_information['partition'] = 'large'
-   slurm_information['time'] = '72:00:00'
-   slurm_information['nodes'] = 1
-   slurm_information['ntasks_per_node'] = 12
-   slurm_information['mem-per-cpu'] = '1200MB'
-   slurm_information['email'] = 'yourslurmnotificationemailaddress@gmail.com'
-   slurm_information['vasp_version'] = 'VASP/5.3.5-intel-2017a-VTST-BEEF'
-   slurm_information['vasp_execution'] = 'vasp_cd'
-
-   Run_Adsorber_prepare_unconverged_VASP_jobs(prepare_jobs_switch,main_information=main_information,slurm_information=slurm_information,force_prepare=force_prepare,update_VASP_files=update_VASP_files)
-
-There are five variables to specify in this script. These are :
+There are five main variables that are need in this script. These are :
 
 * ``prepare_jobs_switch`` (*str.*): This switch indicates how this program will prepare your jobs. There are two options for this switch:
 
@@ -170,7 +140,7 @@ There are five variables to specify in this script. These are :
 
 * ``update_VASP_files`` (*bool.*): If this variable is set to ``True``, the files that are in your ``VASP_files`` folder will be copied into the job that are prepared. This allows you to make changes to the files in your ``VASP_files`` folder that you would like to adopt in the jobs you prepare, such as changing the convergence criteria in the ``INCAR``. If you set this to ``False``, the original VASP files from the Job will be used. Default: ``False``. 
 
-* ``slurm_information`` (*dict.*): This dictionary contains all the information required to create the ``submit.sl`` scripts. See XXXXXXXXXXX for more information about the settings to place in this dictionary. 
+* ``slurm_information`` (*dict.*): This dictionary contains all the information required to create the ``submit.sl`` scripts. See :ref:`Part_C1_Preparing_Adsorbed_Systems_For_VASP` for more information about the settings to place in this dictionary. 
 
 What will ``prepare_unconverged_VASP_jobs.py`` do?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

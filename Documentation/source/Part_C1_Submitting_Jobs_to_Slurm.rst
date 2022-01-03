@@ -25,7 +25,7 @@ If you dont want to run all the jobs in ``Part_C_Selected_Systems_with_Adsorbed_
 ``Adsorber submit`` settings that can be changed
 ------------------------------------------------
 
-XXX
+Write this once I am happy with how the program works here.
 
 
 ``Adsorber check_submit``: Other useful commands to see how many jobs are running and the number of jobs that you will submit

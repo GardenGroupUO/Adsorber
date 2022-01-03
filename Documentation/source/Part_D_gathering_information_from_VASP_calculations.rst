@@ -44,3 +44,5 @@ What do you need to do?
 What you need to do now is to look through the excel spreadsheet and analyse it how you need to.
 
 You may want to rerun some of your jobs, either because they finished with errors, did not converge, or because you want to change the convergence criteria for that job (either by tightening or loosening the convergence criteria). See :ref:`Part_C_Run_Adsorber_prepare_unconverged_VASP_jobs_PY` for information about how to prepare jobs for being resubmitted to slurm using the ``prepare_unconverged_VASP_jobs.py`` script. 
+
+Also read :ref:`Part_D_supplementary_methods` to see how to use some supplementary programs that have been created to help process the data obtained from Part D, including how to analyse those systems that have locally optimised to the same state in VASP. 

@@ -1,7 +1,7 @@
 .. _Part_D_supplementary_methods:
 
-Part D: Supplementary Methods for tightening convergence criteria and resuming VASP jobs
-########################################################################################
+Part D: Supplementary Methods
+#############################
 
 Often because there are lots of ways that adsorbates can be bound to a cluster, many VASP jobs are required where an adsorbate is bound to various surface sites about a surface or cluster. This means that 200 to 2000+ VASP jobs need to be completed to understand the preferable binding site for an adsorbate upon a surface or cluster. For this reason, I often will perform ``Adsorber`` at a low convergence (for example 0.03 eV) and then once I know which sites are most preferable for an adsorbate to bind to, only perform a tigher convergence (0.01 eV) on those lowest energy sites. 
 
@@ -33,6 +33,38 @@ This will create a folder called ``Similar_Systems`` into your ``Part_D_Results_
 * ``similar_systems.txt``: This file contains all the job_names, energies, and paths of VASP jobs that may have converged to the same place
 * a ``traj`` file: This contains all the final states of your jobs. The images in this ``traj`` are ordered in the same manor as given in ``similar_systems.txt``. The images in this ``traj`` may all look the same, because these jobs may have converged to the same place.
 * ``xyz`` files: These are xyz files of the final states that jobs had reached before finishing. These ``xyz`` files may all look the same, because these jobs may have converged to the same place.
+
+What to do once you have performed ``Adsorber compare`` and want to tighten the convergence criteria for selected unique states
+-------------------------------------------------------------------------------------------------------------------------------
+
+Once you have performed ``Adsorber compare``, a file called ``similar_systems.txt`` will be created. You can run your ``prepare_unconverged_VASP_jobs.py`` script again if you want to tighten your convergence critera. In this example, we will call this script ``prepare_unconverged_VASP_jobs_PartD.py``. This is what you need to do in order to tighten the convergence criteria:
+
+1. Change the ``EDIFF`` tag in your ``INCAR`` file in your ``VASP_Files`` folder to a tighter convergence criteria
+
+2. You then want to change ``path_to_resubmission_list_file`` in your ``prepare_unconverged_VASP_jobs_PartD.py`` file to the ``similar_systems.txt`` file you have just created. For example, if you want to resubmit those unique states for CHO adsorbates adsorbed to your system, the following code could be used:
+
+**Notes about this** ``prepare_unconverged_VASP_jobs_PartD.py`` **script:**
+
+* You can give ``path_to_resubmission_list_file`` as a single path or a list of paths.
+* **MAKE SURE THAT THE** ``force_prepare`` **VARIABLE IS SET TO** ``True``.
+* **MAKE SURE THAT THE** ``update_VASP_files`` **VARIABLE IS SET TO** ``True``.
+
+.. literalinclude:: input_files/prepare_unconverged_VASP_jobs_PartD.py
+   :language: python
+   :caption: prepare_unconverged_VASP_jobs_PartD.py
+   :name: prepare_unconverged_VASP_jobs_PartD.py
+   :tab-width: 4
+   :linenos:
+
+3. Run the ``prepare_unconverged_VASP_jobs_PartD.py`` script
+
+.. code-block:: bash
+
+   python prepare_unconverged_VASP_jobs_PartD.py
+
+This will prepare your unique states to be reoptimised with VASP using a tighter convergence criteria. See :ref:`Part_C1_Submitting_Jobs_to_Slurm` to learn how to submit your VASP jobs to slum. 
+
+If you need more information about ``prepare_unconverged_VASP_jobs.py``, see :ref:`Part_C_Run_Adsorber_prepare_unconverged_VASP_jobs_PY`. This ``prepare_unconverged_VASP_jobs.py`` script has been written for preparing unconverged jobs for resubmission, but by setting ``force_prepare = True`` and ``update_VASP_files = True`` we can use this same script for preparing jobs to tighten the convergence criteria. 
 
 ``Adsorber tidy``: Clean up the files for jobs that you are happy with
 **********************************************************************

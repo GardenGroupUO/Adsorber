@@ -3,7 +3,9 @@
 Part B2: How to choose which ``xyz`` files to optimise in VASP
 ##############################################################
 
-After running PartB in ``Adsorber``, the ``Adsorber`` program will create a number of xyz files, where each adsorbate has been bound to each top, bridge, three-fold, and four-fold binding site across your system. However, you may not want to optimise everyone of these binding sites and want to be selective. **What you want do is to choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. 
+After running PartB in ``Adsorber``, the ``Adsorber`` program will create a number of xyz files, where each adsorbate has been bound to each top, bridge, three-fold, and four-fold binding site across your system. However, you may not want to optimise everyone of these binding sites and want to be selective. 
+
+**What you want do is to choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP from the** ``Part_B_All_Systems_with_Adsorbed_Species`` **folder and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**.
 
 In this section, we will discuss how to choose ``xyz`` files for further optimise in VASP. This section requires the use of the ASE GUI and Jmol to view our chemical systems. The installation and use of these visualisation programs is given in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
 
@@ -134,6 +136,11 @@ The process of choosing which binding sites to use for adsorbating adsorbates to
    four_fold_sites = {}
 
    Copy_Files_from_Folder_B_to_Folder_C(adsorbates, top_sites, bridge_sites, three_fold_sites, four_fold_sites)
+
+NOTE: You can copy the indices from the ``function _setModelState`` method from the Jmol file (as shown above) and paste them into the dictionaries for ``top_sites``, ``bridge_sites``, ``three_fold_sites``, and ``four_fold_sites``. 
+
+What will ``copy_files_from_folder_B_to_C.py`` do?
+==================================================
 
 This program will copy of the relevant ``ADSORBATE_ADSORPTIONSITE_Label_Index.xyz`` files from your ``Part_B_All_Systems_with_Adsorbed_Species`` folders to your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` folder. All orientations/rotations of adsorbates are included, therefore you will need to delete those orientations/rotations you do not want to include. These will be place in folders based on the names you gave the binding sites in the dictionaries. For example, you will find the folders ``Weird_Sites_Yellow``, ``5_Fold_Vertex_Site_Red``, ``Weird_Corners_Blue``, ``Ico_Sites_Green`` in your ``Top_Sites`` folder in ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``. 
 
