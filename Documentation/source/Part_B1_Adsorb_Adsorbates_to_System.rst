@@ -48,4 +48,7 @@ This will create a folder called ``Part_B_All_Systems_with_Adsorbed_Species`` th
 
 Adsorber will created many ``xyz`` files, many of which you may not want to run in VASP. This may be because many of the sites are structural degenerate, or to orientate the adsorbate in certain directions. 
 
-In the next step, we choose which of these ``xyz`` files to further locally optimise in VASP. To do this, VASP will also create another folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``. What you want do is to **choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. **See** :ref:`Part_B2_What_to_do_with_files_from_Part_B` **to read about how to do this**. 
+What do you need to do?
+-----------------------
+
+What you need to do is choose which xyz files you want to locally optimise in VASP. To do this, VASP will also create another folder called ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files``. What you want do is to **choose is to select the adsorbates in the sites and orientations that you want to optimise in VASP from the ** ``Part_B_All_Systems_with_Adsorbed_Species`` **folder and copy them into the** ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` **folder**. **It is HIGHLY recommended you read** :ref:`Part_B2_What_to_do_with_files_from_Part_B` **to read about how to do this in more detail**. 

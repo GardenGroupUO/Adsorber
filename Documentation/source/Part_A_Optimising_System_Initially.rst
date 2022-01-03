@@ -87,6 +87,13 @@ Once you have run VASP on your system and all your adsorbates, proceed to Part B
 
 Note that we have not used this program to get the energy of a C atom in graphene. This is because ``Adsorber`` is not designed to obtain lattice constants. See the ``LatticeFinder`` program to obtain this (see https://github.com/GardenGroupUO/LatticeFinder). 
 
+What do you need to do?
+-----------------------
+
+You need to optimise the system in VASP, then you can move on to Part B. If you already have a VASP optimised version of your system that have been optimised with your desired functional and other INCAR, KPOINTS, and POTCAR settings, you can move on to Part B. 
+
+You can also optimise the other adsorbates and molecules that you need if you want to reference your energies towards them, however this is something that ``Adsorber`` does not do, It just needs you to have optimised your system (being a cluster or surface model) in VASP before moving on with Part B. 
+
 Note regarding surface models
 -----------------------------
 

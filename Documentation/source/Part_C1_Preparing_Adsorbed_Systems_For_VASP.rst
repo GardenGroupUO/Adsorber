@@ -75,6 +75,11 @@ If the VASP folder exists and it contains a ``POSCAR``, this ``POSCAR`` will not
 
 Note: This ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` folder may get big, so just check the amount of space that the newly created ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` is taking up as it is being created. 
 
+What do you need to do?
+-----------------------
+
+Once you have run ``Adsorber partC`` and you are ready to submit jobs to slurm, see :ref:`Part_C1_Submitting_Jobs_to_Slurm` to learn about how to submit ``VASP`` jobs to slurm using the ``Adsorber`` program. 
+
 What to do if you made a mistake that you want to fix before submitting VASP jobs to slurm
 ------------------------------------------------------------------------------------------
 
@@ -87,8 +92,3 @@ I want to add more new places that adsorbates can bind to on the surface of the 
 ===================================================================================================================================
 
 Run your ``Run_Adsorber.py`` script once you have included all the new binding sites to your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files`` folder. Running your your ``Run_Adsorber.py`` script again will add new folders and VASP files of these new arrangements of adsorbates on the surface of your cluster/surface model in your ``Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP`` folder. Your original ``POSCAR`` will not be changed (unless you have set ``part_c_force_create_original_POSCAR = True``. We recommend you not to do this here). Only those jobs that have not begun to run (i.e. dont have an ``OUTCAR``) will have their VASP files ``INCAR``, ``submit,sl``, ``KPOINTS``, ``POTCAR``, and other vast files (not the ``POSCAR`` though) copied over. Adsorber will not touch those jobs that have an ``OUTCAR`` that are assumed to be running/have finished running. 
-
-What to do once you are ready to submit VASP jobs to slurm
-----------------------------------------------------------
-
-Once you are run ``Adsorber partC`` and you are ready to submit jobs to slurm, see :ref:`Part_C1_Submitting_Jobs_to_Slurm` to learn about how to submit ``VASP`` jobs to slurm using the ``Adsorber`` program. 

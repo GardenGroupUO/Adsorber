@@ -1,3 +1,5 @@
+import os
+
 # =================================================================================================================
 
 def get_variable(script,setting,default='NG'): # (NG = Not Given)
@@ -8,7 +10,18 @@ def get_variable(script,setting,default='NG'): # (NG = Not Given)
 
 # =================================================================================================================
 
+general_script_name = 'general.py'
+adsorber_script_name = 'adsorbate.py'
+partA_script_name = 'partA.py'
+partB_script_name = 'partB.py'
+partC_script_name = 'partC.py'
+
 def import_general_settings():
+	if not os.path.exists(general_script_name):
+		print('Error: You do not have a '+str(general_script_name)+' file.')
+		print('This is required to provide the general settings for Adsorber.')
+		print('See documentation for details on how to write a '+str(general_script_name)+' file.')
+		exit('This program will finish without beginning.')
 	import general
 	cluster_or_surface_model = import_cluster_or_surface_model_setting(get_variable(general,'cluster_or_surface_model'))
 	system_filename = get_variable(general,'system_filename')
@@ -37,6 +50,11 @@ def import_cluster_or_surface_model_setting(cluster_or_surface_model):
 # =================================================================================================================
 
 def import_adsorbate_settings():
+	if not os.path.exists(adsorber_script_name):
+		print('Error: You do not have a '+str(adsorber_script_name)+' file.')
+		print('This is required to provide the settings reguarding the adsorbate for Adsorber.')
+		print('See documentation for details on how to write a '+str(adsorber_script_name)+'file.')
+		exit('This program will finish without beginning.')
 	import adsorbates
 	adsorbed_species = get_variable(adsorbates,'adsorbed_species')
 	return adsorbed_species
@@ -44,6 +62,11 @@ def import_adsorbate_settings():
 # =================================================================================================================
 
 def import_PartA_settings():
+	if not os.path.exists(partA_script_name):
+		print('Error: You do not have a '+str(partA_script_name)+' file.')
+		print('This is required to provide the settings reguarding Part A for Adsorber.')
+		print('See documentation for details on how to write a '+str(partA_script_name)+'file.')
+		exit('This program will finish without beginning.')
 	import partA
 	slurm_information_system = get_variable(partA,'slurm_information_system')
 	other_molecules_to_obtain_VASP_energies_for = get_variable(partA,'other_molecules_to_obtain_VASP_energies_for')
@@ -55,6 +78,11 @@ def import_PartA_settings():
 
 from Adsorber.Adsorber.general_methods import get_system
 def import_PartB_settings():
+	if not os.path.exists(partB_script_name):
+		print('Error: You do not have a '+str(partB_script_name)+' file.')
+		print('This is required to provide the settings reguarding Part B for Adsorber.')
+		print('See documentation for details on how to write a '+str(partB_script_name)+'file.')
+		exit('This program will finish without beginning.')
 	import partB
 	path_to_VASP_optimised_non_adsorbate_system = get_variable(partB,'path_to_VASP_optimised_non_adsorbate_system')
 	cluster = get_system(path_to_VASP_optimised_non_adsorbate_system)
@@ -114,6 +142,11 @@ def import_cutoff_setting(cutoff,cluster,surface_atoms):
 # =================================================================================================================
 
 def import_PartC_settings():
+	if not os.path.exists(partC_script_name):
+		print('Error: You do not have a '+str(partC_script_name)+' file.')
+		print('This is required to provide the settings reguarding Part C for Adsorber.')
+		print('See documentation for details on how to write a '+str(partC_script_name)+'file.')
+		exit('This program will finish without beginning.')
 	import partC
 	VASP_folder_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP' 
 	part_c_force_create_original_POSCAR = False # part_c_force_create_original_POSCAR
@@ -122,72 +155,3 @@ def import_PartC_settings():
 	cluster = get_system(path_to_VASP_optimised_non_adsorbate_system)
 	slurm_information = get_variable(partC,'slurm_information')
 	return VASP_folder_name, part_c_force_create_original_POSCAR, cluster, slurm_information
-
-
-
-
-
-
-
-
-
-
-
-def import_settings(self,part_to_perform,cluster_or_surface_model,system_filename,path_to_VASP_optimised_non_adsorbate_system,cutoff,surface_atoms,adsorbed_species,slurm_information,Other_molecules_to_obtain_VASP_energies_for):
-	# ===========================================================================================
-	# Determine which Part of Adsorber you want to perform
-	self.part_to_perform = part_to_perform
-	# General data about the cluster
-	self.vasp_files_folder = 'VASP_Files'
-	self.surface_atoms = sorted(surface_atoms)
-	self.system_filename = system_filename
-	self.name_without_suffix = '.'.join(self.system_filename.split('.')[:-1:])
-	self.systems_to_convert_for_VASP_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Convert_into_VASP_files'
-	# ===========================================================================================
-	# Data for Parts A, B and C.
-	if self.part_to_perform == 'Part A':
-		# Settings for Part A
-		self.Other_molecules_to_obtain_VASP_energies_for = Other_molecules_to_obtain_VASP_energies_for
-		# Other settings
-		self.cluster = get_system(self.system_filename)
-		self.part_A_folder_name = 'Part_A_Non_Adsorbed_Files_For_VASP'
-	elif self.part_to_perform == 'Part B':
-		# Settings for Part B
-		self.path_to_VASP_optimised_non_adsorbate_system = path_to_VASP_optimised_non_adsorbate_system
-		# Other settings
-		self.cluster = get_system(self.path_to_VASP_optimised_non_adsorbate_system)
-		import_cutoff_setting(self,cutoff)
-		self.data_storage_file = 'adsorber_data.txt'
-		self.system_folder_name = 'Part_B_All_Systems_with_Adsorbed_Species'
-		check_saving_binding_sites(adsorbed_species)
-	elif self.part_to_perform == 'Part C':
-		# Settings for Part C
-		self.VASP_folder_name = 'Part_C_Selected_Systems_with_Adsorbed_Species_to_Run_in_VASP' 
-		self.part_c_force_create_original_POSCAR = False # part_c_force_create_original_POSCAR
-		# Other settings
-		self.path_to_VASP_optimised_non_adsorbate_system = path_to_VASP_optimised_non_adsorbate_system
-		self.cluster = get_system(self.path_to_VASP_optimised_non_adsorbate_system)
-	else:
-		print('=================================')
-		print('Error in Adsorber: You have not specified which part of Adsorber you want to perform')
-		print('')
-		print('You need to set the part_to_perform variable in your Run_Adsorber.py script to either:')
-		print('* Part A: ')
-		print('* Part B: ')
-		print('* Part C: ')
-		print('You have set part_to_perform = '+str(self.part_to_perform))
-		parts_to_choose = ['Part A', 'Part B', 'Part C']
-		print('Set part_to_perform to either: '+str(parts_to_choose))
-		print('This program will stop here without running.')
-		print('=================================')
-		exit()
-	import_cluster_or_surface_model_setting(self,cluster_or_surface_model)
-	# ===========================================================================================
-	# information about the atoms and molecules that will be adsorbed, as well sa their binding sites
-	self.distance_of_dummy_adatom_from_surface = 1.1 # Angstroms #vdw_radii[atomic_numbers[self.cluster[0].symbol]] + vdw_radii[atomic_numbers['H']]
-	self.adsorbed_species = adsorbed_species
-	self.bind_site_data_types = ['top sites','bridge sites','three-fold sites','four-fold sites']
-	self.slurm_information = slurm_information
-	# ===========================================================================================
-
-

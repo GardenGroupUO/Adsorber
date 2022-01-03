@@ -88,6 +88,7 @@ Table of Contents
    Part_C1_Submitting_Jobs_to_Slurm
    Part_C2_Unconverged_VASP_Jobs
    Part_D_gathering_information_from_VASP_calculations
+   Part_D_supplementary_methods
    genindex
    py-modindex
 
