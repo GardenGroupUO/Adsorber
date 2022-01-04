@@ -60,7 +60,7 @@ def Run_method(args_method):
 			path_to_output = root
 			job_details = [jobname,path_to_output]
 			if not (OUTCAR_file in files):
-				files_have_not_begun.append(job_details[0])
+				files_have_not_begun.append(job_details)
 				continue
 			converged = determine_convergence_of_output(path_to_output)
 			if converged:
@@ -99,7 +99,7 @@ def Run_method(args_method):
 		print('==============================================')
 		if len(files_have_not_begun) > 0:
 			print('The following VASP jobs HAVE NOT STARTED')
-			for VASP_job in files_have_not_begun:
+			for name, path in files_have_not_begun:
 				if write_job_directory:
 					print(name+' ('+path+')')
 				else:

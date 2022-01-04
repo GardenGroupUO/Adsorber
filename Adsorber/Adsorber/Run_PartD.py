@@ -10,7 +10,7 @@ class CLICommand:
     def run(args_partD):
         Run_PartD(args_partD)
 
-import os, sys, string
+import os, string
 
 #from ase import Atoms
 from ase.io import read, write
@@ -18,7 +18,7 @@ from ase.io import read, write
 from Adsorber.Adsorber.Part_D_Methods import introductory_remarks, get_project_id_and_time_from_slurm, get_start_date_from_OUTCAR, determine_convergence_and_time_elapsed_and_date_finished_and_Max_mem_Gb_and_energy_of_output
 from Adsorber.Adsorber.Part_D_Methods import get_job_id, get_EDIFFG_from_OUTCAR
 from Adsorber.Adsorber.Part_D_Methods import get_cluster_name_from_Run_AdsorberPY_script
-from Adsorber.Adsorber.program_information import introductory_remarks, finish_up
+from Adsorber.Adsorber.program_information import introductory_remarks #, finish_up
 
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
@@ -308,7 +308,7 @@ def Run_PartD(args_partD):
                 continue
             all_outcar_objects.append(outcar_location_data)
         # make graphs of plots
-        no_of_entries = len(all_outcar_objects)
+        #no_of_entries = len(all_outcar_objects)
         '''
         if no_of_entries <= 500:
             attach_edges = True; compare_neighbours = True

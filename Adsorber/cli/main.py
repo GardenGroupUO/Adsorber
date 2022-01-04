@@ -1,6 +1,4 @@
-import argparse
-import sys
-import textwrap
+import argparse, textwrap
 from importlib import import_module
 
 from Adsorber import __version__

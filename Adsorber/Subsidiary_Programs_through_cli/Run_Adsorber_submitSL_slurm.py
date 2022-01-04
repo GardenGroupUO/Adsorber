@@ -195,7 +195,7 @@ def Run_method(wait_between_submissions):
     print('###########################################################################')
     print('###########################################################################')
 
-    import os, time, sys
+    import time, sys
     import subprocess
 
     Max_jobs_in_queue_at_any_one_time,time_to_wait_before_next_submission,time_to_wait_max_queue,time_to_wait_before_next_submission_due_to_temp_submission_issue,number_of_consecutive_error_before_exitting,time_to_wait_before_next_submission_due_to_not_waiting_between_submissions = read_submit_settingsTXT_file(path_to_txt_file)
