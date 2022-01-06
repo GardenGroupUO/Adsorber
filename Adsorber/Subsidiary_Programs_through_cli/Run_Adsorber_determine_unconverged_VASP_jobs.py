@@ -4,7 +4,7 @@ class CLICommand:
 
     @staticmethod
     def add_arguments(parser):
-        parser.add_argument('write_job_directory', nargs='*', help='Write the paths and other information of the VASP jobs that have not yet converged.')
+        parser.add_argument('write_job_directory', nargs='*', help='Write the paths and other information of the VASP jobs that have not yet converged. Asnwer can be either True or False. Default: True.')
 
     @staticmethod
     def run(args):
@@ -44,10 +44,16 @@ def Run_method(args_method):
 	INCAR_file = 'INCAR'
 	submission_folder_name = 'Submission_Folder'
 	Did_converged = []
+	Did_not_converge_but_repeat_did = []
 	Did_not_converge = []
+	Did_not_converge_and_repeat_did_not_converge = []
 	files_have_not_begun = []
 	for root, dirs, files in os.walk(os.getcwd()):
-		if submission_folder_name in root:
+		if ('_repeat' in root):
+			dirs[:] = []
+			files[:] = []
+			continue
+		if (submission_folder_name in root):
 			dirs[:] = []
 			files[:] = []
 			continue
@@ -63,17 +69,38 @@ def Run_method(args_method):
 				files_have_not_begun.append(job_details)
 				continue
 			converged = determine_convergence_of_output(path_to_output)
+			repeat_converged = None
+			all_repeat_paths_to_output = []
+			if not converged:
+				counter = 1
+				repeat_path_to_output = path_to_output+'_repeat'
+				current_repeat_path_to_output = repeat_path_to_output
+				while os.path.exists(current_repeat_path_to_output):
+					repeat_converged = determine_convergence_of_output(current_repeat_path_to_output)
+					if repeat_converged:
+						break
+					all_repeat_paths_to_output.append(current_repeat_path_to_output)
+					counter += 1
+					current_repeat_path_to_output = repeat_path_to_output+'_'+str(counter)
 			if converged:
 				Did_converged.append(job_details)
-			else:
+			elif (not converged) and repeat_converged:
+				Did_not_converge_but_repeat_did.append(job_details+[current_repeat_path_to_output])
+			elif (not converged) and (repeat_converged is None):
 				Did_not_converge.append(job_details)
+			elif (not converged) and (not repeat_converged):
+				Did_not_converge_and_repeat_did_not_converge.append(job_details+[all_repeat_paths_to_output])
+			else:
+				exit('huh how did you get here? Debug this using import pdb; pdb.set_trace()')
 
 	Did_converged.sort()
+	Did_not_converge_but_repeat_did.sort()
 	Did_not_converge.sort()
+	Did_not_converge_and_repeat_did_not_converge.sort()
 	files_have_not_begun.sort()
 
 	print('==============================================')
-	if (len(Did_converged)+len(Did_not_converge)+len(files_have_not_begun)) > 0:
+	if (len(Did_converged)+len(Did_not_converge_but_repeat_did)+len(Did_not_converge)+len(Did_not_converge_and_repeat_did_not_converge)+len(files_have_not_begun)) > 0:
 		print('==============================================')
 		if len(Did_converged) > 0:
 			print('The following VASP jobs CONVERGED')
@@ -86,6 +113,17 @@ def Run_method(args_method):
 		else:
 			print('No jobs found had converged')
 		print('==============================================')
+		if len(Did_not_converge_but_repeat_did) > 0:
+			print("The following VASP jobs DID NOT CONVERGE BUT IT'S REPEAT DID CONVERGE")
+			for name, path, repeat_path_to_output in Did_not_converge_but_repeat_did:
+				if write_job_directory:
+					print(name+' ('+repeat_path_to_output+')')
+				else:
+					print(name)
+			print('No of completed repeated jobs: '+str(len(Did_not_converge_but_repeat_did)))
+		else:
+			print('All jobs found had converged')
+		print('==============================================')
 		if len(Did_not_converge) > 0:
 			print('The following VASP jobs DID NOT CONVERGE')
 			for name, path in Did_not_converge:
@@ -94,6 +132,19 @@ def Run_method(args_method):
 				else:
 					print(name)
 			print('No of uncompleted jobs: '+str(len(Did_not_converge)))
+		else:
+			print('All jobs found had converged')
+		print('==============================================')
+		if len(Did_not_converge_and_repeat_did_not_converge) > 0:
+			print('The following VASP jobs DID NOT CONVERGE AND ITS REPEAT(S) HAS(VE) NOT CONGERVED')
+			for name, path, all_repeat_paths_to_output in Did_not_converge_and_repeat_did_not_converge:
+				if write_job_directory:
+					print(name+' ('+path+')')
+					for repeated_path in all_repeat_paths_to_output:
+						print(' --> ('+repeated_path+')')
+				else:
+					print(name)
+			print('No of uncompleted jobs: '+str(len(Did_not_converge_and_repeat_did_not_converge)))
 		else:
 			print('All jobs found had converged')
 		print('==============================================')
@@ -110,9 +161,14 @@ def Run_method(args_method):
 		print('No jobs were found in this directory and subdirectories')
 	print('==============================================')
 
-	def write_to_TXTfile(did_not_converge):
-		#import pdb; pdb.set_trace()
+	def write_to_TXTfile(did_not_converge,Did_not_converge_and_repeat_did_not_converge):
 		with open('unconverged_systems.txt','w') as unconverged_systemsTXT:
 			for name, path in did_not_converge:
 				unconverged_systemsTXT.write(str(path)+'\t'+str(name)+'\n')
-	write_to_TXTfile(Did_not_converge)
+			if len(Did_not_converge_and_repeat_did_not_converge) > 0:
+				unconverged_systemsTXT.write('\n')
+				for name, path, all_repeat_paths_to_output in Did_not_converge_and_repeat_did_not_converge:
+					unconverged_systemsTXT.write(str(path)+'\t'+str(name)+'\n')
+					for counter in range(len(all_repeat_paths_to_output)):
+						unconverged_systemsTXT.write(str(path)+'\t'+str(name)+'_repeat_'+str(counter)+'\n')
+	write_to_TXTfile(Did_not_converge,Did_not_converge_and_repeat_did_not_converge)
