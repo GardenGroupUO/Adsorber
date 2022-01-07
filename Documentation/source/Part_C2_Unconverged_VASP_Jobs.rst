@@ -162,7 +162,40 @@ If you have already run the ``prepare_unconverged_VASP_jobs.py`` but decide you 
 
 **=> If you want to change the convergence criteria before you resubmit your unconverged VASP jobs**, perform the steps as above, making sure you change the ``EDIFFG`` tag in the ``INCAR`` file suppied in the ``VASP_Files`` folder. For example, if you want to tighten your convergence criteria, change your value of ``EDIFFG`` in your ``INCAR`` file so it is closer to 0.0 eV or 0.0 eV/Ang. 
 
+
+What should I do if I do not want to use ``prepare_unconverged_VASP_jobs.py`` to prepare jobs for resubmission but want to just resubmit certain jobs: ``Adsorber prep_single_resub``
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+In some cases you may have manually looked through some jobs and find you want to resubmit some jobs to give them longer to run. You can do this using ``Adsorber prep_single_resub``. 
+
+To use ``Adsorber prep_single_resub``, first move into the folder of the job you want to prepare for resubmission. Then in the terminal type
+
+.. code-block:: bash
+
+   Adsorber prep_single_resub
+
+``Adsorber prep_single_resub`` will take all the files and place the important ones in a new ``Submission`` folder, leaving only the ``INCAR``, ``POTCAR``, ``KPOINTS``, ``submit.sl``, and any other input files. A new ``POSCAR`` will be created that is the previous ``CONTCAR`` or if this file does not exist the last image in the ``OUTCAR``.
+
+
+What to do if some of my calculations are not converging and you want to repeat them from the beginning: ``Adsorber repeat``
+----------------------------------------------------------------------------------------------------------------------------
+
+In some cases you may find that when you look at a job manually that you want to restart the job from the beginning. You can do this using ``Adsorber repeat``. To use this, in the folder of tyhe job you want to restart, type in the terminal: 
+
+.. code-block:: bash
+
+   Adsorber repeat
+
+``Adsorber repeat`` will take all the files from your ``Submission_1`` folder (or if you dont have this directory from your folder) and copy them into a new folder that ends with ``_repeat``. This will include your original ``POSCAR``, ``INCAR``, ``POTCAR``, ``KPOINTS``, ``submit.sl``, and any other input files. The ``submit.sl`` will have its job name changed to include the ``_repeat`` tag in its name. ``Adsorber repeat``  will not touch your current job folder
+
+You can use this as many times as you want. 
+The first time you use it a new folder ending with ``_repeat`` will be made. 
+The second time you use it a new folder ending with ``_repeat_2`` will be made. 
+The third time you use it a new folder ending with ``_repeat_3`` will be made. 
+And so on and so on.
+
+
 What to do when you are ready to resubmit VASP jobs to slurm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------------------
 
 When you are ready to resubmit these jobs, see :ref:`Part_C1_Submitting_Jobs_to_Slurm` for information about the ``Run_Adsorber_submitSL_slurm.py``, a program for automatically resubmitting jobs to slurm.
