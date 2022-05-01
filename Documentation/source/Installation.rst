@@ -232,7 +232,6 @@ First, download Adsorber to your computer. You can do this by cloning a version 
 	cd PATH/TO/WHERE_YOU_WANT_Adsorber_TO_LIVE_ON_YOUR_COMPUTER
 	git clone https://github.com/GardenGroupUO/Adsorber
 
-
 Next, add a python path to it in your  ``.bashrc`` to indicate its location. Do this by entering into the terminal where you cloned the Adsorber program into ``pwd``
 
 .. code-block:: bash
@@ -263,7 +262,7 @@ Visualisation Programs for looking at systems with adsorbed molecules
 As well as installing Adsorber, the Atomic Simulation Environment (ASE) GUI and Jmol programs are also used to visualise your system with adsorbed atoms and molecules upon it. Installation and how to use the ASE GUI and Jmol can be found in :ref:`External_programs_that_will_be_useful_to_install_for_using_Adsorber`.
 
 Other Useful things to know before you start
---------------------------------------------
+============================================
 
 You may use squeue to figure out what jobs are running in slurm. For monitoring what slurm jobs are running, I have found the following alias useful. Include the following in your ``~/.bashrc``:
 
@@ -286,7 +285,7 @@ This alias is explained further in :ref:`Part_C1_Submitting_Jobs_to_Slurm`.
 Note that the ``no_of_jobs_running_or_queued`` reference will give you the number of jobs you have submitted to slurm, plus 1. So whatever number you get from ``no_of_jobs_running_or_queued``, minus 1 from it to get the number of jobs in your slurm queue. Don't know how to fix this yet.
 
 Summary of what you want in the ``~/.bashrc`` for the LatticeFinder program if you manually installed LatticeFinder
--------------------------------------------------------------------------------------------------------------------
+===================================================================================================================
 
 You want to have the following in your ``~/.bashrc``:
 
