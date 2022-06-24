@@ -18,11 +18,14 @@
 #
 import os
 import sys
-current_path = os.getcwd()
-path_to_adsorber = os.path.join(current_path,'../../Adsorber')
-print('path to adsorber __init__.py file: '+str(path_to_adsorber))
-sys.path.append(path_to_adsorber)
-print('You are in '+str(os.getcwd()))
+
+os.chdir('../..')
+
+# current_path = os.getcwd()
+# path_to_adsorber = os.path.normpath(os.path.join(current_path,'../../Adsorber'))
+# print('path to adsorber __init__.py file: '+str(path_to_adsorber))
+# sys.path.append(path_to_adsorber)
+# print('You are in '+str(os.getcwd()))
 
 #PACKAGE_PARENT = '../../GA'
 #SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
