@@ -18,6 +18,8 @@
 #
 import os
 import sys
+current_path = os.getcwd()
+sys.path.append(current_path+'../../Adsorber')
 print('You are in '+str(os.getcwd()))
 
 #PACKAGE_PARENT = '../../GA'
@@ -62,7 +64,10 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-from Adsorber import __author__
+try:
+    from Adsorber import __author__
+except:
+
 project = u'Adsorber: A program for adsorbing molecules to clusters and surfaces.'
 copyright = u'2021, '+__author__
 author = u''+__author__
