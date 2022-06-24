@@ -2,7 +2,7 @@
 # Notes from https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html#using-a-configuration-file
 # and https://readthedocs.org/projects/sphinx-rtd-tutorial/downloads/pdf/latest/
 
-sphinx==3.5.4
+sphinx==4.5.0
 sphinx-rtd-theme
 sphinxcontrib-applehelp
 sphinxcontrib-devhelp
