@@ -20,6 +20,7 @@ import os
 import sys
 
 os.chdir('../..')
+print('You are in '+str(os.getcwd()))
 
 # current_path = os.getcwd()
 # path_to_adsorber = os.path.normpath(os.path.join(current_path,'../../Adsorber'))
