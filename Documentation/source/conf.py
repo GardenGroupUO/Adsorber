@@ -18,8 +18,8 @@
 #
 import os
 import sys
-
-os.chdir('../..')
+print('You are initially in '+str(os.getcwd()))
+os.chdir('../../Adsorber')
 print('You are in '+str(os.getcwd()))
 
 # current_path = os.getcwd()
