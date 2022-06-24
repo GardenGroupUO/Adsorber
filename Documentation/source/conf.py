@@ -46,8 +46,8 @@ print('You are in '+str(os.getcwd()))
 from os.path import expanduser
 home = expanduser("~")
 print('home = '+str(home))
-plantuml = 'java -jar '+str(home)+'/plantuml/plantuml.1.2018.11.jar'
-extensions = ['sphinx.ext.autodoc','sphinx.ext.githubpages','sphinx.ext.napoleon','sphinx.ext.mathjax','sphinx.ext.graphviz','sphinxcontrib.plantuml','sphinx_tabs.tabs'] #,'sphinxtogithub'] #,'sphinx.ext.imgmath']
+#plantuml = 'java -jar '+str(home)+'/plantuml/plantuml.1.2018.11.jar'
+extensions = ['sphinx.ext.autodoc','sphinx.ext.githubpages','sphinx.ext.napoleon','sphinx.ext.mathjax','sphinx.ext.graphviz','sphinx_tabs.tabs'] #,'sphinxcontrib.plantuml','sphinxtogithub'] #,'sphinx.ext.imgmath']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['GA_templates']
