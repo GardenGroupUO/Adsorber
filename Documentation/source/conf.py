@@ -23,7 +23,6 @@ __name__    = 'The Adsorber Program'
 __version__ = '2.0'
 __author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
 
-
 #print('You are initially in '+str(os.getcwd()))
 #os.chdir('../..')
 #print('You are in '+str(os.getcwd()))
