@@ -18,9 +18,15 @@
 #
 import os
 import sys
-print('You are initially in '+str(os.getcwd()))
-os.chdir('../../Adsorber')
-print('You are in '+str(os.getcwd()))
+
+__name__    = 'The Adsorber Program'
+__version__ = '2.0'
+__author__  = 'Dr. Geoffrey Weal and Dr. Anna Garden'
+
+
+#print('You are initially in '+str(os.getcwd()))
+#os.chdir('../..')
+#print('You are in '+str(os.getcwd()))
 
 # current_path = os.getcwd()
 # path_to_adsorber = os.path.normpath(os.path.join(current_path,'../../Adsorber'))
@@ -70,7 +76,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-from Adsorber import __author__
+#from Adsorber import __author__
 project = u'Adsorber: A program for adsorbing molecules to clusters and surfaces.'
 copyright = u'2021, '+__author__
 author = u''+__author__
@@ -80,7 +86,7 @@ author = u''+__author__
 # built documents.
 #
 # The short X.Y version.
-from Adsorber import __version__
+#from Adsorber import __version__
 def get_version_number():
     version = __version__
     return version
